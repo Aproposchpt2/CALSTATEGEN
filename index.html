@@ -47,6 +47,13 @@ a{color:inherit;text-decoration:none}
 .note{font-family:var(--body);font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);display:inline-flex;align-items:center;gap:8px}
 .note b{color:var(--white);font-weight:600}
 
+.cross{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:1rem 0 2rem;padding:clamp(1.3rem,3vw,1.9rem);border:1px solid var(--line-2);background:rgba(255,255,255,.05)}
+.cross .ct-eyebrow{font-family:var(--body);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:.5rem}
+.cross h3{font-family:var(--disp);font-weight:400;font-size:clamp(1.2rem,2.2vw,1.6rem);color:var(--white);line-height:1.2}
+.cross h3 em{font-style:italic;font-family:var(--subdisp);color:rgba(255,255,255,.5)}
+.cross p{font-size:.9rem;color:rgba(255,255,255,.5);margin-top:.45rem;max-width:54ch;line-height:1.6}
+.cross-btn{background:var(--white);color:var(--ink);font-family:var(--body);font-weight:600;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;padding:.85rem 1.8rem;border-radius:4px;white-space:nowrap;transition:background .25s,transform .2s;display:inline-flex;align-items:center}
+.cross-btn:hover{background:var(--gold-bright);transform:translateY(-2px)}
 .foot{border-top:1px solid var(--line);padding:1.4rem 0 .4rem;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
   font-family:var(--body);font-size:.72rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3)}
 .foot a{color:rgba(255,255,255,.4)}.foot a:hover{color:var(--white)}
@@ -85,9 +92,18 @@ a{color:inherit;text-decoration:none}
     <p class="note">Building now &nbsp;·&nbsp; <b>Live bid board coming soon</b></p>
   </section>
 
+  <section class="cross">
+    <div>
+      <span class="ct-eyebrow">Already live — next door</span>
+      <h3>Bidding in <em>Nevada?</em></h3>
+      <p>NevadaStateGen is live right now with open Nevada state, county, city &amp; education bids.</p>
+    </div>
+    <a class="cross-btn" href="https://nevadastategen.aproposgroupllc.com" target="_blank" rel="noopener">Explore NevadaStateGen →</a>
+  </section>
+
   <footer class="foot">
     <span>© <span id="yr"></span> Apropos Group LLC · CalStateGen</span>
-    <span>Sister site to <a href="https://stategen.aproposgroupllc.com">NevadaStateGen</a> · Sourced from public California procurement records</span>
+    <span>Sister site to <a href="https://nevadastategen.aproposgroupllc.com">NevadaStateGen</a> · Sourced from public California procurement records</span>
   </footer>
   <div class="copyright-notice">
     <p>© 2026 Apropos Group LLC. All rights reserved. CalStateGen is a proprietary government-procurement intelligence service developed and owned by Apropos Group LLC. Unauthorized reproduction, distribution, reverse engineering, or imitation of any content, code, design, methodology, or process is strictly prohibited and may result in civil and criminal liability under applicable United States copyright and intellectual property laws. CalStateGen&trade; is a trademark of Apropos Group LLC.</p>
