@@ -1,13 +1,309 @@
 {
   "source": "planetbids",
   "state": "CA",
-  "scanMode": "sample",
-  "generatedAt": "2026-06-18T00:00:00.000Z",
-  "count": 4,
+  "scanMode": "live",
+  "generatedAt": "2026-06-18T21:11:04.810Z",
+  "count": 30,
   "bids": [
-    { "id": "ca-s1", "title": "Citywide Street Resurfacing Program", "solicitation_no": "K-26-1042", "agency": "City of San Diego", "bid_type": "BID", "close_date": "2026-07-02 14:00 PT", "due_in_days": 14, "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search" },
-    { "id": "ca-s2", "title": "Water Treatment Plant Electrical Upgrades", "solicitation_no": "IEUA-26-008", "agency": "Inland Empire Utilities Agency", "bid_type": "RFP", "close_date": "2026-07-09 11:00 PT", "due_in_days": 21, "url": "https://vendors.planetbids.com/portal/27411/bo/bo-search" },
-    { "id": "ca-s3", "title": "On-Call Landscape & Grounds Maintenance", "solicitation_no": "K-26-1067", "agency": "City of San Diego", "bid_type": "BID", "close_date": "2026-06-29 14:00 PT", "due_in_days": 11, "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search" },
-    { "id": "ca-s4", "title": "Enterprise IT Managed Services", "solicitation_no": "IEUA-26-012", "agency": "Inland Empire Utilities Agency", "bid_type": "RFP", "close_date": "2026-07-16 11:00 PT", "due_in_days": 28, "url": "https://vendors.planetbids.com/portal/27411/bo/bo-search" }
+    {
+      "id": "141914",
+      "title": "Vacuum Pumping Services",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-23 15:00:00.000",
+      "due_in_days": 5,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142029",
+      "title": "Electric Motor Overhaul Services",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-24 15:00:00.000",
+      "due_in_days": 6,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "141318",
+      "title": "Citywide Merchant Card Processing",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-29 14:00:00.000",
+      "due_in_days": 11,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142453",
+      "title": "As-Needed Asphalt Concrete",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-29 15:00:00.000",
+      "due_in_days": 11,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142388",
+      "title": "West Sycamore Staging Area",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-30 14:00:00.000",
+      "due_in_days": 12,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "141488",
+      "title": "Coordinated Street Outreach Program",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-06-30 14:00:00.000",
+      "due_in_days": 12,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142126",
+      "title": "Abatement Services, Clean, Secure and Board and Demolition",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-02 15:00:00.000",
+      "due_in_days": 14,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142893",
+      "title": "Investment Consultant Services",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-03 17:00:00.000",
+      "due_in_days": 15,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142866",
+      "title": "As-Needed Off-Grid EV Charging Solutions",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-06 14:00:00.000",
+      "due_in_days": 18,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142864",
+      "title": "As-Needed Mobile EV Charging Solutions",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-06 14:00:00.000",
+      "due_in_days": 18,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142861",
+      "title": "As-Needed Semi-Off-Grid EV Charging Solutions",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-06 14:00:00.000",
+      "due_in_days": 18,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "143036",
+      "title": "As Needed, Sand for Turf Maintenance at City of San Diego Golf Courses",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-06 15:00:00.000",
+      "due_in_days": 18,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "141368",
+      "title": "Paradise Mesa Standpipe Replacement",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-06 16:00:00.000",
+      "due_in_days": 18,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142708",
+      "title": "Rosecrans & Byron St Shel Isl Signal",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-07 14:00:00.000",
+      "due_in_days": 19,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142856",
+      "title": "Aircraft Maintenance and Administrative Support",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-08 14:00:00.000",
+      "due_in_days": 20,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142721",
+      "title": "MBC Area 76 Transformer Replacement",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-08 14:00:00.000",
+      "due_in_days": 20,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142857",
+      "title": "Drone as First Responder Program",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-09 14:00:00.000",
+      "due_in_days": 21,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142858",
+      "title": "Data Query Software",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-09 14:00:00.000",
+      "due_in_days": 21,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "140862",
+      "title": "Black Mountain Reservoir Basin No. 2 Repair",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-09 14:00:00.000",
+      "due_in_days": 21,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "143217",
+      "title": "Hydrated Lime 96.8% - Rebid",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-09 15:00:00.000",
+      "due_in_days": 21,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142309",
+      "title": "El Camino Real Half Mile to Via De La Valle",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-15 14:00:00.000",
+      "due_in_days": 27,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "143121",
+      "title": "Chollas View Improv 1",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-16 14:00:00.000",
+      "due_in_days": 28,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "141276",
+      "title": "Construction Management Services - Pump Station 2 Improvements and Modernization (PLA)",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-20 16:00:00.000",
+      "due_in_days": 32,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142393",
+      "title": "SBWRP Reverse Osmosis System - Advertisement Notice Only (NO BIDS)",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-22 14:00:00.000",
+      "due_in_days": 34,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "142528",
+      "title": "Turnkey Fleet Electric Vehicle Charging Infrastructure Program",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2026-07-31 14:00:00.000",
+      "due_in_days": 43,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "117551",
+      "title": "Parking Citation Administrative Hearing Officers",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2027-06-09 14:00:00.000",
+      "due_in_days": 356,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "79912",
+      "title": "\"Continuous\" Special Financing District Consultant and/or Financial and Economic Consultant",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2028-02-28 14:00:00.000",
+      "due_in_days": 620,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "80690",
+      "title": "(\"Continuous\") Establish a Qualified Pool of Underwriters and Commercial Paper Dealers",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2028-03-31 14:00:00.000",
+      "due_in_days": 652,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "81268",
+      "title": "(\"Continuous\") Establish a Qualified Pool of Municipal Advisors",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2028-04-17 14:00:00.000",
+      "due_in_days": 669,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    },
+    {
+      "id": "82894",
+      "title": "(\"Continuous\") Establish a Qualified Pool of Bank Credit and Loan Facility Services",
+      "solicitation_no": "",
+      "agency": "City of San Diego",
+      "bid_type": "—",
+      "close_date": "2028-05-31 14:00:00.000",
+      "due_in_days": 713,
+      "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
+    }
   ]
 }
