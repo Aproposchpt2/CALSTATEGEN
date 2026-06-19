@@ -72,6 +72,28 @@ footer{border-top:1px solid var(--line);padding:2.2rem 0;background:rgba(15,42,1
 .foot-row a{color:rgba(255,255,255,.4)}.foot-row a:hover{color:#fff}
 .copyright-notice{border-top:1px solid var(--line);margin-top:16px;padding-top:16px;font-family:var(--body);font-size:.7rem;color:rgba(255,255,255,.3);text-align:center;line-height:1.7;font-weight:300;text-transform:none;letter-spacing:0}
 .copyright-notice strong{color:rgba(255,255,255,.5)}
+/* HERO DASHBOARD PREVIEW */
+.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(1.8rem,4vw,3.4rem);align-items:center}
+.dashprev{position:relative;border:1px solid var(--line-2);border-radius:14px;background:linear-gradient(180deg,rgba(12,34,87,.97),rgba(10,28,73,.97));box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden}
+.dp-bar{display:flex;align-items:center;gap:7px;padding:.7rem .9rem;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03)}
+.dp-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18)}
+.dp-title{font-family:var(--body);font-size:.66rem;letter-spacing:.05em;color:rgba(255,255,255,.55);margin-left:.4rem}
+.dp-live{margin-left:auto;font-family:var(--body);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:#6EE7A8}
+.dp-body{padding:1rem 1.05rem 1.1rem}
+.dp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:.9rem}
+.dp-stats>div{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:.55rem .65rem}
+.dp-stats b{display:block;font-family:var(--disp);font-weight:400;font-size:1.45rem;color:#fff;line-height:1}
+.dp-stats span{font-family:var(--body);font-size:.52rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.dp-rows{display:flex;flex-direction:column;gap:8px}
+.dp-row{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:.55rem .7rem}
+.dp-av{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid var(--line);font-family:var(--disp);font-size:.72rem;color:#fff}
+.dp-info{flex:1;min-width:0}
+.dp-info b{display:block;font-family:var(--body);font-weight:500;font-size:.79rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dp-info span{font-family:var(--body);font-size:.64rem;color:rgba(255,255,255,.45)}
+.dp-g{flex-shrink:0}
+.dp-g text{font-family:var(--body);font-weight:600;font-size:.6rem;fill:#fff}
+.dp-cap{text-align:center;font-family:var(--body);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-top:.85rem}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr}.hero-visual{margin-top:2.4rem}.dashprev{max-width:460px;margin:0 auto}}
 @media(max-width:860px){.steps,.cards{grid-template-columns:1fr}.cta-band{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
@@ -92,19 +114,45 @@ footer{border-top:1px solid var(--line);padding:2.2rem 0;background:rgba(15,42,1
 
 <!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <span class="eyebrow">State · County · City · Education Contracts</span>
-    <h1>CalStateGen<br><em>Find your next California government contract.</em></h1>
-    <p class="lead">Every open government contract in California, finally in one place. <strong>CalStateGen</strong> surfaces open <strong>State of California, county, city, school district, and university</strong> bids — matched to what your business delivers.</p>
-    <div class="actions">
-      <a class="btn primary" href="/demo">See Live Demo →</a>
-      <a class="btn ghost" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now — $49/mo</a>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">State · County · City · Education Contracts</span>
+      <h1>CalStateGen<br><em>Find your next California government contract.</em></h1>
+      <p class="lead">Every open government contract in California, finally in one place. <strong>CalStateGen</strong> surfaces open <strong>State of California, county, city, school district, and university</strong> bids — matched to what your business delivers.</p>
+      <div class="actions">
+        <a class="btn primary" href="/demo">See Live Demo →</a>
+        <a class="btn ghost" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now — $49/mo</a>
+      </div>
+      <div class="trust-row">
+        <span class="trust-pill">No SAM.gov required</span>
+        <span class="trust-pill">Matched to your business</span>
+        <span class="trust-pill">Your own live dashboard</span>
+        <span class="trust-pill">Sourced from public records</span>
+      </div>
     </div>
-    <div class="trust-row">
-      <span class="trust-pill">No SAM.gov required</span>
-      <span class="trust-pill">Matched to your business</span>
-      <span class="trust-pill">Your own live dashboard</span>
-      <span class="trust-pill">Sourced from public records</span>
+
+    <div class="hero-visual">
+      <div class="dashprev" role="img" aria-label="Preview of the CalStateGen member dashboard showing matched California bids with fit scores">
+        <div class="dp-bar"><span class="dp-dot"></span><span class="dp-dot"></span><span class="dp-dot"></span><span class="dp-title">CalStateGen · Bid Board</span><span class="dp-live">● Live</span></div>
+        <div class="dp-body">
+          <div class="dp-stats">
+            <div><b>412</b><span>Open bids</span></div>
+            <div><b>54</b><span>Matched</span></div>
+            <div><b>88%</b><span>Avg fit</span></div>
+          </div>
+          <div class="dp-rows">
+            <div class="dp-row"><span class="dp-av">SD</span><div class="dp-info"><b>City of San Diego Janitorial Services</b><span>City of San Diego · 5 days left</span></div>
+              <svg class="dp-g" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16.25" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3.5"/><circle cx="18" cy="18" r="16.25" fill="none" stroke="#6EE7A8" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="102.1" stroke-dashoffset="9.2" transform="rotate(-90 18 18)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">91</text></svg></div>
+            <div class="dp-row"><span class="dp-av">LA</span><div class="dp-info"><b>LA County Landscaping Contract</b><span>County of Los Angeles · 8 days left</span></div>
+              <svg class="dp-g" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16.25" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3.5"/><circle cx="18" cy="18" r="16.25" fill="none" stroke="#5bd3ff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="102.1" stroke-dashoffset="16.3" transform="rotate(-90 18 18)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">84</text></svg></div>
+            <div class="dp-row"><span class="dp-av">CT</span><div class="dp-info"><b>Caltrans District 11 Paving RFP</b><span>State of California · 13 days left</span></div>
+              <svg class="dp-g" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16.25" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3.5"/><circle cx="18" cy="18" r="16.25" fill="none" stroke="#F5C36B" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="102.1" stroke-dashoffset="23.5" transform="rotate(-90 18 18)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">77</text></svg></div>
+            <div class="dp-row"><span class="dp-av">CS</span><div class="dp-info"><b>CSU IT Support Services RFQ</b><span>California State University · 16 days left</span></div>
+              <svg class="dp-g" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16.25" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3.5"/><circle cx="18" cy="18" r="16.25" fill="none" stroke="#F5C36B" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="102.1" stroke-dashoffset="28.6" transform="rotate(-90 18 18)"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">72</text></svg></div>
+          </div>
+          <div class="dp-cap">Your private dashboard — a live preview</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
