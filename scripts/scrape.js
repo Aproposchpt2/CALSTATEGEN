@@ -8,9 +8,17 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 
-// California agency PlanetBids portals (portalId = cid). Start with proven ones, then expand.
+// California agency PlanetBids portals (portalId = cid). Verified portal IDs across the state.
+// The GitHub Action logs "[id] agency: bids array = N" per portal — prune any that read 0 over time.
 const PORTALS = [
-  { id: 17950, agency: 'City of San Diego' },
+  { id: 17950, agency: 'City of San Diego' },                              // proven
+  { id: 15300, agency: 'City of Sacramento' },
+  { id: 14769, agency: 'City of Fresno' },
+  { id: 19236, agency: 'Port of Long Beach' },
+  { id: 39495, agency: 'City of San Bernardino' },
+  { id: 24103, agency: 'City of National City' },
+  { id: 26037, agency: 'CSU Fresno' },
+  { id: 16151, agency: 'Metropolitan Water District of Southern California' },
   { id: 27411, agency: 'Inland Empire Utilities Agency' },
 ];
 const PORTAL_URL = id => `https://vendors.planetbids.com/portal/${id}/bo/bo-search`;
