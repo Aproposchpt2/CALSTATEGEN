@@ -15,7 +15,7 @@
 :root{--ink:#0F2A6A;--ink-2:#163472;--ink-3:#1C3878;--white:#FFFFFF;--silver:#C3D0E8;--mist:#9DB0D4;--line:rgba(255,255,255,.12);--line-2:rgba(255,255,255,.22);--gold-bright:#EEF3FF;--disp:'Bodoni Moda',Georgia,serif;--subdisp:'Cormorant',Georgia,serif;--body:'Jost',sans-serif;--max:1180px}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);color:rgba(255,255,255,.72);font-weight:300;line-height:1.7;min-height:100vh;background:var(--ink);overflow-x:hidden}
+body{font-family:var(--body);color:rgba(255,255,255,.72);font-weight:300;line-height:1.7;min-height:100vh;background:radial-gradient(1100px 600px at 50% -80px,rgba(34,80,170,.16),transparent 70%),linear-gradient(180deg,#0a142e 0%,#070e1e 60%,#050a17 100%);background-attachment:fixed;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 a{color:inherit;text-decoration:none}
 .container{width:min(var(--max),calc(100% - 36px));margin:0 auto;position:relative;z-index:1}

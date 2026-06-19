@@ -7,138 +7,192 @@
 <meta name="robots" content="noindex"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cormorant:ital,wght@1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Cormorant:ital,wght@1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0F2A6A;--ink-2:#163472;--white:#FFFFFF;--silver:#C3D0E8;--mist:#9DB0D4;--line:rgba(255,255,255,.12);--line-2:rgba(255,255,255,.22);--gold-bright:#EEF3FF;--green:#6EE7A8;--red:#F87171;--disp:'Bodoni Moda',Georgia,serif;--subdisp:'Cormorant',Georgia,serif;--body:'Jost',sans-serif;--max:1080px}
+:root{--ink:#0F2A6A;--ink-2:#0c2257;--ink-3:#10306e;--white:#FFFFFF;--silver:#C3D0E8;--mist:#9DB0D4;--line:rgba(255,255,255,.10);--line-2:rgba(255,255,255,.20);--gold-bright:#EEF3FF;--green:#6EE7A8;--cyan:#5bd3ff;--amber:#F5C36B;--disp:'Bodoni Moda',Georgia,serif;--subdisp:'Cormorant',Georgia,serif;--body:'Jost',sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--body);color:rgba(255,255,255,.72);font-weight:300;line-height:1.7;min-height:100vh;background:var(--ink);overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+body{font-family:var(--body);color:rgba(255,255,255,.74);font-weight:300;line-height:1.6;min-height:100vh;background:linear-gradient(180deg,#0c2257,#0a1c49);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
 a{color:inherit;text-decoration:none}
-.shell{position:relative;z-index:1;width:min(var(--max),calc(100% - 36px));margin:0 auto;padding-bottom:4rem}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:1.4rem 0;flex-wrap:wrap;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:12px}
-.brand .mark{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-family:var(--body);font-weight:600;font-size:.85rem;background:var(--white);color:var(--ink)}
-.brand .bname{font-family:var(--disp);font-size:1.28rem;font-weight:400;color:var(--white);line-height:1}
-.brand .bsub{font-family:var(--body);font-size:.54rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.nav-pill{font-family:var(--body);font-size:.64rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:999px;padding:.45rem .9rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;font-family:var(--body);text-decoration:none;transition:background .25s,transform .2s}
-.btn.primary{background:var(--white);color:var(--ink);font-weight:600;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;border:none;border-radius:4px;padding:.85rem 1.7rem}
-.btn.primary:hover{background:var(--gold-bright);transform:translateY(-2px)}
-.eyebrow{font-family:var(--body);font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:12px}
-h1{font-family:var(--disp);font-weight:400;font-size:clamp(2rem,4.5vw,3rem);line-height:1.06;letter-spacing:-.02em;color:var(--white);margin-bottom:12px}
-h1 em{font-style:italic;font-family:var(--subdisp);color:rgba(255,255,255,.5)}
-.sub{color:rgba(255,255,255,.55);font-size:1rem;line-height:1.75;margin-bottom:26px}
-.intro{max-width:660px;margin:clamp(2rem,5vh,3.2rem) 0 1.6rem}
-.lockbar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:rgba(255,255,255,.06);border:1px solid var(--line-2);padding:16px 20px;margin:1.4rem 0}
-.lockbar .lt{font-size:.92rem;color:#fff}
-.lockbar .lt b{font-weight:600}
-.lockbar .ls{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:2px}
-.profile{background:rgba(255,255,255,.05);border:1px solid var(--line);padding:1.3rem 1.5rem;display:flex;flex-wrap:wrap;gap:24px;align-items:center;margin-bottom:14px}
-.pf{min-width:120px}
-.pf .pl{font-family:var(--body);font-size:.56rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px}
-.pf .pv{font-family:var(--body);font-size:.95rem;color:#fff}
-.pf .pv.disp{font-family:var(--disp);font-size:1.2rem}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
-.stat{background:rgba(255,255,255,.05);border:1px solid var(--line);padding:1rem 1.1rem}
-.stat .num{font-family:var(--disp);font-weight:400;font-size:1.7rem;color:#fff;line-height:1}
-.stat .lbl{font-family:var(--body);font-size:.58rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:.45rem}
-.boardhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:1.6rem 0 .9rem}
-.boardhead h2{font-family:var(--disp);font-weight:400;font-size:1.5rem;color:#fff}
-.sample-tag{font-family:var(--body);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-bright);border:1px solid var(--line-2);border-radius:999px;padding:.35rem .8rem}
-.table-wrap{overflow-x:auto;border:1px solid var(--line)}
-table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:680px}
-thead th{font-family:var(--body);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:left;padding:.85rem 1rem;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line-2);white-space:nowrap}
-tbody td{padding:.85rem 1rem;border-bottom:1px solid var(--line);color:rgba(255,255,255,.6);vertical-align:top;font-weight:300}
-tbody tr:last-child td{border-bottom:none}
-.t-title{color:#fff;font-weight:500}
-.t-sol{font-family:var(--body);font-size:.72rem;color:rgba(255,255,255,.4);margin-top:.2rem;letter-spacing:.04em}
-.chip{display:inline-block;font-family:var(--body);font-size:.64rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .6rem;border-radius:4px;border:1px solid var(--line);white-space:nowrap;color:rgba(255,255,255,.55)}
-.chip.hot{color:#fff;border-color:var(--line-2);background:rgba(255,255,255,.1)}
-.mb{display:inline-block;font-family:var(--body);font-size:.58rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);border:1px solid var(--line-2);background:rgba(255,255,255,.05);border-radius:4px;padding:.14rem .45rem;margin-left:.5rem}
-.mb.strong{color:var(--ink);background:#fff;border-color:#fff}
-.locked-link{color:rgba(255,255,255,.4);pointer-events:none}
-.bottomcta{margin-top:1.8rem;border:1px solid var(--line-2);background:rgba(255,255,255,.05);padding:clamp(1.4rem,3vw,2rem);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.bottomcta .ct{font-family:var(--disp);font-weight:400;font-size:clamp(1.2rem,2.6vw,1.7rem);color:#fff;line-height:1.2}
-.bottomcta .ct em{font-style:italic;font-family:var(--subdisp);color:rgba(255,255,255,.5)}
-.bottomcta .ct small{display:block;font-family:var(--body);font-size:.84rem;color:rgba(255,255,255,.5);margin-top:6px}
-.foot{border-top:1px solid var(--line);margin-top:2.4rem;padding-top:1.3rem;font-family:var(--body);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-@media(max-width:680px){.stats{grid-template-columns:1fr 1fr 1fr}.bottomcta,.lockbar{flex-direction:column;align-items:flex-start}}
+.btn-primary{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:#fff;border:none;border-radius:6px;padding:.7rem 1.2rem;cursor:pointer;transition:.2s}
+.btn-primary:hover{background:var(--gold-bright);transform:translateY(-1px)}
+.lockbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:.8rem clamp(1rem,2.4vw,2rem);background:rgba(8,22,60,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-2)}
+.lockbar .lt{font-size:.86rem;color:#fff}.lockbar .lt b{font-weight:600}
+.lockbar .ls{font-size:.74rem;color:rgba(255,255,255,.55)}
+.layout{position:relative;z-index:1;display:grid;grid-template-columns:236px 1fr 312px;min-height:calc(100vh - 52px)}
+.sidebar{border-right:1px solid var(--line);padding:1.5rem 1.1rem;display:flex;flex-direction:column;gap:1.4rem;background:rgba(0,0,0,.12)}
+.main{padding:1.7rem clamp(1.1rem,2.4vw,2.1rem);min-width:0}
+.analysis{border-left:1px solid var(--line);padding:1.6rem 1.3rem;background:rgba(0,0,0,.12);display:flex;flex-direction:column;gap:1.2rem}
+.brand{display:flex;align-items:center;gap:11px;padding-bottom:.4rem}
+.brand .mark{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-family:var(--body);font-weight:600;font-size:.78rem;background:var(--white);color:var(--ink)}
+.brand .bname{font-family:var(--disp);font-size:1.12rem;color:#fff;line-height:1}
+.brand .bsub{font-family:var(--body);font-size:.5rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav .lbl{font-family:var(--body);font-size:.56rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.3);margin:.6rem 0 .3rem .4rem}
+.nav a{display:flex;align-items:center;gap:11px;padding:.6rem .7rem;border-radius:8px;font-size:.86rem;color:rgba(255,255,255,.62);cursor:pointer;transition:.18s;border:1px solid transparent}
+.nav a .ic{width:17px;height:17px;flex-shrink:0;opacity:.8}
+.nav a:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav a.active{background:rgba(255,255,255,.10);color:#fff;border-color:var(--line-2)}
+.nav a .soon{margin-left:auto;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);border:1px solid var(--line);border-radius:999px;padding:.12rem .4rem}
+.side-foot{margin-top:auto}
+.side-foot .btn-primary{width:100%;justify-content:center}
+.m-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:1.3rem}
+.m-head .eyebrow{font-family:var(--body);font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.45rem}
+.m-head h1{font-family:var(--disp);font-weight:400;font-size:clamp(1.5rem,3vw,2.1rem);color:#fff;line-height:1.05;letter-spacing:-.01em}
+.sample-pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--body);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-bright);border:1px solid var(--line-2);background:rgba(255,255,255,.05);border-radius:999px;padding:.4rem .8rem}
+.kwrow{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:1.3rem}
+.kwrow .t{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+.kw{font-family:var(--body);font-size:.72rem;color:rgba(255,255,255,.7);border:1px solid var(--line);background:rgba(255,255,255,.05);border-radius:999px;padding:.26rem .7rem}
+.kw b{color:#fff;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.4rem}
+.stat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:1rem 1.1rem}
+.stat .lbl{font-family:var(--body);font-size:.56rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.5rem}
+.stat .num{font-family:var(--disp);font-weight:400;font-size:1.9rem;color:#fff;line-height:1}
+.stat .num small{font-size:.9rem;color:var(--green);font-family:var(--body);margin-left:4px}
+.filterbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem}
+.search{flex:1;min-width:200px;position:relative}
+.search input{width:100%;font-family:var(--body);font-size:.9rem;font-weight:300;color:#fff;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:.7rem .9rem .7rem 2.2rem}
+.search svg{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);opacity:.4}
+.search input:focus{outline:none;border-color:var(--line-2)}
+select{font-family:var(--body);font-size:.86rem;font-weight:300;color:#fff;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:.7rem 2rem .7rem .85rem;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239DB0D4' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .8rem center}
+select:focus{outline:none;border-color:var(--line-2)}
+option{background:var(--ink-3)}
+.bidlist{display:flex;flex-direction:column;gap:11px}
+.bid{display:flex;align-items:center;gap:15px;background:rgba(255,255,255,.045);border:1px solid var(--line);border-radius:13px;padding:1rem 1.2rem;transition:.18s}
+.bid:hover{background:rgba(255,255,255,.07);border-color:var(--line-2)}
+.bid .avatar{width:42px;height:42px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;background:rgba(255,255,255,.07);border:1px solid var(--line);font-family:var(--disp);font-size:1rem;color:#fff}
+.bid .body{flex:1;min-width:0}
+.bid .ttl{color:#fff;font-weight:500;font-size:.98rem;line-height:1.25}
+.bid .meta{font-size:.76rem;color:rgba(255,255,255,.5);margin-top:.25rem}
+.bid .meta .dot{opacity:.4;margin:0 .45rem}.bid .meta .soonflag{color:var(--amber)}
+.bid .right{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.scorewrap{text-align:center}
+.scorewrap .slabel{font-family:var(--body);font-size:.54rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem}
+.locked{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--body);font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.45);border:1px solid var(--line);background:rgba(255,255,255,.04);border-radius:7px;padding:.5rem .7rem;white-space:nowrap}
+.gauge .gnum{font-family:var(--body);font-weight:600;font-size:.92rem;fill:#fff}
+.an-title{font-family:var(--body);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.an-card{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:1.2rem;text-align:center}
+.an-card .biggauge{margin:.2rem auto .4rem}.an-card .biggauge .gnum{font-family:var(--disp);font-weight:400;font-size:2rem;fill:#fff}
+.an-card .cap{font-family:var(--body);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.rec{background:linear-gradient(135deg,rgba(110,231,168,.1),rgba(91,211,255,.04));border:1px solid rgba(110,231,168,.28);border-radius:14px;padding:1.1rem 1.2rem}
+.rec .rl{font-family:var(--body);font-size:.56rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem}
+.rec .rt{color:#fff;font-size:.92rem;font-weight:500;line-height:1.3}.rec .rs{font-size:.76rem;color:rgba(255,255,255,.55);margin-top:.3rem}
+.cov{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:1.2rem;text-align:center}
+.cov svg{margin:.4rem auto .6rem;display:block}.cov .cn{font-family:var(--disp);font-size:1.5rem;color:#fff}.cov .cs{font-size:.74rem;color:rgba(255,255,255,.5)}
+.ctaband{margin:0 clamp(1.1rem,2.4vw,2.1rem) 2rem;border:1px solid var(--line-2);background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(91,211,255,.03));border-radius:14px;padding:clamp(1.3rem,3vw,1.9rem);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.ctaband .ct{font-family:var(--disp);font-weight:400;font-size:clamp(1.2rem,2.6vw,1.6rem);color:#fff;line-height:1.2}
+.ctaband .ct em{font-style:italic;font-family:var(--subdisp);color:rgba(255,255,255,.55)}
+.ctaband .ct small{display:block;font-family:var(--body);font-size:.84rem;color:rgba(255,255,255,.5);margin-top:5px}
+.foot{padding:0 clamp(1.1rem,2.4vw,2.1rem) 2rem;font-family:var(--body);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+@media(max-width:1140px){.layout{grid-template-columns:212px 1fr}.analysis{display:none}}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.sidebar{display:none}.stats{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<div class="shell">
 
-  <header class="topbar">
-    <a class="brand" href="/">
-      <span class="mark">CS</span>
-      <span><span class="bname">CalStateGen</span><br><span class="bsub">Live Demo · Apropos Group LLC</span></span>
-    </a>
-    <span class="nav-pill">Sample dashboard</span>
-  </header>
-
-  <!-- Fictitious locked sample dashboard -->
-  <section class="demo" id="demoView">
-    <div class="intro">
-      <span class="eyebrow">See it in action</span>
-      <h1>This is the <em>CalStateGen dashboard.</em></h1>
-      <p class="sub">A real look at how your matched California bids appear. The data below is a fictitious sample — subscribe to get <b>your</b> live board, matched to your business.</p>
-    </div>
-    <div class="lockbar">
-      <div><div class="lt">🔒 <b>Sample dashboard</b> — this is fictitious demo data.</div><div class="ls">Subscribe to get <b>your</b> live California board, matched to your business.</div></div>
-      <a class="btn primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now →</a>
-    </div>
-
-    <div class="profile">
-      <div class="pf"><div class="pl">Business</div><div class="pv disp">Pacific Coast Builders Inc.</div></div>
-      <div class="pf"><div class="pl">Location</div><div class="pv">San Diego, CA</div></div>
-      <div class="pf"><div class="pl">Matched to</div><div class="pv">construction, paving, grading, concrete</div></div>
-    </div>
-    <div class="stats">
-      <div class="stat"><div class="num">6</div><div class="lbl">Matched bids</div></div>
-      <div class="stat"><div class="num">2</div><div class="lbl">Closing this week</div></div>
-      <div class="stat"><div class="num">5</div><div class="lbl">Agencies</div></div>
-    </div>
-
-    <div class="boardhead"><h2>Your matched California bids</h2><span class="sample-tag">Sample data</span></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Solicitation</th><th>Agency</th><th>Type</th><th>Closes</th><th>Details</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
-
-    <div class="bottomcta">
-      <div class="ct">This could be <em>your</em> dashboard.<small>Your real matches, your live California board, refreshed daily — for $49/mo.</small></div>
-      <a class="btn primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now →</a>
-    </div>
-
-    <footer class="foot">© <span id="yr"></span> Apropos Group LLC · CalStateGen · Sample dashboard — fictitious data for demonstration</footer>
-  </section>
-
+<div class="lockbar">
+  <div><div class="lt">🔒 <b>Sample dashboard</b> — fictitious demo data.</div><div class="ls">Subscribe to get <b>your</b> live California board, matched to your business.</div></div>
+  <a class="btn-primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now →</a>
 </div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark">CS</span><span><span class="bname">CalStateGen</span><br><span class="bsub">Live Demo · Sample</span></span></div>
+    <nav class="nav" id="nav">
+      <span class="lbl">Workspace</span>
+      <a data-view="all" class="active"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> Bid Board</a>
+      <a data-view="matches"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Match Engine</a>
+      <a data-view="soon"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg> Closing Soon</a>
+      <span class="lbl">Account</span>
+      <a class="muted"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 5h14v16l-7-4-7 4z"/></svg> Saved <span class="soon">Demo</span></a>
+      <a class="muted"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M8 14l3-3 2 2 3-4"/></svg> Reports <span class="soon">Demo</span></a>
+      <a class="muted"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg> Settings <span class="soon">Demo</span></a>
+    </nav>
+    <div class="side-foot"><a class="btn-primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe — $49/mo</a></div>
+  </aside>
+
+  <main class="main">
+    <div class="m-head">
+      <div>
+        <div class="eyebrow">California public procurement portals · matched to your business</div>
+        <h1>Pacific Coast Builders Inc. <span style="font-family:var(--subdisp);font-style:italic;color:rgba(255,255,255,.5);font-size:1.3rem">· San Diego, CA</span></h1>
+      </div>
+      <span class="sample-pill">★ Sample data</span>
+    </div>
+    <div class="kwrow"><span class="t">Matched to</span><span class="kw"><b>construction</b></span><span class="kw"><b>paving</b></span><span class="kw"><b>grading</b></span><span class="kw"><b>concrete</b></span></div>
+
+    <div class="stats">
+      <div class="stat"><div class="lbl">Open Bids</div><div class="num">486</div></div>
+      <div class="stat"><div class="lbl">Matched to you</div><div class="num">6</div></div>
+      <div class="stat"><div class="lbl">Closing ≤ 7 days</div><div class="num">1</div></div>
+      <div class="stat"><div class="lbl">Average fit</div><div class="num">80<small>%</small></div></div>
+    </div>
+
+    <div class="filterbar">
+      <label class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="fSearch" type="text" placeholder="Search title, agency, solicitation #…"></label>
+      <select id="fAgency"><option value="">All agencies</option></select>
+      <select id="fDue"><option value="0">Any deadline</option><option value="7">Closing ≤ 7 days</option><option value="14">≤ 14 days</option><option value="30">≤ 30 days</option></select>
+    </div>
+
+    <div class="bidlist" id="bids"></div>
+  </main>
+
+  <aside class="analysis">
+    <div class="an-title">Match Analysis</div>
+    <div class="an-card"><div id="bigGauge" class="biggauge"></div><div class="cap">Average fit</div></div>
+    <div class="rec">
+      <div class="rl">★ Top recommendation · Review / Bid</div>
+      <div class="rt">Mission Valley Arterial Resurfacing — Phase II</div>
+      <div class="rs">City of San Diego · 6 days left · 91% fit</div>
+    </div>
+    <div class="cov">
+      <div class="an-title" style="margin-bottom:.2rem">California coverage</div>
+      <svg width="80" height="98" viewBox="0 0 80 98" fill="none"><path d="M16 8 L40 8 L52 22 L70 52 L72 70 L48 90 Z" fill="rgba(91,211,255,.10)" stroke="rgba(255,255,255,.35)" stroke-width="1.4"/><circle cx="28" cy="30" r="2.4" fill="#6EE7A8"/><circle cx="32" cy="50" r="2.4" fill="#5bd3ff"/><circle cx="46" cy="70" r="2.6" fill="#6EE7A8"/><circle cx="40" cy="40" r="2" fill="#F5C36B"/><circle cx="56" cy="58" r="2.2" fill="#5bd3ff"/></svg>
+      <div class="cn">6</div><div class="cs">agencies in your board</div>
+    </div>
+  </aside>
+</div>
+
+<div class="ctaband">
+  <div class="ct">This could be <em>your</em> dashboard.<small>Your real matches, your live California board, refreshed daily — for $49/mo.</small></div>
+  <a class="btn-primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now →</a>
+</div>
+<footer class="foot">© <span id="yr"></span> Apropos Group LLC · CalStateGen · Sample dashboard — fictitious data for demonstration</footer>
 
 <script>
 'use strict';
 document.getElementById('yr')&&(document.getElementById('yr').textContent=new Date().getFullYear());
-
-// Fictitious matched bids for the sample business.
-const SAMPLE=[
- {title:'Mission Valley Arterial Resurfacing — Phase II',agency:'City of San Diego, California',type:'Bid',sol:'SD-PW-26-204',days:6,strong:true},
- {title:'Fire Station 42 — Site Grading & Sitework',agency:'County of Los Angeles, California',type:'Bid',sol:'LAC-FAC-2026-118',days:9,strong:true},
- {title:'Caltrans District 11 Shoulder Widening & Paving',agency:'State of California — Caltrans',type:'Bid',sol:'CT-11-3902-26',days:13,strong:true},
- {title:'CSU San Marcos Parking Structure Concrete Repair',agency:'California State University',type:'Bid',sol:'CSU-FAC-26-077',days:18,strong:false},
- {title:'Sacramento Regional Park Pathway Construction',agency:'City of Sacramento, California',type:'Bid',sol:'SAC-PR-26-061',days:22,strong:false},
- {title:'Alameda County Storm Drainage Improvements',agency:'County of Alameda, California',type:'Bid',sol:'ALA-PW-2026-033',days:28,strong:false}
-];
+const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-function chip(d){const c=d<=7?'hot':'';return '<span class="chip '+c+'">'+d+' days left</span>';}
-function renderDemo(){
-  document.getElementById('rows').innerHTML=SAMPLE.map(b=>
-    '<tr><td><span class="t-title">'+esc(b.title)+'</span>'+(b.strong?'<span class="mb strong">★ Strong match</span>':'<span class="mb">★ Match</span>')+'<div class="t-sol">'+esc(b.sol)+'</div></td>'+
-    '<td>'+esc(b.agency)+'</td><td>'+esc(b.type)+'</td><td>'+chip(b.days)+'</td>'+
-    '<td><span class="locked-link">🔒 Subscribers only</span></td></tr>').join('');
+const SAMPLE=[
+ {title:'Mission Valley Arterial Resurfacing — Phase II',agency:'City of San Diego, California',sol:'SD-PW-26-204',days:6,score:91},
+ {title:'Fire Station 42 — Site Grading & Sitework',agency:'County of Los Angeles, California',sol:'LAC-FAC-2026-118',days:9,score:85},
+ {title:'Caltrans District 11 Shoulder Widening & Paving',agency:'State of California — Caltrans',sol:'CT-11-3902-26',days:13,score:82},
+ {title:'CSU San Marcos Parking Structure Concrete Repair',agency:'California State University',sol:'CSU-FAC-26-077',days:18,score:77},
+ {title:'Sacramento Regional Park Pathway Construction',agency:'City of Sacramento, California',sol:'SAC-PR-26-061',days:22,score:73},
+ {title:'Alameda County Storm Drainage Improvements',agency:'County of Alameda, California',sol:'ALA-PW-2026-033',days:28,score:70}
+];
+let view='all';
+function fitColor(p){return p>=85?'var(--green)':p>=75?'var(--cyan)':p>=64?'var(--amber)':'rgba(255,255,255,.35)';}
+function fitLabel(p){return p>=85?'High match':p>=75?'Strong':p>=64?'Review':'Low fit';}
+function gauge(pct,size,stroke,numClass){const r=(size-stroke)/2,c=2*Math.PI*r,off=c*(1-pct/100),col=fitColor(pct);
+  return '<svg class="gauge" width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="'+stroke+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="'+stroke+'" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" transform="rotate(-90 '+size/2+' '+size/2+')"/><text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" class="'+(numClass||'gnum')+'">'+pct+'</text></svg>';}
+function dueText(d){return d<=0?'Closes today':d===1?'1 day left':d+' days left';}
+function initials(a){const w=String(a||'').replace(/[^A-Za-z ]/g,'').trim().split(/\s+/);return ((w[0]||'')[0]||'C').toUpperCase()+((w[1]||'')[0]||'').toUpperCase();}
+function render(){
+  const term=$('fSearch').value.trim().toLowerCase(),agency=$('fAgency').value,due=Number($('fDue').value);
+  let rows=SAMPLE.slice();
+  if(view==='soon') rows=rows.filter(b=>b.days<=7);
+  rows=rows.filter(b=>{ if(agency&&b.agency!==agency) return false; if(due&&b.days>due) return false; if(term){const h=(b.title+' '+b.agency+' '+b.sol).toLowerCase(); if(!h.includes(term)) return false;} return true; });
+  $('bids').innerHTML=rows.map(b=>{const soon=b.days<=7;
+    return '<div class="bid"><div class="avatar">'+esc(initials(b.agency))+'</div><div class="body"><div class="ttl">'+esc(b.title)+'</div><div class="meta">'+esc(b.agency)+'<span class="dot">·</span><span class="'+(soon?'soonflag':'')+'">'+esc(dueText(b.days))+'</span><span class="dot">·</span>'+esc(b.sol)+'</div></div><div class="right"><div class="scorewrap">'+gauge(b.score,46,4)+'<div class="slabel" style="color:'+fitColor(b.score)+'">'+fitLabel(b.score)+'</div></div><span class="locked">🔒 Subscribers only</span></div></div>';
+  }).join('')||'<div style="text-align:center;color:rgba(255,255,255,.4);padding:2.4rem">No sample bids match these filters.</div>';
 }
-renderDemo();
+$('fAgency').insertAdjacentHTML('beforeend',[...new Set(SAMPLE.map(b=>b.agency))].sort().map(a=>'<option>'+esc(a)+'</option>').join(''));
+document.querySelectorAll('#nav a[data-view]').forEach(a=>a.addEventListener('click',()=>{view=a.dataset.view;document.querySelectorAll('#nav a').forEach(x=>x.classList.toggle('active',x===a));render();}));
+['fSearch','fAgency','fDue'].forEach(id=>$(id).addEventListener(id==='fSearch'?'input':'change',render));
+$('bigGauge').innerHTML=gauge(80,118,7,'gnum');
+render();
 </script>
 </body>
 </html>
