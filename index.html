@@ -156,26 +156,12 @@ section.visual-landing{
 </style></head>
 <body>
 <style>
-.famribbon{background:#081634;border-bottom:1px solid rgba(255,255,255,.08);font-family:'Jost',sans-serif;position:relative;z-index:60}
-.famribbon-in{max-width:1180px;margin:0 auto;padding:7px clamp(16px,5vw,3rem);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.fam-label{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:600}
-.fam-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.fam-links a,.fam-links .current{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;color:#fff}
-.fam-links a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:4px 13px;color:rgba(255,255,255,.92)}
-.fam-links a::after{content:"→";margin-left:7px;opacity:.6;font-weight:400}
-.fam-links a:hover{background:rgba(255,255,255,.18);border-color:#fff;color:#fff}
-.fam-links .current{color:#fff;cursor:default}
-.fam-links .current::before{content:"";width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block}
-@media(max-width:600px){.fam-label{display:none}.famribbon-in{justify-content:center}.fam-links{justify-content:center}}
+.fam-nav{display:flex;align-items:center;gap:10px}
+.btn.famlink{background:rgba(255,255,255,.06);color:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.32);font-weight:600;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:.6rem 1.2rem;border-radius:4px}
+.btn.famlink::after{content:"↗";margin-left:7px;opacity:.6;font-weight:400}
+.btn.famlink:hover{border-color:#fff;color:#fff;background:rgba(255,255,255,.14)}
+@media(max-width:980px){.fam-nav{display:none}}
 </style>
-<div class="famribbon"><div class="famribbon-in">
-<span class="fam-label">Apropos Group · Government Contract Engines</span>
-<nav class="fam-links" aria-label="Apropos contract sites">
-<a href="https://capgen.aproposgroupllc.com">CapGen · Federal</a>
-<a href="https://nevadastategen.aproposgroupllc.com">NevadaStateGen</a>
-<span class="current">CalStateGen</span>
-</nav>
-</div></div>
 <header class="topbar">
 <div class="container nav">
 <a class="brand" href="/">
@@ -190,6 +176,10 @@ section.visual-landing{
 <a href="#faq">FAQ</a>
 </nav>
 <div class="nav-cta-group">
+<div class="fam-nav">
+<a class="btn famlink" href="https://capgen.aproposgroupllc.com">CapGen</a>
+<a class="btn famlink" href="https://nevadastategen.aproposgroupllc.com">NevadaStateGen</a>
+</div>
 <a class="btn outline" href="/login">Member Login</a>
 <a class="btn primary" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe Now</a>
 </div>
