@@ -2,7 +2,7 @@
   "source": "planetbids",
   "state": "CA",
   "scanMode": "live",
-  "generatedAt": "2026-07-04T14:43:14.105Z",
+  "generatedAt": "2026-07-05T14:49:38.337Z",
   "count": 66,
   "bids": [
     {
@@ -12,7 +12,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-06 15:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -22,7 +22,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-06 16:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -32,7 +32,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 14:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -42,7 +42,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 13:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -52,7 +52,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 14:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -62,7 +62,7 @@
       "agency": "Metropolitan Water District of Southern California",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 14:00:00.000",
-      "due_in_days": 3,
+      "due_in_days": 2,
       "url": "https://vendors.planetbids.com/portal/16151/bo/bo-search"
     },
     {
@@ -72,7 +72,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 15:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -82,7 +82,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 14:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -92,7 +92,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 14:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -102,7 +102,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 14:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -112,7 +112,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 14:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -122,7 +122,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 14:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -132,7 +132,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 15:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -142,7 +142,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 15:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -152,7 +152,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 15:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -162,7 +162,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-07 15:00:00.000",
-      "due_in_days": 4,
+      "due_in_days": 3,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -172,7 +172,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-08 15:00:00.000",
-      "due_in_days": 5,
+      "due_in_days": 4,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -182,7 +182,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-09 14:00:00.000",
-      "due_in_days": 5,
+      "due_in_days": 4,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -192,7 +192,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-09 14:00:00.000",
-      "due_in_days": 5,
+      "due_in_days": 4,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -202,7 +202,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-09 14:00:00.000",
-      "due_in_days": 5,
+      "due_in_days": 4,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -212,7 +212,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-09 15:00:00.000",
-      "due_in_days": 6,
+      "due_in_days": 5,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -222,7 +222,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-10 12:00:00.000",
-      "due_in_days": 6,
+      "due_in_days": 5,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -232,7 +232,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-13 14:00:00.000",
-      "due_in_days": 9,
+      "due_in_days": 8,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -242,7 +242,7 @@
       "agency": "Metropolitan Water District of Southern California",
       "bid_type": "Bidding",
       "close_date": "2026-07-13 11:00:00.000",
-      "due_in_days": 9,
+      "due_in_days": 8,
       "url": "https://vendors.planetbids.com/portal/16151/bo/bo-search"
     },
     {
@@ -252,7 +252,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-13 15:00:00.000",
-      "due_in_days": 10,
+      "due_in_days": 9,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -262,7 +262,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-13 15:00:00.000",
-      "due_in_days": 10,
+      "due_in_days": 9,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -272,7 +272,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 14:00:00.000",
-      "due_in_days": 10,
+      "due_in_days": 9,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -282,7 +282,7 @@
       "agency": "Metropolitan Water District of Southern California",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 14:00:00.000",
-      "due_in_days": 10,
+      "due_in_days": 9,
       "url": "https://vendors.planetbids.com/portal/16151/bo/bo-search"
     },
     {
@@ -292,7 +292,7 @@
       "agency": "Metropolitan Water District of Southern California",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 14:00:00.000",
-      "due_in_days": 10,
+      "due_in_days": 9,
       "url": "https://vendors.planetbids.com/portal/16151/bo/bo-search"
     },
     {
@@ -302,7 +302,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-15 14:00:00.000",
-      "due_in_days": 11,
+      "due_in_days": 10,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -312,7 +312,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 15:00:00.000",
-      "due_in_days": 11,
+      "due_in_days": 10,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -322,7 +322,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 15:00:00.000",
-      "due_in_days": 11,
+      "due_in_days": 10,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -332,7 +332,7 @@
       "agency": "City of San Bernardino",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 15:00:00.000",
-      "due_in_days": 11,
+      "due_in_days": 10,
       "url": "https://vendors.planetbids.com/portal/39495/bo/bo-search"
     },
     {
@@ -342,7 +342,7 @@
       "agency": "City of San Bernardino",
       "bid_type": "Bidding",
       "close_date": "2026-07-14 15:00:00.000",
-      "due_in_days": 11,
+      "due_in_days": 10,
       "url": "https://vendors.planetbids.com/portal/39495/bo/bo-search"
     },
     {
@@ -352,7 +352,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-16 14:00:00.000",
-      "due_in_days": 12,
+      "due_in_days": 11,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -362,7 +362,7 @@
       "agency": "Port of Long Beach",
       "bid_type": "Bidding",
       "close_date": "2026-07-15 16:00:00.000",
-      "due_in_days": 12,
+      "due_in_days": 11,
       "url": "https://vendors.planetbids.com/portal/19236/bo/bo-search"
     },
     {
@@ -372,7 +372,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-16 15:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -382,7 +382,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-17 14:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -392,7 +392,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-17 14:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -402,7 +402,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-17 14:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -412,7 +412,7 @@
       "agency": "City of San Bernardino",
       "bid_type": "Bidding",
       "close_date": "2026-07-16 15:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/39495/bo/bo-search"
     },
     {
@@ -422,7 +422,7 @@
       "agency": "City of San Bernardino",
       "bid_type": "Bidding",
       "close_date": "2026-07-16 15:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/39495/bo/bo-search"
     },
     {
@@ -432,7 +432,7 @@
       "agency": "City of San Bernardino",
       "bid_type": "Bidding",
       "close_date": "2026-07-16 15:00:00.000",
-      "due_in_days": 13,
+      "due_in_days": 12,
       "url": "https://vendors.planetbids.com/portal/39495/bo/bo-search"
     },
     {
@@ -442,7 +442,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-20 16:00:00.000",
-      "due_in_days": 17,
+      "due_in_days": 16,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -452,7 +452,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-20 16:00:00.000",
-      "due_in_days": 17,
+      "due_in_days": 16,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -462,7 +462,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-21 14:00:00.000",
-      "due_in_days": 17,
+      "due_in_days": 16,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -472,7 +472,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-22 14:00:00.000",
-      "due_in_days": 18,
+      "due_in_days": 17,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -482,7 +482,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-07-21 15:00:00.000",
-      "due_in_days": 18,
+      "due_in_days": 17,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -492,7 +492,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-23 14:00:00.000",
-      "due_in_days": 19,
+      "due_in_days": 18,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -502,7 +502,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2026-07-23 14:00:00.000",
-      "due_in_days": 19,
+      "due_in_days": 18,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
@@ -512,7 +512,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-23 15:00:00.000",
-      "due_in_days": 20,
+      "due_in_days": 19,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -522,7 +522,7 @@
       "agency": "Inland Empire Utilities Agency",
       "bid_type": "Bidding",
       "close_date": "2026-07-23 15:00:00.000",
-      "due_in_days": 20,
+      "due_in_days": 19,
       "url": "https://vendors.planetbids.com/portal/27411/bo/bo-search"
     },
     {
@@ -532,7 +532,7 @@
       "agency": "Inland Empire Utilities Agency",
       "bid_type": "Bidding",
       "close_date": "2026-07-27 14:00:00.000",
-      "due_in_days": 23,
+      "due_in_days": 22,
       "url": "https://vendors.planetbids.com/portal/27411/bo/bo-search"
     },
     {
@@ -542,7 +542,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-27 15:00:00.000",
-      "due_in_days": 24,
+      "due_in_days": 23,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -552,7 +552,7 @@
       "agency": "Port of Long Beach",
       "bid_type": "Bidding",
       "close_date": "2026-07-28 15:00:00.000",
-      "due_in_days": 25,
+      "due_in_days": 24,
       "url": "https://vendors.planetbids.com/portal/19236/bo/bo-search"
     },
     {
@@ -562,7 +562,7 @@
       "agency": "Port of Long Beach",
       "bid_type": "Bidding",
       "close_date": "2026-07-29 16:00:00.000",
-      "due_in_days": 26,
+      "due_in_days": 25,
       "url": "https://vendors.planetbids.com/portal/19236/bo/bo-search"
     },
     {
@@ -572,7 +572,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-07-31 14:00:00.000",
-      "due_in_days": 27,
+      "due_in_days": 26,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -582,7 +582,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2026-08-12 14:00:00.000",
-      "due_in_days": 39,
+      "due_in_days": 38,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -592,7 +592,7 @@
       "agency": "Port of Long Beach",
       "bid_type": "Bidding",
       "close_date": "2026-08-11 16:00:00.000",
-      "due_in_days": 39,
+      "due_in_days": 38,
       "url": "https://vendors.planetbids.com/portal/19236/bo/bo-search"
     },
     {
@@ -602,7 +602,7 @@
       "agency": "City of Fresno",
       "bid_type": "Bidding",
       "close_date": "2026-08-31 13:00:00.000",
-      "due_in_days": 58,
+      "due_in_days": 57,
       "url": "https://vendors.planetbids.com/portal/14769/bo/bo-search"
     },
     {
@@ -612,7 +612,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2027-06-09 14:00:00.000",
-      "due_in_days": 340,
+      "due_in_days": 339,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -622,7 +622,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2028-02-28 14:00:00.000",
-      "due_in_days": 604,
+      "due_in_days": 603,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -632,7 +632,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2028-03-31 14:00:00.000",
-      "due_in_days": 636,
+      "due_in_days": 635,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -642,7 +642,7 @@
       "agency": "City of San Diego",
       "bid_type": "Bidding",
       "close_date": "2028-04-17 14:00:00.000",
-      "due_in_days": 653,
+      "due_in_days": 652,
       "url": "https://vendors.planetbids.com/portal/17950/bo/bo-search"
     },
     {
@@ -652,7 +652,7 @@
       "agency": "City of Sacramento",
       "bid_type": "Bidding",
       "close_date": "2028-06-30 17:00:00.000",
-      "due_in_days": 728,
+      "due_in_days": 727,
       "url": "https://vendors.planetbids.com/portal/15300/bo/bo-search"
     },
     {
