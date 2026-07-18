@@ -151,6 +151,45 @@ async function fetchPlanetBidsBids(siteUrl) {
   }
 }
 
+// OBAS "Upcoming Solicitations" bulletin — DGS contracts anticipated to be
+// released soon but not yet open for bid. Pre-parsed monthly by
+// scripts/ingest-obas.js into obas.json (same file-based pattern as
+// bids.json). status is 'Upcoming', not 'Open' — these aren't biddable yet.
+// unspsc_code is metadata only, never used for matching (per directive,
+// extract-profile-ca.js's NAICS/UNSPSC-crosswalk-out-of-scope decision
+// stands) — matching runs through the same concept-tag text classifier as
+// every other source, via title/agency text.
+async function fetchObasBids(siteUrl) {
+  try {
+    const res = await fetch(`${siteUrl}/obas.json`, { signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const arr = Array.isArray(data.opportunities) ? data.opportunities : [];
+    return arr.map(o => ({
+      id:              o.id || '',
+      bid_id:          o.id || '',
+      solicitation_no: '',
+      title:           o.title || '',
+      bid_type:        o.category || 'SOLICITATION',
+      agency:          'DGS (OBAS bulletin)' + (o.location ? ' — ' + o.location : ''),
+      issue_date:      null,
+      close_date:      null,
+      due_in_days:     null,
+      status:          'Upcoming',
+      url:             data.bulletin_url || '',
+      category_ids:    [],
+      unspsc_code:         o.unspsc_code || null,
+      anticipated_release_date: o.anticipated_release_date || null,
+      contract_estimate:   o.contract_estimate != null ? o.contract_estimate : null,
+      contact:             o.contact || null,
+      _source:         'obas',
+    })).filter(b => b.title.length > 3);
+  } catch (e) {
+    console.log('[cal-pipeline] OBAS obas.json fetch failed (non-fatal):', e.message);
+    return [];
+  }
+}
+
 // Dedupe on solicitation_no when present (most reliable key), else title+agency.
 // Cal eProcure covers state agencies and PlanetBids' configured portals are all
 // cities/counties/districts, so overlap should be rare — this is cheap insurance.
@@ -201,12 +240,13 @@ exports.handler = async (event) => {
   try {
     const siteUrl = process.env.URL || process.env.DEPLOY_URL || `https://${event.headers.host}`;
 
-    // Run both sources concurrently; each is independently resilient (fetchCalBids
-    // and fetchPlanetBidsBids both catch their own errors and resolve to [] rather
-    // than throwing), so one source failing never blocks the other.
-    const [raw, planetBidsBids] = await Promise.all([
+    // Run all sources concurrently; each is independently resilient (all three
+    // catch their own errors and resolve to [] rather than throwing), so one
+    // source failing never blocks the others.
+    const [raw, planetBidsBids, obasBids] = await Promise.all([
       fetchCalBids(),
       fetchPlanetBidsBids(siteUrl),
+      fetchObasBids(siteUrl),
     ]);
 
     // Normalize each Cal eProcure/DGS bid
@@ -226,7 +266,7 @@ exports.handler = async (event) => {
       _source:        'caleprocure',
     })).filter(b => b.title.length > 3);
 
-    const bids = dedupe([...calBids, ...planetBidsBids])
+    const bids = dedupe([...calBids, ...planetBidsBids, ...obasBids])
       .sort((a, b) => (a.due_in_days ?? 9999) - (b.due_in_days ?? 9999));
 
     _cache = bids;
@@ -236,7 +276,7 @@ exports.handler = async (event) => {
       statusCode: 200, headers: CORS,
       body: JSON.stringify({
         ok: true, bids, count: bids.length,
-        source: { caleprocure: calBids.length, planetbids: planetBidsBids.length },
+        source: { caleprocure: calBids.length, planetbids: planetBidsBids.length, obas: obasBids.length },
       }),
     };
   } catch (e) {

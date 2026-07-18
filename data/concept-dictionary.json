@@ -12,7 +12,7 @@
     },
     "it_services": {
       "label": "IT Services / Managed IT / Networking",
-      "synonyms": ["information technology", "it services", "managed services", "helpdesk", "help desk", "tech support", "technical support", "cloud", "hosting", "cybersecurity", "cyber security", "network", "infrastructure", "data center", "systems integration", "it consulting", "it support"]
+      "synonyms": ["information technology", "managed services", "helpdesk", "help desk", "tech support", "technical support", "cloud", "hosting", "cybersecurity", "cyber security", "network", "infrastructure", "data center", "systems integration", "it consulting", "it support"]
     },
     "facility_maintenance": {
       "label": "Facility / Building Maintenance",

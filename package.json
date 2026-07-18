@@ -3,9 +3,11 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "scrape": "node scripts/scrape.js"
+    "scrape": "node scripts/scrape.js",
+    "ingest-obas": "node scripts/ingest-obas.js"
   },
   "dependencies": {
+    "pdf-parse": "^2.4.5",
     "playwright": "^1.45.0"
   }
 }

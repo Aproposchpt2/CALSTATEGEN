@@ -56,9 +56,18 @@
   // A synonym phrase matches if every stemmed token in the phrase appears
   // somewhere in the stemmed token set of the input text (order-independent,
   // handles pluralization/inflection on both sides).
+  //
+  // Guard: if the phrase was written as multiple words but stopword removal
+  // collapsed it down to a single surviving token, refuse to match on that
+  // lone token — its discriminating power came from the word that got
+  // filtered out. Without this, phrases like "it services" silently degrade
+  // to just "it" (a 2-letter token that collides with e.g. "Non-IT") once
+  // "services" is dropped as a stopword. Single-word synonyms are unaffected.
   function phraseMatches(phrase, stemSet) {
+    var wordCount = normalizeText(phrase).split(' ').filter(Boolean).length;
     var tokens = tokenize(phrase);
     if (!tokens.length) return false;
+    if (wordCount > 1 && tokens.length < 2) return false;
     for (var i = 0; i < tokens.length; i++) {
       if (!stemSet.has(tokens[i])) return false;
     }

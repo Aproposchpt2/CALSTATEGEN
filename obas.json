@@ -1,0 +1,504 @@
+{
+  "source": "obas",
+  "bulletin_url": "https://www.dgs.ca.gov/-/media/Divisions/PD/Acquisitions/Statewide-Contracts/PD-and-OBAS-Upcoming-Solicitations/OBAS-Upcoming-Solicitations-072026.pdf",
+  "generatedAt": "2026-07-18T05:05:33.655Z",
+  "count": 33,
+  "flagged_count": 7,
+  "opportunities": [
+    {
+      "id": "obas-5cfbbe7203ee",
+      "category": "Construction - Goods & Services",
+      "location": "Fremont",
+      "title": "Window Systems Repair - School for the Blind",
+      "unspsc_code": "72152400",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 1042800,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance",
+        "construction_general"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-86513d90058d",
+      "category": "Construction - Goods & Services",
+      "location": "Statewide",
+      "title": "Archeticture & Engineering Retainer Contract - Electrical",
+      "unspsc_code": "81101700",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 20000000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "construction_general",
+        "electrical",
+        "engineering"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-3352d4ad127b",
+      "category": "Construction - Goods & Services",
+      "location": "Statewide",
+      "title": "Architecture & Engineering Retainer Contract - Mechanical",
+      "unspsc_code": "81101600",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 20000000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "construction_general",
+        "plumbing_hvac",
+        "architecture_design",
+        "engineering"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-b43eed96c7a2",
+      "category": "Construction - Goods & Services",
+      "location": "Statewide",
+      "title": "Architecture & Engineering Retainer Contract - Architectural",
+      "unspsc_code": "81101508",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 20000000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "construction_general",
+        "architecture_design",
+        "engineering"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-f239b659af9e",
+      "category": "IT - Goods & Services",
+      "location": "Sacramento",
+      "title": "Mecho Shades SolarTrac System Maintenance",
+      "unspsc_code": "72101500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 340000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-ad654791a26c",
+      "category": "IT - Goods & Services",
+      "location": "Sacramento",
+      "title": "Oracle Platform as a Service - SLP",
+      "unspsc_code": "43231508",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 480000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-4a335d1c400b",
+      "category": "IT - Goods & Services",
+      "location": "Sacramento",
+      "title": "Surplus Propery Management System (SPMS)",
+      "unspsc_code": "43231508",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 250000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "software"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-0b76c13ca860",
+      "category": "IT - Goods & Services",
+      "location": "Sacramento",
+      "title": "AV System Maintenance",
+      "unspsc_code": "45110000",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 9652000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-6d1c5b82514c",
+      "category": "IT - Goods & Services",
+      "location": "Sacramento",
+      "title": "VC40000 Twin Inkjet Printing Systems and Maintenance",
+      "unspsc_code": "43212107",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 300000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance",
+        "printing_publishing"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-5d79f6ddfcd3",
+      "category": "Non-IT Services",
+      "location": "Statewide",
+      "title": "1095 B Tax Form Print and Mailing",
+      "unspsc_code": "73151900",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 12000000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "printing_publishing"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-0c0502080fa2",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Uniform Rental and Laundering",
+      "unspsc_code": "53102719",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 320000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-f5836923742f",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Emergency Generator Maintenance and Repair Services",
+      "unspsc_code": "26111600",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 2067690,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-31c7105424b8",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Data Center Emergency Generator Maintenance",
+      "unspsc_code": "26111600",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 300000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "it_services",
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-9e684fe40343",
+      "category": "Non-IT Services",
+      "location": "Los Angeles",
+      "title": "Hazardous Waste Removal and Transport - SoCal",
+      "unspsc_code": "76121900",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 400000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-14ed7bf0410a",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Hazardous Waste Removal and Transport - NorCal",
+      "unspsc_code": "76121900",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 400000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-1d4535dadb66",
+      "category": "Non-IT Services",
+      "location": "Bay Area",
+      "title": "Hazardous Waste Removal and Transport - Bay and Fresno",
+      "unspsc_code": "76121900",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 400000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-9c36b641bc36",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Sacramento Region Backflow Repairs",
+      "unspsc_code": "26111600",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 749999,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-fcd91ae9530c",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Stanley Automatic Door Repair",
+      "unspsc_code": "30171500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 285000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-7a6a8e472c5c",
+      "category": "Non-IT Services",
+      "location": "Statewide",
+      "title": "Statewide Lift Certification and Maintenance",
+      "unspsc_code": "24101600",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 1500000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-76a34f82f6c6",
+      "category": "Non-IT Services",
+      "location": "Oakland",
+      "title": "Fire Sprinkler System Maintenance and Repair",
+      "unspsc_code": "46191500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 535000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-2bf6b5e7ae89",
+      "category": "Non-IT Services",
+      "location": "San Francisco",
+      "title": "Fire Sprinkler System Maintenance and Repair",
+      "unspsc_code": "46191500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 499000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-e3f58962e7a2",
+      "category": "Non-IT Services",
+      "location": "Statewide",
+      "title": "Health and Safety Training",
+      "unspsc_code": "46211500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 4900000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "healthcare",
+        "training_education",
+        "security_safety"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-abba47a6aed6",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Grease Trap and Sewer Lift Station Maintenance",
+      "unspsc_code": "72101510",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 259085,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-c740c66d5393",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Statewide Legionella Remediation",
+      "unspsc_code": "70171602",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 1500000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "environmental"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-e7254288cdd2",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Chiller Maintenance",
+      "unspsc_code": "72151001",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 655000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-e179de83583a",
+      "category": "Non-IT Services",
+      "location": "West Sacramento",
+      "title": "Chiller Repair",
+      "unspsc_code": "72151001",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 207288,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-0eabcf6da23e",
+      "category": "Non-IT Services",
+      "location": "Los Angeles",
+      "title": "Chiller Maintenance",
+      "unspsc_code": "72151001",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 425000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-7f87856b9a3b",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Uninterruptible Power Supply (UPS) Maintenance",
+      "unspsc_code": "39121100",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 250000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-460fa7dddf04",
+      "category": "Non-IT Services",
+      "location": "West Sacramento",
+      "title": "Destruction Equipment Services",
+      "unspsc_code": "80161508",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 300000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-dafa7ffe371a",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Roll Up Door Services",
+      "unspsc_code": "30171500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 700000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-e062d2ce1657",
+      "category": "Non-IT Services",
+      "location": "Northern Region",
+      "title": "Grille Doors Parking Access Maintenance",
+      "unspsc_code": "30171500",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 275000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-5b923e742f3c",
+      "category": "Non-IT Services",
+      "location": "Sacramento",
+      "title": "Boiler Preventative Maintenance",
+      "unspsc_code": "72151001",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 350000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance",
+        "plumbing_hvac"
+      ],
+      "_source": "obas"
+    },
+    {
+      "id": "obas-f587c1355720",
+      "category": "Non-IT Services",
+      "location": "San Diego",
+      "title": "Boiler and Chiller Maintenance",
+      "unspsc_code": "72151001",
+      "anticipated_release_date": "2026-08-01",
+      "contract_estimate": 575000,
+      "contact": "279-946-7874 | OBASAdvocate@dgs.ca.gov",
+      "status": "upcoming",
+      "concept_tags": [
+        "facility_maintenance",
+        "plumbing_hvac"
+      ],
+      "_source": "obas"
+    }
+  ]
+}
