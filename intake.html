@@ -81,6 +81,7 @@ h1 em{font-family:var(--subdisp);font-style:italic;color:rgba(255,255,255,.5)}
 </style>
 </head>
 <body>
+<script src="/js/concept-match.js"></script>
 
 <div class="topbar">
   <div class="brand">
@@ -139,6 +140,15 @@ var PROFILE_KEY = 'calgcc_profile';
 var selectedFile = null;
 var EXTRACTED = null;   // raw profile from extract-profile-ca
 var ALL_BIDS = [];
+var CONCEPT_DICT = null;
+var CONCEPT_COVERAGE_FLAGS = []; // bids the dictionary didn't recognize — grows the dictionary over time
+function loadConceptDictionary() {
+  if (CONCEPT_DICT) return Promise.resolve(CONCEPT_DICT);
+  return fetch('/data/concept-dictionary.json')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ CONCEPT_DICT = d; return d; })
+    .catch(function(){ CONCEPT_DICT = { concepts: {} }; return CONCEPT_DICT; });
+}
 
 /* ---------- upload UI ---------- */
 var dz = $('dropzone'), fileInput = $('fileInput');
@@ -227,16 +237,6 @@ function renderProfile(p) {
 /* ---------- local prefilter (same scoring model as dashboard.html) ---------- */
 var _CKW = {"20800":["software","saas","application","app","platform","erp","crm","system","database","analytics","scheduling","management system"],"20810":["computer","laptop","server","hardware","workstation","tablet","monitor","device"],"20900":["information technology","it services","managed services","helpdesk","tech support","cloud","hosting","cybersecurity","network","infrastructure","data center","systems integration"],"58000":["maintenance","repair","facility maintenance","building maintenance","preventive maintenance","service contract","janitorial","custodial","cleaning"],"80000":["professional services","consulting","advisory","management consulting","business analysis","project management","strategic planning"],"91000":["construction","general contractor","contractor","building","renovation","remodel","infrastructure","civil","grading","earthwork"],"91400":["electrical","wiring","electrician","power systems","solar","photovoltaic","lighting","low voltage"],"91500":["plumbing","pipe","mechanical","hvac","heating","cooling","air conditioning","ventilation","boiler","mep"],"92500":["architectural","architecture","architect","design services","interior design","space planning","master plan"],"92600":["engineering","civil engineering","structural","mechanical engineering","environmental engineering","land survey","gis","mapping","commissioning"],"92700":["environmental","sustainability","environmental consulting","air quality","carb","calrecycle","waste management","remediation","stormwater","energy management","energy conservation","demand response"]};
 
-function classifyBid(b) {
-  if (b.category_ids && b.category_ids.length) return b.category_ids;
-  var text = (b.title + ' ' + (b.agency || '')).toLowerCase();
-  var scores = {};
-  for (var code in _CKW) {
-    var kws = _CKW[code];
-    for (var i = 0; i < kws.length; i++) if (text.indexOf(kws[i]) !== -1) scores[code] = (scores[code]||0) + (kws[i].indexOf(' ')!==-1?2:1);
-  }
-  return Object.keys(scores).sort(function(a,b){ return scores[b]-scores[a]; }).slice(0,6);
-}
 function userCodes(keywords) {
   var kws = (keywords||[]).map(function(k){ return k.toLowerCase(); });
   var codes = {};
@@ -246,27 +246,33 @@ function userCodes(keywords) {
   }
   return Object.keys(codes);
 }
-function hits(bid, keywords, uc) {
-  var text = (bid.title + ' ' + (bid.agency || '')).toLowerCase();
-  var kwScore = 0;
-  for (var i = 0; i < keywords.length; i++) if (text.indexOf(keywords[i].toLowerCase()) !== -1) kwScore++;
-  var bc = classifyBid(bid);
-  var codeScore = 0;
-  for (var j = 0; j < bc.length; j++) if (uc.indexOf(bc[j]) !== -1) codeScore++;
-  return kwScore + codeScore * 1.5;
-}
 
 /* ---------- step 3: scan open bids, score top candidates with AI ---------- */
 function runMatch(profile) {
   $('matchProgressCard').style.display = 'block';
-  fetch(API+'/cal-pipeline')
-    .then(function(r){ return r.json(); })
-    .then(function(data){
+  Promise.all([
+    fetch(API+'/cal-pipeline').then(function(r){ return r.json(); }),
+    loadConceptDictionary()
+  ])
+    .then(function(loaded){
+      var data = loaded[0], dict = loaded[1];
       ALL_BIDS = data.bids || [];
       var keywords = profile.keywords || [];
-      var uc = userCodes(keywords);
-      var ranked = ALL_BIDS.map(function(b){ return { bid:b, pre:hits(b, keywords, uc) }; })
-        .sort(function(a,b){ return b.pre-a.pre || (a.bid.due_in_days!=null?a.bid.due_in_days:9999)-(b.bid.due_in_days!=null?b.bid.due_in_days:9999); });
+
+      // Tag every open bid once, then weight rarer/more specific concepts
+      // higher than generic ones (inverse frequency across this dataset).
+      CONCEPT_COVERAGE_FLAGS = [];
+      var bidTags = ALL_BIDS.map(function(b){
+        var tags = window.ConceptMatch.tagText(b.title + ' ' + (b.agency||''), dict);
+        if (!tags.length) CONCEPT_COVERAGE_FLAGS.push({ title: b.title, agency: b.agency, solicitation_no: b.solicitation_no });
+        return tags;
+      });
+      var idf = window.ConceptMatch.computeIdfWeights(bidTags);
+      var profileTags = window.ConceptMatch.tagText(keywords.join(' '), dict);
+
+      var ranked = ALL_BIDS.map(function(b, i){
+        return { bid: b, pre: window.ConceptMatch.scoreOverlap(profileTags, bidTags[i], idf) };
+      }).sort(function(a,b){ return b.pre-a.pre || (a.bid.due_in_days!=null?a.bid.due_in_days:9999)-(b.bid.due_in_days!=null?b.bid.due_in_days:9999); });
       var candidates = ranked.slice(0, 5).map(function(r){ return r.bid; });
       if (!candidates.length) { showNoMatches(); return; }
       $('matchLabel').textContent = 'Scoring top matches with AI…';

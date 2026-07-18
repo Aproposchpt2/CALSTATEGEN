@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "generated_from": "seeded from the existing California NIGP-style keyword classifier (dashboard.html/intake.html _CKW), restructured into named concept tags with expanded synonym coverage. Expand via OBAS/Cal eProcure ingestion flags — see Step 6 of the concept-dictionary directive.",
+  "concepts": {
+    "software": {
+      "label": "Software / SaaS / Applications",
+      "synonyms": ["software", "saas", "application", "app", "erp", "crm", "database", "analytic", "scheduling software", "management system", "student information system", "campus system", "custom software", "web application", "mobile app", "software development", "software engineering", "software licens"]
+    },
+    "computer_hardware": {
+      "label": "Computer Hardware / Equipment",
+      "synonyms": ["computer", "laptop", "server", "hardware", "workstation", "tablet", "monitor", "device", "desktop", "peripheral", "printer hardware", "network equipment"]
+    },
+    "it_services": {
+      "label": "IT Services / Managed IT / Networking",
+      "synonyms": ["information technology", "it services", "managed services", "helpdesk", "help desk", "tech support", "technical support", "cloud", "hosting", "cybersecurity", "cyber security", "network", "infrastructure", "data center", "systems integration", "it consulting", "it support"]
+    },
+    "facility_maintenance": {
+      "label": "Facility / Building Maintenance",
+      "synonyms": ["maintenance", "repair", "facility maintenance", "building maintenance", "preventive maintenance", "service contract", "janitorial", "custodial", "cleaning", "facilities", "facility services"]
+    },
+    "food_beverage": {
+      "label": "Food / Beverage / Catering",
+      "synonyms": ["food", "beverage", "catering", "food service", "cafeteria", "dining", "meal", "nutrition", "vending", "concession"]
+    },
+    "healthcare": {
+      "label": "Healthcare / Medical / Behavioral Health",
+      "synonyms": ["healthcare", "health care", "medical", "health", "clinical", "patient", "nursing", "pharmacy", "dental", "behavioral health", "mental health", "public health"]
+    },
+    "professional_consulting": {
+      "label": "Professional / Management Consulting",
+      "synonyms": ["professional services", "consulting", "advisory", "management consulting", "business analysis", "project management", "strategic planning", "program management"]
+    },
+    "construction_general": {
+      "label": "General Construction / Contracting",
+      "synonyms": ["construction", "general contractor", "contractor", "building", "renovation", "remodel", "infrastructure improvement", "civil", "grading", "earthwork", "construction management", "public works construction"]
+    },
+    "electrical": {
+      "label": "Electrical",
+      "synonyms": ["electrical", "wiring", "electrician", "power systems", "solar", "photovoltaic", "lighting", "low voltage", "electrical contracting"]
+    },
+    "plumbing_hvac": {
+      "label": "Plumbing / HVAC / Mechanical",
+      "synonyms": ["plumbing", "pipe", "mechanical", "hvac", "heating", "cooling", "air conditioning", "ventilation", "boiler", "heat pump"]
+    },
+    "roofing": {
+      "label": "Roofing / Waterproofing",
+      "synonyms": ["roofing", "roof", "waterproofing", "membrane", "reroof"]
+    },
+    "paving_concrete": {
+      "label": "Paving / Concrete / Earthwork",
+      "synonyms": ["paving", "asphalt", "concrete", "road", "parking lot", "grading", "earthwork", "excavation", "highway", "sidewalk", "slurry seal"]
+    },
+    "landscaping": {
+      "label": "Landscaping / Grounds",
+      "synonyms": ["landscape", "landscaping", "grounds", "lawn", "irrigation", "turf", "tree trimming", "mowing", "arborist", "grounds maintenance"]
+    },
+    "architecture_design": {
+      "label": "Architecture / Interior Design",
+      "synonyms": ["architectural", "architecture", "architect", "design services", "interior design", "space planning", "master plan"]
+    },
+    "engineering": {
+      "label": "Engineering / Surveying / GIS",
+      "synonyms": ["engineering", "civil engineering", "structural engineering", "mechanical engineering", "environmental engineering", "land survey", "surveying", "gis", "mapping", "seismic evaluation"]
+    },
+    "environmental": {
+      "label": "Environmental / Sustainability",
+      "synonyms": ["environmental", "sustainability", "environmental consulting", "air quality", "carb", "calrecycle", "waste management", "remediation", "stormwater", "hazmat", "asbestos", "decontamination"]
+    },
+    "legal": {
+      "label": "Legal / Compliance",
+      "synonyms": ["legal", "attorney", "law", "counsel", "litigation", "compliance", "regulatory", "arbitration"]
+    },
+    "financial_accounting": {
+      "label": "Financial / Accounting / Audit",
+      "synonyms": ["financial", "accounting", "audit", "cpa", "fiscal", "budget", "grants management", "bond", "insurance risk management", "actuarial"]
+    },
+    "staffing_hr": {
+      "label": "Staffing / HR / Workforce",
+      "synonyms": ["staffing", "temporary staffing", "hr", "human resources", "workforce", "employment", "recruiting", "payroll", "temp agency"]
+    },
+    "marketing_pr": {
+      "label": "Marketing / PR / Communications",
+      "synonyms": ["marketing", "public relations", "communications", "advertising", "outreach", "branding", "media", "social media"]
+    },
+    "training_education": {
+      "label": "Training / Education / Workforce Development",
+      "synonyms": ["training", "education", "professional development", "workforce development", "e-learning", "elearning", "certification training", "coaching", "instructional design"]
+    },
+    "transportation_logistics": {
+      "label": "Transportation / Logistics / Fleet",
+      "synonyms": ["transportation", "logistics", "delivery", "freight", "fleet", "vehicles", "transit", "shuttle", "bus", "paratransit", "vehicle maintenance"]
+    },
+    "security_safety": {
+      "label": "Security / Public Safety",
+      "synonyms": ["security", "surveillance", "access control", "guard", "patrol", "alarm", "monitoring", "safety", "fire alarm", "fire protection", "emergency preparedness", "law enforcement"]
+    },
+    "telecommunications": {
+      "label": "Telecommunications",
+      "synonyms": ["telecommunications", "telecom", "wireless", "cellular", "broadband", "voice", "5g", "fiber", "radio communications"]
+    },
+    "printing_publishing": {
+      "label": "Printing / Publishing / Signage",
+      "synonyms": ["printing", "publishing", "signage", "graphic design", "creative services", "documents", "publications", "photography", "video production"]
+    }
+  }
+}
