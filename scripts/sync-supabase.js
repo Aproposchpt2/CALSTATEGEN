@@ -22,8 +22,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const DEFAULT_SUPABASE_URL = 'https://judislfknmhofcgzyozc.supabase.co';
-const SUPABASE_URL = (process.env.SUPABASE_URL || DEFAULT_SUPABASE_URL).replace(/\/$/, '');
+// No hardcoded fallback URL here on purpose -- Netlify's secret scanner
+// flags any literal string in the repo matching a configured secret env
+// var's value, and SUPABASE_URL is scanned as one on this site. A
+// hardcoded default previously broke every calgovcc build. Require the
+// env var; skip gracefully (see main()) if it's not set.
+const SUPABASE_URL = (process.env.SUPABASE_URL || '').replace(/\/$/, '');
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || '';
 const TABLE = 'state_contract_opportunities';
 const BATCH_SIZE = 200;
@@ -200,8 +204,8 @@ async function closeExpired(stateCode) {
 }
 
 async function main() {
-  if (!SERVICE_KEY) {
-    console.log('[sync-supabase] SUPABASE_SERVICE_ROLE_KEY not set — skipping Supabase sync (JSON files are unaffected).');
+  if (!SUPABASE_URL || !SERVICE_KEY) {
+    console.log('[sync-supabase] SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set — skipping Supabase sync (JSON files are unaffected).');
     return;
   }
 
