@@ -37,6 +37,17 @@ When that relation does not exist, it uses the approved transition fallback:
 
 The fallback is limited to a missing-relation condition. Other canonical-view failures are surfaced rather than silently masked.
 
+The future canonical view must expose these filter-compatible fields, either directly or through stable aliases:
+
+- `state_code`
+- `status`
+- `response_deadline`
+- `is_latest_version`
+- `duplicate_of`
+- `posted_at`
+
+It may additionally expose `normalized_status`; AOIE already preserves that value in normalized result output when present.
+
 ## Candidate retrieval controls
 
 Candidate retrieval applies these filters before scoring:
