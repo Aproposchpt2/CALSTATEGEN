@@ -2,131 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CalGovCC — Welcome</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>National Corporation Contract Exchange — Preparing Dashboard</title>
 <meta name="robots" content="noindex"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Cormorant:ital,wght@1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0F2A6A;--white:#fff;--silver:#C3D0E8;--line:rgba(255,255,255,.12);--green:#6EE7A8;--cyan:#5bd3ff;--muted:#7890B8;--red:#F87171;--disp:'Bodoni Moda',Georgia,serif;--subdisp:'Cormorant',Georgia,serif;--body:'Jost',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{font-family:var(--body);background:linear-gradient(160deg,#0a1a3e 0%,#060d22 60%,#030810 100%);min-height:100vh;color:rgba(255,255,255,.82);overflow-x:hidden}
-body{display:flex;align-items:center;justify-content:center;padding:24px}
-
-.card{position:relative;z-index:1;width:min(440px,100%);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:clamp(28px,5vw,40px)}
-.brand{display:flex;align-items:center;gap:11px;margin-bottom:22px}
-.brand .mark{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-family:var(--body);font-weight:600;font-size:.82rem;background:var(--white);color:var(--ink)}
-.brand .bn{font-family:var(--disp);font-size:1.18rem;color:#fff}
-.eyebrow{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
-h1{font-family:var(--disp);font-weight:400;font-size:1.8rem;color:#fff;line-height:1.1;margin-bottom:8px}
-h1 em{font-family:var(--subdisp);font-style:italic;color:rgba(255,255,255,.5)}
-.sub{color:rgba(255,255,255,.55);font-size:.92rem;line-height:1.7;margin-bottom:22px}
-label{display:block;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin:0 0 7px}
-input{width:100%;font-family:var(--body);font-size:.98rem;font-weight:300;color:#fff;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:4px;padding:.82rem .9rem;margin-bottom:16px}
-input:focus{outline:none;border-color:rgba(255,255,255,.5)}
-.btn{width:100%;background:var(--green);color:var(--ink);font-family:var(--body);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;border:none;border-radius:10px;padding:1rem;cursor:pointer;transition:.2s}
-.btn:hover{background:#8ef5c2}
-.msg{margin-top:14px;text-align:center;font-size:.86rem;min-height:18px}
-.msg.err{color:var(--red)}
-
-/* Transitional (auto) state */
-#autoState{text-align:center;display:none}
-#autoState .spin{width:44px;height:44px;margin:0 auto 18px;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+:root{--ink:#0F2A6A;--deep:#060d22;--white:#fff;--gold:#D5AE55;--muted:#9DB0D4;--line:rgba(255,255,255,.14);--red:#F87171}
+*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,var(--ink),var(--deep));font-family:Arial,sans-serif;color:var(--white)}
+.card{width:min(520px,100%);padding:38px;border:1px solid var(--line);background:rgba(255,255,255,.05);text-align:center}.mark{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}h1{font-family:Georgia,serif;font-weight:400;font-size:2rem;margin-bottom:12px}.sub{color:var(--muted);line-height:1.7}.spin{width:44px;height:44px;margin:20px auto;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.err{color:var(--red);margin-top:14px}
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="brand"><span class="mark">CA</span><span class="bn">California Government Contracts Center</span></div>
-
-  <!-- Auto state: identity arrived via query params from an already-authenticated NGCC session — no form, brief transition then straight to the category picker -->
-  <div id="autoState">
-    <svg class="spin" width="44" height="44" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" fill="none" stroke="rgba(110,231,168,.2)" stroke-width="4"/><circle cx="26" cy="26" r="22" fill="none" stroke="#6EE7A8" stroke-width="4" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="100" transform="rotate(-90 26 26)"/></svg>
-    <h1>Welcome<span id="autoNameLine"></span></h1>
-    <p class="sub" id="autoSub">Setting up your California opportunity match…</p>
-  </div>
-
-  <!-- Fallback form: only shown when arriving without the expected query params (missing/malformed) -->
-  <div id="formState" style="display:none">
-    <div class="eyebrow">Welcome</div>
-    <h1>Let's find your <em>California opportunities.</em></h1>
-    <p class="sub">Just two quick fields — no email, no password. We'll take you straight to your service categories.</p>
-    <label for="fName">Your name</label>
-    <input id="fName" type="text" autocomplete="name" placeholder="Jane Smith">
-    <label for="fBiz">Business name</label>
-    <input id="fBiz" type="text" autocomplete="organization" placeholder="Acme Contracting LLC">
-    <button class="btn" id="goBtn">Continue →</button>
-    <div class="msg" id="formMsg"></div>
-  </div>
+  <div class="mark">National Corporation Contract Exchange</div>
+  <h1 id="heading">Preparing your contract dashboard</h1>
+  <svg class="spin" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" fill="none" stroke="rgba(213,174,85,.2)" stroke-width="4"/><circle cx="26" cy="26" r="22" fill="none" stroke="#D5AE55" stroke-width="4" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="100" transform="rotate(-90 26 26)"/></svg>
+  <p class="sub" id="sub">Saving your licensed-corporation profile and matching your services to open state and local opportunities.</p>
+  <div class="err" id="err"></div>
 </div>
-
 <script>
-'use strict';
-// Fast-path entry for visitors arriving from NGCC (National Government Contract
-// Center) — either from an authenticated federal dashboard CTA or from NGCC's
-// own state-path intake. In both cases the visitor's identity was already
-// collected by NGCC; this page's job is to carry it straight into the category
-// picker (services.html) with zero re-entry. The manual form below is a
-// robustness fallback only (missing/malformed query params), not the expected
-// default path. This page is intentionally NOT linked from this site's own
-// nav — reachable only via the NGCC CTAs.
-var PROFILE_KEY = 'calgcc_profile';
-var SESSION_KEY = 'calgcc_session';
-var $ = function(id){ return document.getElementById(id); };
-var esc = function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
-
-function localToken(){ return 'local-' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
-
-// Activate the profile/session and hand off to the category picker.
-// name is optional (not all NGCC entry points have it); business is required.
-function activate(name, business){
-  var profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
-  profile.business_name = business;
-  if (name) profile.name = name;
-  profile.state = 'CA';
-  profile.source = 'ngcc';
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-
-  // dashboard.html gates purely on SESSION.token being truthy (no server-side
-  // check on the actual data fetch — cal-pipeline.js is public either way).
-  // Mint a local-only free-tier token here so NGCC-referred visitors reach
-  // their dashboard without needing the $49/mo paid-subscriber login. This
-  // does not touch login.html or the paid-member session model at all.
-  var session = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
-  if (!session.token) session.token = localToken();
-  session.state = 'CA';
-  session.business_name = business;
-  if (name) session.name = name;
-  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-
-  location.href = '/services.html';
-}
-
-var params = new URLSearchParams(location.search);
-var pName = (params.get('name') || '').trim();
-var pBusiness = (params.get('business') || '').trim();
-
-if (pBusiness) {
-  // Expected default path: identity arrived from NGCC.
-  $('autoState').style.display = 'block';
-  $('autoNameLine').textContent = pName ? ', ' + pName.split(' ')[0] : '';
-  $('autoSub').textContent = 'Setting up ' + pBusiness + '’s California opportunity match…';
-  setTimeout(function(){ activate(pName, pBusiness); }, 900);
-} else {
-  // Robustness fallback: params missing or malformed.
-  $('formState').style.display = 'block';
-  $('goBtn').addEventListener('click', function(){
-    var name = $('fName').value.trim();
-    var business = $('fBiz').value.trim();
-    var msg = $('formMsg');
-    if (!business){ msg.className='msg err'; msg.textContent='Business name is required.'; return; }
-    activate(name, business);
-  });
-  ['fName','fBiz'].forEach(function(id){
-    $(id).addEventListener('keydown', function(e){ if(e.key==='Enter') $('goBtn').click(); });
-  });
-}
+(function(){
+  'use strict';
+  var q=new URLSearchParams(location.search);
+  var name=(q.get('name')||q.get('prefill_name')||'').trim();
+  var business=(q.get('business')||q.get('prefill_business')||'').trim();
+  var email=(q.get('email')||q.get('prefill_email')||'').trim().toLowerCase();
+  var rawServices=(q.get('services')||q.get('keywords')||'').trim();
+  var source=(q.get('source')||'ngcc').trim();
+  var keywords=rawServices.split(/[|,;\n]+/).map(function(v){return v.trim().toLowerCase();}).filter(Boolean);
+  var profile={name:name,business_name:business,email:email,state:'US',keywords:keywords,services:keywords,source:source,updated_at:new Date().toISOString()};
+  var session={token:'natcorp-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),name:name,business_name:business,email:email,state:'US',keywords:keywords,source:source,signed_in_at:new Date().toISOString()};
+  if(name) document.getElementById('heading').textContent='Welcome, '+name.split(/\s+/)[0];
+  if(business) document.getElementById('sub').textContent='Preparing '+business+'’s state and local opportunity dashboard.';
+  try{
+    localStorage.setItem('calgcc_profile',JSON.stringify(profile));
+    localStorage.setItem('calgcc_session',JSON.stringify(session));
+    localStorage.setItem('natcorp_profile',JSON.stringify(profile));
+    localStorage.setItem('natcorp_session',JSON.stringify(session));
+    sessionStorage.setItem('natcorp_handoff',JSON.stringify({source:source,received_at:new Date().toISOString()}));
+    setTimeout(function(){location.replace(keywords.length?'/dashboard.html':'/services.html');},650);
+  }catch(e){document.getElementById('err').textContent='Your browser blocked local profile storage. Enable site storage and try again.';}
+})();
 </script>
 </body>
 </html>

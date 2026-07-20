@@ -22,3 +22,23 @@
 [[edge_functions]]
   path = "/index.html"
   function = "calstategen-nav-login-cta"
+
+[[edge_functions]]
+  path = "/dashboard.html"
+  function = "natcorp-conversion"
+
+[[edge_functions]]
+  path = "/services.html"
+  function = "natcorp-conversion"
+
+[[edge_functions]]
+  path = "/intake.html"
+  function = "natcorp-conversion"
+
+[[edge_functions]]
+  path = "/login.html"
+  function = "natcorp-conversion"
+
+[[edge_functions]]
+  path = "/welcome.html"
+  function = "natcorp-conversion"
