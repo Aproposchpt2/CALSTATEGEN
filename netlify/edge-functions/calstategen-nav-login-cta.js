@@ -15,6 +15,11 @@ export default async (request, context) => {
   html = html.replace(oldNavLogin, '');
   html = html.replace(oldBcModalButton, singleLoginCta);
 
+  // Preserve the approved NAT-CORP journey. Every public dashboard-entry CTA
+  // must begin with a fresh licensed-business intake, never service selection.
+  html = html.replaceAll('href="/services.html"', 'href="/welcome.html"');
+  html = html.replaceAll("href='/services.html'", "href='/welcome.html'");
+
   return new Response(html, {
     status: response.status,
     statusText: response.statusText,
