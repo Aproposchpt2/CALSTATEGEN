@@ -3,44 +3,56 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>National Corporation Contract Exchange — Preparing Dashboard</title>
+<title>National Corporation Contract Exchange — Business Intake</title>
 <meta name="robots" content="noindex"/>
 <style>
-:root{--ink:#0F2A6A;--deep:#060d22;--white:#fff;--gold:#D5AE55;--muted:#9DB0D4;--line:rgba(255,255,255,.14);--red:#F87171}
+:root{--ink:#0F2A6A;--deep:#060d22;--white:#fff;--gold:#D5AE55;--muted:#9DB0D4;--line:rgba(255,255,255,.14);--red:#F87171;--green:#6EE7A8}
 *{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,var(--ink),var(--deep));font-family:Arial,sans-serif;color:var(--white)}
-.card{width:min(520px,100%);padding:38px;border:1px solid var(--line);background:rgba(255,255,255,.05);text-align:center}.mark{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}h1{font-family:Georgia,serif;font-weight:400;font-size:2rem;margin-bottom:12px}.sub{color:var(--muted);line-height:1.7}.spin{width:44px;height:44px;margin:20px auto;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.err{color:var(--red);margin-top:14px}
+.card{width:min(620px,100%);padding:38px;border:1px solid var(--line);background:rgba(255,255,255,.05)}.mark{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}h1{font-family:Georgia,serif;font-weight:400;font-size:2rem;margin-bottom:12px}.sub{color:var(--muted);line-height:1.7;margin-bottom:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin-bottom:15px}.full{grid-column:1/-1}label{display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}input{width:100%;padding:14px 15px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:#fff;font-size:1rem;outline:none}input:focus{border-color:var(--gold)}button{width:100%;margin-top:8px;padding:15px;border:0;border-radius:999px;background:linear-gradient(135deg,#fff,var(--gold));color:var(--ink);font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}.msg{min-height:22px;margin-top:14px;text-align:center;color:var(--red)}.fine{margin-top:16px;text-align:center;color:rgba(255,255,255,.42);font-size:.78rem;line-height:1.5}@media(max-width:620px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
 <body>
 <div class="card">
   <div class="mark">National Corporation Contract Exchange</div>
-  <h1 id="heading">Preparing your contract dashboard</h1>
-  <svg class="spin" viewBox="0 0 52 52"><circle cx="26" cy="26" r="22" fill="none" stroke="rgba(213,174,85,.2)" stroke-width="4"/><circle cx="26" cy="26" r="22" fill="none" stroke="#D5AE55" stroke-width="4" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="100" transform="rotate(-90 26 26)"/></svg>
-  <p class="sub" id="sub">Saving your licensed-corporation profile and matching your services to open state and local opportunities.</p>
-  <div class="err" id="err"></div>
+  <h1>Build a new contract dashboard</h1>
+  <p class="sub">Enter the licensed business information for this visit. Next, select the services the business provides and the current dashboard will be generated from those selections.</p>
+  <div class="grid">
+    <div class="field"><label for="name">Your name</label><input id="name" autocomplete="name" placeholder="Jane Smith"></div>
+    <div class="field"><label for="business">Licensed business name</label><input id="business" autocomplete="organization" placeholder="Acme Services LLC"></div>
+    <div class="field full"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="jane@acmeservices.com"></div>
+  </div>
+  <button id="continueBtn">Continue to Service Selection →</button>
+  <div class="msg" id="msg"></div>
+  <p class="fine">This creates a fresh temporary dashboard for the current browser session. Previous visits are not restored.</p>
 </div>
 <script>
 (function(){
   'use strict';
+  var $=function(id){return document.getElementById(id);};
   var q=new URLSearchParams(location.search);
-  var name=(q.get('name')||q.get('prefill_name')||'').trim();
-  var business=(q.get('business')||q.get('prefill_business')||'').trim();
-  var email=(q.get('email')||q.get('prefill_email')||'').trim().toLowerCase();
-  var rawServices=(q.get('services')||q.get('keywords')||'').trim();
-  var source=(q.get('source')||'ngcc').trim();
-  var keywords=rawServices.split(/[|,;\n]+/).map(function(v){return v.trim().toLowerCase();}).filter(Boolean);
-  var profile={name:name,business_name:business,email:email,state:'US',keywords:keywords,services:keywords,source:source,updated_at:new Date().toISOString()};
-  var session={token:'natcorp-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),name:name,business_name:business,email:email,state:'US',keywords:keywords,source:source,signed_in_at:new Date().toISOString()};
-  if(name) document.getElementById('heading').textContent='Welcome, '+name.split(/\s+/)[0];
-  if(business) document.getElementById('sub').textContent='Preparing '+business+'’s state and local opportunity dashboard.';
-  try{
-    localStorage.setItem('calgcc_profile',JSON.stringify(profile));
-    localStorage.setItem('calgcc_session',JSON.stringify(session));
-    localStorage.setItem('natcorp_profile',JSON.stringify(profile));
-    localStorage.setItem('natcorp_session',JSON.stringify(session));
-    sessionStorage.setItem('natcorp_handoff',JSON.stringify({source:source,received_at:new Date().toISOString()}));
-    setTimeout(function(){location.replace(keywords.length?'/dashboard.html':'/services.html');},650);
-  }catch(e){document.getElementById('err').textContent='Your browser blocked local profile storage. Enable site storage and try again.';}
+  $('name').value=(q.get('name')||q.get('prefill_name')||'').trim();
+  $('business').value=(q.get('business')||q.get('prefill_business')||'').trim();
+  $('email').value=(q.get('email')||q.get('prefill_email')||'').trim();
+  function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+  function submit(){
+    var name=$('name').value.trim();
+    var business=$('business').value.trim();
+    var email=$('email').value.trim().toLowerCase();
+    if(!name){$('msg').textContent='Please enter your name.';return;}
+    if(business.length<2){$('msg').textContent='Please enter the licensed business name.';return;}
+    if(!validEmail(email)){$('msg').textContent='Please enter a valid email address.';return;}
+    var profile={name:name,business_name:business,email:email,state:'US',keywords:[],services:[],source:q.get('source')||'natcorp',created_at:new Date().toISOString()};
+    var session={token:'natcorp-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),name:name,business_name:business,email:email,state:'US',keywords:[],source:profile.source,signed_in_at:new Date().toISOString()};
+    try{
+      localStorage.setItem('calgcc_profile',JSON.stringify(profile));
+      localStorage.setItem('calgcc_session',JSON.stringify(session));
+      localStorage.setItem('natcorp_profile',JSON.stringify(profile));
+      localStorage.setItem('natcorp_session',JSON.stringify(session));
+      location.assign('/services.html');
+    }catch(e){$('msg').textContent='Your browser blocked temporary session storage. Enable site storage and try again.';}
+  }
+  $('continueBtn').addEventListener('click',submit);
+  ['name','business','email'].forEach(function(id){$(id).addEventListener('keydown',function(e){if(e.key==='Enter')submit();});});
 })();
 </script>
 </body>
