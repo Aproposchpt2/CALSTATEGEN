@@ -52,6 +52,11 @@ function toIso(v) {
 
 function fromPlanetBids(bid) {
   const state = bid.state || 'CA';
+  const deadline = toIso(bid.close_date);
+  // Structured API record, no separate detail-fetch tier -- confidence tracks
+  // whether the date parsed, since that's the one field prone to per-portal
+  // format drift (see normalize()'s pick() fallback chain in scrape.js).
+  const confidence = deadline ? 0.85 : 0.6;
   return {
     state_code: state,
     issuing_organization: bid.agency || 'Unknown agency',
@@ -62,15 +67,23 @@ function fromPlanetBids(bid) {
     title: bid.title,
     notice_type: bid.bid_type || null,
     status: 'open',
-    response_deadline: toIso(bid.close_date),
+    response_deadline: deadline,
     place_of_performance_state: state,
     classifications: { category_ids: bid.category_ids || [] },
+    extraction_confidence: confidence,
+    data_quality_score: Math.round(confidence * 100),
+    qa_status: (bid.title && deadline) ? 'auto_ingested' : 'incomplete',
+    qa_notes: deadline ? null : 'response_deadline did not parse from source close_date value',
     raw_source_payload: bid,
   };
 }
 
 function fromCalEprocure(o) {
   const contactPhone = o.contact_phone || null;
+  const deadline = toIso(o.close_date);
+  // detail_fetched means the popup click-through succeeded (full description,
+  // contact, UNSPSC codes) -- list-only rows are real but materially thinner.
+  const confidence = o.detail_fetched ? 1.0 : 0.6;
   return {
     state_code: 'CA',
     issuing_organization: o.department || 'California state agency',
@@ -82,7 +95,7 @@ function fromCalEprocure(o) {
     description: o.description || null,
     notice_type: o.bid_type || null,
     status: 'open',
-    response_deadline: toIso(o.close_date),
+    response_deadline: deadline,
     posted_at: toIso(o.published_date),
     place_of_performance_state: 'CA',
     contact_name: o.contact_name || null,
@@ -90,12 +103,20 @@ function fromCalEprocure(o) {
     contact_phone: contactPhone,
     unspsc_codes: (o.unspsc_codes || []).map(c => c.code).filter(Boolean),
     keywords: o.concept_tags || [],
+    extraction_confidence: confidence,
+    data_quality_score: Math.round(confidence * 100),
+    qa_status: (o.title && deadline) ? 'auto_ingested' : 'incomplete',
+    qa_notes: !deadline ? 'response_deadline did not parse from source close_date value'
+      : (!o.detail_fetched ? 'list-only record, detail popup not yet fetched' : null),
     raw_source_payload: o,
   };
 }
 
 function fromObas(o, bulletinUrl) {
   const contactMatch = /([\d.\-() ]{7,20})\s*\|\s*([\w.+-]+@[\w-]+\.[\w.-]+)/.exec(o.contact || '');
+  // Every obas.json row already passed a strict tab-delimited row regex
+  // (ROW_RE in ingest-obas.js) to exist at all -- no partial-match rows are
+  // ever written, so a present row is a fully-parsed row, high confidence.
   return {
     state_code: 'CA',
     issuing_organization: 'California Department of General Services (OBAS)',
@@ -115,6 +136,10 @@ function fromObas(o, bulletinUrl) {
     unspsc_codes: o.unspsc_code ? [o.unspsc_code] : [],
     keywords: o.concept_tags || [],
     classifications: { anticipated_release_date: o.anticipated_release_date || null },
+    extraction_confidence: 0.95,
+    data_quality_score: 95,
+    qa_status: 'auto_ingested',
+    qa_notes: null,
     raw_source_payload: o,
   };
 }
