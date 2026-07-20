@@ -1,209 +1,87 @@
 'use strict';
-// CalGCC — California Government Contracts Center
-// Blends three independently-resilient, pre-scraped sources into one feed
-// (a failure in any one does not affect the others):
-//   1. caleprocure.json — California State Contracts Register, scraped via a
-//      headless Playwright session by scripts/scrape-caleprocure.js (see
-//      .github/workflows/scrape-caleprocure.yml). caleprocure.ca.gov sits
-//      behind a WAF that 403s plain server-side fetch() — including its own
-//      robots.txt — so this can only ever be pre-scraped, never live-fetched
-//      from this function. (This replaces an earlier regex-based live-fetch
-//      attempt against a URL that had gone stale/404, which was silently
-//      returning a single false-positive match instead of real data.)
-//   2. bids.json — the pre-scraped PlanetBids feed for CA city/county/district
-//      agency portals, written by scripts/scrape.js (see .github/workflows/scrape.yml).
-//   3. obas.json — DGS's monthly "Upcoming Solicitations" bulletin (not yet
-//      open for bid — status 'Upcoming'), written by scripts/ingest-obas.js.
-// Results are deduped and merged before being cached and returned.
+// PDAS authoritative feed: opportunities from Supabase, enriched by publisher/platform registries.
+// Legacy JSON files are used only as a temporary continuity fallback.
 
-const CORS = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+const CORS={'Content-Type':'application/json','Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
+const SB=(process.env.SUPABASE_URL||'').replace(/\/$/,'');
+const KEY=process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SERVICE_KEY||'';
+const STATE='CA', PAGE=1000, TTL=5*60*1000;
+let cache=null, cacheAt=0;
 
-// Simple in-process cache — avoids hammering cal eProcure
-let _cache = null, _cacheAt = 0;
-const TTL_MS = 5 * 60 * 1000;
+function headers(extra){return Object.assign({apikey:KEY,authorization:'Bearer '+KEY,accept:'application/json'},extra||{});}
+function daysUntil(v){if(!v)return null;const t=Date.parse(v);return Number.isNaN(t)?null:Math.ceil((t-Date.now())/86400000);}
+function norm(v){return String(v||'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').replace(/\b(the|office of|state of california|california)\b/g,' ').replace(/\s+/g,' ').trim();}
 
-function daysUntil(isoDate) {
-  if (!isoDate) return null;
-  const diff = Date.parse(isoDate) - Date.now();
-  return Math.ceil(diff / 86400000);
+async function get(path,query,from){
+  const q=new URLSearchParams(query||{}), h=headers({Range:`${from}-${from+PAGE-1}`});
+  const r=await fetch(`${SB}/rest/v1/${path}?${q}`,{headers:h,signal:AbortSignal.timeout(15000)});
+  if(!r.ok)throw new Error(`${path} HTTP ${r.status}: ${(await r.text().catch(()=>'' )).slice(0,240)}`);
+  const data=await r.json();return Array.isArray(data)?data:[];
+}
+async function all(path,query){const out=[];for(let from=0;;from+=PAGE){const rows=await get(path,query,from);out.push(...rows);if(rows.length<PAGE)break;}return out;}
+
+async function registry(){
+  const [pubs,maps,plats]=await Promise.all([
+    all('pdas_publishers',{select:'publisher_id,organization_name,organization_type,procurement_search_url,vendor_registration_url,research_status',state_code:`eq.${STATE}`,research_status:'eq.verified'}),
+    all('pdas_publisher_platforms',{select:'publisher_id,platform_id,is_primary,public_search_url,vendor_registration_url,active',active:'eq.true'}),
+    all('pdas_procurement_platforms',{select:'platform_id,platform_name,technology_vendor,public_search_url,vendor_registration_url,platform_status',platform_status:'eq.active'})
+  ]);
+  const pById=new Map(plats.map(p=>[p.platform_id,p])), mByPub=new Map();
+  maps.forEach(m=>{if(!mByPub.has(m.publisher_id))mByPub.set(m.publisher_id,[]);mByPub.get(m.publisher_id).push(m);});
+  const byName=new Map();
+  pubs.forEach(p=>{const ms=mByPub.get(p.publisher_id)||[], pm=ms.find(m=>m.is_primary)||ms[0]||null;byName.set(norm(p.organization_name),{publisher:p,mapping:pm,platform:pm?pById.get(pm.platform_id)||null:null});});
+  return {pubs,maps,plats,byName};
+}
+function match(reg,name){const n=norm(name);if(!n)return null;if(reg.byName.has(n))return reg.byName.get(n);let best=null,len=0;for(const [k,v] of reg.byName){if(k.length>=8&&(n.includes(k)||k.includes(n))&&Math.min(k.length,n.length)>len){best=v;len=Math.min(k.length,n.length);}}return best;}
+
+function mapOpp(o,reg){
+  const r=match(reg,o.issuing_organization||o.issuing_department), p=r&&r.publisher, m=r&&r.mapping, plat=r&&r.platform;
+  const url=o.official_source_url||o.source_url||(m&&m.public_search_url)||(plat&&plat.public_search_url)||(p&&p.procurement_search_url)||'';
+  return {
+    id:o.source_record_id||o.pdas_record_id||o.id||'',bid_id:o.source_record_id||o.pdas_record_id||o.id||'',
+    solicitation_no:o.solicitation_number||o.source_record_id||'',title:o.title||'',bid_type:o.notice_type||o.procurement_type||'SOLICITATION',
+    agency:o.issuing_organization||o.issuing_department||'California Public Agency',issue_date:o.posted_at||null,close_date:o.response_deadline||null,
+    due_in_days:daysUntil(o.response_deadline),status:o.status||'open',url,category_ids:Array.isArray(o.commodity_codes)?o.commodity_codes:[],
+    description:o.description||null,unspsc_codes:Array.isArray(o.unspsc_codes)?o.unspsc_codes:[],contact_name:o.contact_name||null,
+    contact_email:o.contact_email||null,contact_phone:o.contact_phone||null,estimated_value_min:o.estimated_value_min??null,
+    estimated_value_max:o.estimated_value_max??null,place_of_performance_county:o.place_of_performance_county||null,
+    publisher_id:p?p.publisher_id:null,publisher_type:p?p.organization_type:null,procurement_platform:plat?plat.platform_name:o.source_platform,
+    technology_vendor:plat?plat.technology_vendor:null,vendor_registration_url:o.vendor_registration_url||(m&&m.vendor_registration_url)||(plat&&plat.vendor_registration_url)||(p&&p.vendor_registration_url)||null,
+    registry_verified:Boolean(r),_source:o.source_platform||'pdas'
+  };
 }
 
-// Cal eProcure (California State Contracts Register) — pre-scraped by
-// scripts/scrape-caleprocure.js. Detail fields (description, contact,
-// unspsc_codes) are populated incrementally across scheduled runs — new
-// postings start with list-level fields only (detail_fetched: false) until
-// a later run fetches their detail page, so callers should treat description/
-// contact/unspsc_codes as "may be empty" rather than always-present.
-async function fetchCaleprocureBids(siteUrl) {
-  try {
-    const res = await fetch(`${siteUrl}/caleprocure.json`, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const arr = Array.isArray(data.opportunities) ? data.opportunities : [];
-    return arr.map(o => ({
-      id:              o.id || '',
-      bid_id:          o.id || '',
-      solicitation_no: o.id || '',
-      title:           o.title || '',
-      bid_type:        o.bid_type || 'SOLICITATION',
-      agency:          o.department || 'California State Agency',
-      issue_date:      o.published_date || null,
-      close_date:      o.close_date || null,
-      due_in_days:     o.due_in_days != null ? o.due_in_days : daysUntil(o.close_date),
-      status:          o.status || 'Posted',
-      url:             o.url || 'https://caleprocure.ca.gov/pages/Events-BS3/event-search.aspx',
-      category_ids:    [],
-      description:         o.description || null,
-      unspsc_codes:        Array.isArray(o.unspsc_codes) ? o.unspsc_codes : [],
-      contact_name:        o.contact_name || null,
-      contact_email:       o.contact_email || null,
-      contact_phone:       o.contact_phone || null,
-      _source:         'caleprocure',
-    })).filter(b => b.title.length > 3);
-  } catch (e) {
-    console.log('[cal-pipeline] Cal eProcure caleprocure.json fetch failed (non-fatal):', e.message);
-    return [];
-  }
+async function fromSupabase(){
+  if(!SB||!KEY)throw new Error('SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not configured');
+  const [opps,reg]=await Promise.all([
+    all('state_contract_opportunities',{select:'id,pdas_record_id,issuing_organization,issuing_department,source_platform,source_record_id,source_url,official_source_url,vendor_registration_url,solicitation_number,title,description,procurement_type,notice_type,status,posted_at,response_deadline,place_of_performance_county,estimated_value_min,estimated_value_max,contact_name,contact_email,contact_phone,unspsc_codes,commodity_codes,is_latest_version,duplicate_of',state_code:`eq.${STATE}`,is_latest_version:'eq.true',duplicate_of:'is.null',status:'in.(open,upcoming,posted,active)',order:'response_deadline.asc.nullslast,posted_at.desc'}),
+    registry()
+  ]);
+  const bids=opps.map(o=>mapOpp(o,reg)).filter(b=>b.title.length>3&&(b.due_in_days==null||b.due_in_days>=0));
+  const source=bids.reduce((a,b)=>(a[b._source]=(a[b._source]||0)+1,a),{});
+  return {bids,source,reg};
 }
 
-async function fetchPage(url) {
-  const res = await fetch(url, {
-    headers: { 'User-Agent': UA, 'Accept': 'text/html', 'Accept-Language': 'en-US,en;q=0.9' },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  return res.text();
+async function legacy(site){
+  async function read(file,key){try{const r=await fetch(`${site}/${file}`,{signal:AbortSignal.timeout(8000)});if(!r.ok)return[];const d=await r.json();return Array.isArray(d[key])?d[key]:[];}catch(_){return[];}}
+  const [ce,pb,ob]=await Promise.all([read('caleprocure.json','opportunities'),read('bids.json','bids'),read('obas.json','opportunities')]);
+  return [
+    ...ce.map(o=>({id:o.id||'',bid_id:o.id||'',solicitation_no:o.id||'',title:o.title||'',bid_type:o.bid_type||'SOLICITATION',agency:o.department||'California State Agency',issue_date:o.published_date||null,close_date:o.close_date||null,due_in_days:o.due_in_days??daysUntil(o.close_date),status:o.status||'Posted',url:o.url||'',category_ids:[],description:o.description||null,unspsc_codes:o.unspsc_codes||[],registry_verified:false,_source:'caleprocure'})),
+    ...pb.map(b=>({id:b.id||'',bid_id:b.id||'',solicitation_no:b.solicitation_no||'',title:b.title||'',bid_type:b.bid_type||'SOLICITATION',agency:b.agency||'California Local Agency',issue_date:null,close_date:b.close_date||null,due_in_days:b.due_in_days??daysUntil(b.close_date),status:'Open',url:b.url||'',category_ids:b.category_ids||[],registry_verified:false,_source:'planetbids'})),
+    ...ob.map(o=>({id:o.id||'',bid_id:o.id||'',solicitation_no:'',title:o.title||'',bid_type:o.category||'SOLICITATION',agency:'DGS (OBAS bulletin)'+(o.location?' — '+o.location:''),issue_date:null,close_date:null,due_in_days:null,status:'Upcoming',url:'',category_ids:[],registry_verified:false,_source:'obas'}))
+  ].filter(b=>b.title.length>3);
 }
 
-// ── PlanetBids (pre-scraped) ─────────────────────────────────────────────────
-// bids.json is written daily by scripts/scrape.js — a scheduled, rate-limit-aware
-// Playwright scraper (PlanetBids' API sits behind a WAF-style limiter, so it is
-// never queried live from this function). If the file is missing or unreachable
-// (e.g. before the first scheduled run on a fresh deploy), this degrades to an
-// empty array rather than failing the whole response.
-async function fetchPlanetBidsBids(siteUrl) {
-  try {
-    const res = await fetch(`${siteUrl}/bids.json`, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const arr = Array.isArray(data.bids) ? data.bids : [];
-    return arr.map(b => ({
-      id:              b.id || '',
-      bid_id:          b.id || '',
-      solicitation_no: b.solicitation_no || '',
-      title:           b.title || '',
-      bid_type:        b.bid_type || 'SOLICITATION',
-      agency:          b.agency || 'California Local Agency',
-      issue_date:      null,
-      close_date:      b.close_date || null,
-      due_in_days:     b.due_in_days != null ? b.due_in_days : daysUntil(b.close_date),
-      status:          'Open',
-      url:             b.url || '',
-      category_ids:    Array.isArray(b.category_ids) ? b.category_ids : [],
-      _source:         'planetbids',
-    })).filter(b => b.title.length > 3);
-  } catch (e) {
-    console.log('[cal-pipeline] PlanetBids bids.json fetch failed (non-fatal):', e.message);
-    return [];
-  }
-}
-
-// OBAS "Upcoming Solicitations" bulletin — DGS contracts anticipated to be
-// released soon but not yet open for bid. Pre-parsed monthly by
-// scripts/ingest-obas.js into obas.json (same file-based pattern as
-// bids.json). status is 'Upcoming', not 'Open' — these aren't biddable yet.
-// unspsc_code is metadata only, never used for matching (per directive,
-// extract-profile-ca.js's NAICS/UNSPSC-crosswalk-out-of-scope decision
-// stands) — matching runs through the same concept-tag text classifier as
-// every other source, via title/agency text.
-async function fetchObasBids(siteUrl) {
-  try {
-    const res = await fetch(`${siteUrl}/obas.json`, { signal: AbortSignal.timeout(8000) });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    const arr = Array.isArray(data.opportunities) ? data.opportunities : [];
-    return arr.map(o => ({
-      id:              o.id || '',
-      bid_id:          o.id || '',
-      solicitation_no: '',
-      title:           o.title || '',
-      bid_type:        o.category || 'SOLICITATION',
-      agency:          'DGS (OBAS bulletin)' + (o.location ? ' — ' + o.location : ''),
-      issue_date:      null,
-      close_date:      null,
-      due_in_days:     null,
-      status:          'Upcoming',
-      url:             data.bulletin_url || '',
-      category_ids:    [],
-      unspsc_code:         o.unspsc_code || null,
-      anticipated_release_date: o.anticipated_release_date || null,
-      contract_estimate:   o.contract_estimate != null ? o.contract_estimate : null,
-      contact:             o.contact || null,
-      _source:         'obas',
-    })).filter(b => b.title.length > 3);
-  } catch (e) {
-    console.log('[cal-pipeline] OBAS obas.json fetch failed (non-fatal):', e.message);
-    return [];
-  }
-}
-
-// Dedupe on solicitation_no when present (most reliable key), else title+agency.
-// Cal eProcure covers state agencies and PlanetBids' configured portals are all
-// cities/counties/districts, so overlap should be rare — this is cheap insurance.
-function dedupe(bids) {
-  const seen = new Set();
-  const out = [];
-  for (const b of bids) {
-    const key = (b.solicitation_no && b.solicitation_no.trim())
-      ? `sol:${b.solicitation_no.trim().toLowerCase()}`
-      : `ta:${(b.title || '').trim().toLowerCase()}|${(b.agency || '').trim().toLowerCase()}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(b);
-  }
-  return out;
-}
-
-exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
-
-  // Serve from cache if fresh
-  if (_cache && Date.now() - _cacheAt < TTL_MS) {
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, bids: _cache, cached: true, count: _cache.length }) };
-  }
-
-  try {
-    const siteUrl = process.env.URL || process.env.DEPLOY_URL || `https://${event.headers.host}`;
-
-    // Run all sources concurrently; each is independently resilient (all three
-    // catch their own errors and resolve to [] rather than throwing), so one
-    // source failing never blocks the others.
-    const [calBids, planetBidsBids, obasBids] = await Promise.all([
-      fetchCaleprocureBids(siteUrl),
-      fetchPlanetBidsBids(siteUrl),
-      fetchObasBids(siteUrl),
-    ]);
-
-    const bids = dedupe([...calBids, ...planetBidsBids, ...obasBids])
-      .sort((a, b) => (a.due_in_days ?? 9999) - (b.due_in_days ?? 9999));
-
-    _cache = bids;
-    _cacheAt = Date.now();
-
-    return {
-      statusCode: 200, headers: CORS,
-      body: JSON.stringify({
-        ok: true, bids, count: bids.length,
-        source: { caleprocure: calBids.length, planetbids: planetBidsBids.length, obas: obasBids.length },
-      }),
-    };
-  } catch (e) {
-    const fallback = _cache || [];
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: false, bids: fallback, count: fallback.length, error: e.message }) };
+exports.handler=async event=>{
+  if(event.httpMethod==='OPTIONS')return{statusCode:204,headers:CORS,body:''};
+  if(cache&&Date.now()-cacheAt<TTL)return{statusCode:200,headers:CORS,body:JSON.stringify({...cache,cached:true})};
+  try{
+    const r=await fromSupabase();
+    const payload={ok:true,bids:r.bids,count:r.bids.length,source:r.source,data_source:'supabase',tables:{opportunities:'state_contract_opportunities',publishers:'pdas_publishers',publisher_platforms:'pdas_publisher_platforms',platforms:'pdas_procurement_platforms'},registry:{publishers_loaded:r.reg.pubs.length,platforms_loaded:r.reg.plats.length,mappings_loaded:r.reg.maps.length,bids_enriched:r.bids.filter(b=>b.registry_verified).length},cached:false};
+    cache=payload;cacheAt=Date.now();return{statusCode:200,headers:CORS,body:JSON.stringify(payload)};
+  }catch(error){
+    const site=process.env.URL||process.env.DEPLOY_URL||`https://${event.headers.host}`, bids=await legacy(site), source=bids.reduce((a,b)=>(a[b._source]=(a[b._source]||0)+1,a),{});
+    const payload={ok:bids.length>0,bids,count:bids.length,source,data_source:'legacy_json_fallback',fallback:true,error:error.message,cached:false};
+    cache=payload;cacheAt=Date.now();return{statusCode:200,headers:CORS,body:JSON.stringify(payload)};
   }
 };
