@@ -2,8 +2,8 @@
   'use strict';
 
   var TRANSIENT_KEYS = {
-    calcgcc_profile: true,
-    calcgcc_session: true,
+    calgcc_profile: true,
+    calgcc_session: true,
     natcorp_profile: true,
     natcorp_session: true,
     natcorp_handoff: true
