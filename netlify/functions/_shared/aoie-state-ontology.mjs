@@ -1,5 +1,5 @@
 export const ENGINE_VERSION = 'aoie-state-local-mvp-1';
-export const ONTOLOGY_VERSION = 'state-local-general-v1';
+export const ONTOLOGY_VERSION = 'state-local-general-v1.1';
 export const SCORING_VERSION = 'state-local-hybrid-v1';
 export const PROFILE_VERSION = 'state-local-capability-profile-v1';
 
@@ -11,7 +11,7 @@ export const STOPWORDS = new Set([
 export const CAPABILITY_ONTOLOGY = {
   information_technology:{terms:['information technology','it services','software','saas','application development','systems integration','cloud','database','data analytics','help desk','managed services'],commodityPrefixes:['208','209'],unspscPrefixes:['43','8111'],naicsPrefixes:['541511','541512','541513','541519','518210']},
   cybersecurity_network:{terms:['cybersecurity','cyber security','network security','zero trust','penetration testing','security operations center','soc','firewall','network infrastructure','telecommunications','broadband','fiber optic'],commodityPrefixes:['209','970'],unspscPrefixes:['4322','4615','8111'],naicsPrefixes:['541512','541519','517']},
-  construction_general:{terms:['general construction','building construction','renovation','remodeling','tenant improvement','site work','civil construction','infrastructure construction','design build'],commodityPrefixes:['910','918'],unspscPrefixes:['72'],naicsPrefixes:['236','237','238']},
+  construction_general:{terms:['general construction','building construction','renovation','remodeling','tenant improvement','site work','civil construction','infrastructure construction','design build'],commodityPrefixes:['910'],unspscPrefixes:['72'],naicsPrefixes:['236','237','238']},
   electrical_controls:{terms:['electrical','electrician','wiring','low voltage','lighting','streetlight','street light','led fixture','led retrofit','lighting upgrade','traffic signal','power distribution','industrial control','automation control','programmable logic controller','plc','control panel','fire alarm'],commodityPrefixes:['914','960'],unspscPrefixes:['26','32','39','4619','7215'],naicsPrefixes:['238210','3345','3353','423610','423690']},
   mechanical_hvac_plumbing:{terms:['hvac','heating ventilation air conditioning','air conditioning','mechanical systems','plumbing','pipefitting','boiler','chiller','refrigeration'],commodityPrefixes:['915'],unspscPrefixes:['40','7215'],naicsPrefixes:['238220','3334','423720','423730','423740']},
   facilities_janitorial:{terms:['janitorial','custodial','cleaning','facility maintenance','building maintenance','preventive maintenance','grounds maintenance','sanitation'],commodityPrefixes:['580'],unspscPrefixes:['47','76','7210'],naicsPrefixes:['561210','561720','561790','8113']},
