@@ -1,0 +1,33 @@
+capability_id,canonical_capability,government_terminology,business_terminology,abbreviations,industry_terminology
+facilities.janitorial,Janitorial and Custodial Services,janitorial services | custodial services,custodial services | building cleaning | facility cleaning,,custodial services | building cleaning | facility cleaning
+facilities.exterior_cleaning,Sweeping and Pressure Washing,property sweeping and pressure washing,property cleaning | power washing,,property cleaning | power washing
+facilities.landscape,Landscape Maintenance,landscape maintenance | landscape cleanup,grounds maintenance,,grounds maintenance
+facilities.vegetation,Tree and Vegetation Management,tree trimming | excess vegetation control | vegetation management program,arborist services | vegetation control,,arborist services | vegetation control
+facilities.hvac_maintenance,HVAC and Chiller Maintenance,HVAC maintenance | chiller maintenance,air-conditioning service | mechanical maintenance,,air-conditioning service | mechanical maintenance
+facilities.chiller_rental,Chiller Rental,chiller rental services,temporary chiller rental,,temporary chiller rental
+facilities.elevator_maintenance,Elevator Maintenance and Repair,elevator maintenance,elevator service,,elevator service
+facilities.roof_maintenance,Roof Maintenance,roof maintenance services,roof repair service,,roof repair service
+facilities.fire_alarm_maintenance,"Fire Alarm Monitoring, Inspection, and Repair",fire alarm monitoring | remote alarm monitoring,alarm monitoring | fire alarm service,,alarm monitoring | fire alarm service
+facilities.fire_suppression_maintenance,Fire Sprinkler and Suppression System Services,fire sprinkler system services | kitchen fire suppression system services,fire suppression service,,fire suppression service
+facilities.security_systems,Access Control and CCTV Systems,access control maintenance | CCTV installation,electronic security systems,,electronic security systems
+facilities.electrical_equipment,Electrical Equipment Testing and Maintenance,switchgear testing | high voltage equipment maintenance,switchgear service | high-voltage maintenance,,switchgear service | high-voltage maintenance
+facilities.generator_ups,Generator and UPS Maintenance,generator maintenance | UPS system replacement,backup power maintenance,,backup power maintenance
+facilities.building_automation,Building Automation and Energy Management Systems,BAS services | EMS upgrade,BAS | EMS | building controls,BAS | EMS,BAS | EMS | building controls
+facilities.water_treatment,Water Treatment System Operations and Maintenance,water treatment system services | water plant maintenance,water plant maintenance,,water plant maintenance
+facilities.water_testing,"Water Testing, Legionella, and Remediation",water testing and analysis | Legionella testing | water management plan,water-quality testing,,water-quality testing
+facilities.greywater,Greywater System Maintenance and Repair,grey water system preventive maintenance,grey-water system service,,grey-water system service
+facilities.septic,"Septic Pumping, Inspection, and Maintenance",septic tank pumping | septic inspection and servicing,septic service | septic pumping,,septic service | septic pumping
+facilities.sewer_drain,"Sewer, Storm Drain, and Brine Line Cleaning",sewer line cleaning | storm drain system cleaning | brine line inspection,pipeline cleaning | drain cleaning,,pipeline cleaning | drain cleaning
+facilities.vacuum_pumping,Vacuum Pumping Services,vacuum pumping services,vacuum truck service,,vacuum truck service
+facilities.tank_services,Fuel and Storage Tank Inspection and Maintenance,aboveground storage tank services | fuel tank inspection and repair,tank inspection | tank repair,,tank inspection | tank repair
+facilities.equipment_maintenance,Specialized Equipment Maintenance and Repair,equipment maintenance and repair | preventative maintenance,industrial equipment service | equipment repair,,industrial equipment service | equipment repair
+facilities.equipment_inspection_certification,Equipment Inspection and Certification,crane certification services,crane certification | load testing,,crane certification | load testing
+facilities.calibration,Calibration and Metrology Services,equipment calibration | full service calibration laboratory,metrology services | instrument calibration,,metrology services | instrument calibration
+facilities.pest_control,Pest Control and Wildlife Removal,pest control | wildlife removal,extermination services | wildlife control,,extermination services | wildlife control
+facilities.hazmat_abatement,"Asbestos, Lead, Mold, and Hazardous Material Abatement",asbestos abatement | lead-based paint abatement | mold remediation,hazardous-material abatement | mold remediation,,hazardous-material abatement | mold remediation
+facilities.waste_management,"Waste Collection, Recycling, Destruction, and Disposal",hazardous waste disposal | refuse and recycling | confidential destruction | scrap metal collection,waste hauling | refuse collection | secure destruction,,waste hauling | refuse collection | secure destruction
+facilities.portable_sanitation,Portable Toilet Rental and Servicing,chemical toilet rental and servicing | portable toilet rental,portable restroom service | chemical toilet rental,,portable restroom service | chemical toilet rental
+facilities.coatings,Protective Coating Services,protective coatings services,industrial coating service,,industrial coating service
+facilities.dam_water_structure,"Dam, Canal, and Spillway Maintenance",spillway maintenance | check structure modifications,hydraulic structure maintenance,,hydraulic structure maintenance
+facilities.pipe_hydrant,Pipe and Fire Hydrant Replacement,replace fire hydrants | pipe replacement services,pipe replacement | hydrant replacement,,pipe replacement | hydrant replacement
+facilities.cable_tv,Cable Television Infrastructure Services,cable television system infrastructure,CATV infrastructure,CATV,CATV infrastructure
