@@ -22,7 +22,7 @@ permissions:
 
 concurrency:
   group: acquire-caleprocure
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   acquire:
