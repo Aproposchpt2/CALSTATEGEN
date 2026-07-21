@@ -4,19 +4,28 @@ on:
   push:
     branches:
       - agent/aoie-state-local-shadow
+      - fix/dashboard-controls-premium-analyze-fit
     paths:
       - 'netlify/functions/_shared/aoie-state-*.mjs'
       - 'netlify/functions/aoie-state-shadow.mjs'
+      - 'netlify/functions/analyze-fit-state.mjs'
       - 'tests/aoie-state-*.test.mjs'
+      - 'tests/analyze-fit-premium.test.mjs'
       - 'js/aoie-dashboard.js'
+      - 'analyze-fit.html'
+      - 'intake.html'
       - 'netlify/edge-functions/natcorp-conversion.js'
       - '.github/workflows/aoie-state-tests.yml'
   pull_request:
     paths:
       - 'netlify/functions/_shared/aoie-state-*.mjs'
       - 'netlify/functions/aoie-state-shadow.mjs'
+      - 'netlify/functions/analyze-fit-state.mjs'
       - 'tests/aoie-state-*.test.mjs'
+      - 'tests/analyze-fit-premium.test.mjs'
       - 'js/aoie-dashboard.js'
+      - 'analyze-fit.html'
+      - 'intake.html'
       - 'netlify/edge-functions/natcorp-conversion.js'
       - '.github/workflows/aoie-state-tests.yml'
   workflow_dispatch:
@@ -27,7 +36,7 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,3 +48,7 @@ jobs:
         run: node tests/aoie-state-source.test.mjs
       - name: Validate AOIE dashboard adapter syntax
         run: node --check js/aoie-dashboard.js
+      - name: Validate premium Analyze Fit function syntax
+        run: node --check netlify/functions/analyze-fit-state.mjs
+      - name: Run dashboard and premium report regressions
+        run: node tests/analyze-fit-premium.test.mjs

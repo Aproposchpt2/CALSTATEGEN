@@ -1,6 +1,26 @@
 (function(){
 'use strict';
-if(!/\/dashboard(?:\.html)?$/.test(location.pathname))return;
+var path=location.pathname.replace(/\/+$/,'')||'/';
+
+function configureServiceUpdatePage(){
+  if(!/\/services(?:\.html)?$/.test(path))return;
+  var params=new URLSearchParams(location.search);
+  if(params.get('mode')!=='update')return;
+  var btn=document.getElementById('intakeStartBtn');
+  var eye=document.querySelector('.intake-hero .eyebrow');
+  var title=document.querySelector('.intake-hero h1');
+  var copy=document.querySelector('.intake-hero p');
+  if(btn)btn.innerHTML='Update My Dashboard &rarr;';
+  if(eye)eye.textContent='◆ Update your capability profile';
+  if(title)title.innerHTML='Update the services<br><em style="font-family:var(--subdisp);color:rgba(255,255,255,.55)">your business provides.</em>';
+  if(copy)copy.textContent='Add or remove service categories. Your revised selections will replace the current visit profile and AOIE will evaluate the updated capability evidence.';
+}
+
+if(!/\/dashboard(?:\.html)?$/.test(path)){
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',configureServiceUpdatePage);else configureServiceUpdatePage();
+  return;
+}
+
 var matches={},loaded=false,error=null,meta=null;
 var arr=function(v){return Array.isArray(v)?v:(v==null||v===''?[]:String(v).split(/[,;\n]+/).map(function(x){return x.trim()}).filter(Boolean))};
 var norm=function(v){return String(v==null?'':v).toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim()};
@@ -13,8 +33,31 @@ window.hits=function(b){var r=find(b);b._aoie=r||null;return r&&r.aoie?Number(r.
 window.fitColor=function(s){return s>=80?'var(--green)':s>=50?'var(--amber)':s>=35?'var(--cyan)':'rgba(255,255,255,.3)'};
 window.fitLabel=function(s){return s>=80?'Strong Match · '+s:s>=65?'Good Match · '+s:s>=50?'Review · '+s:s>=35?'Monitor · '+s:'General'};
 window.gauge=function(s,r,w){var p=Math.max(0,Math.min(1,Number(s||0)/100)),c=s>=80?'#6EE7A8':s>=50?'#F5C36B':s>=35?'#5bd3ff':'rgba(255,255,255,.2)',a=2*Math.PI*(r-w/2),d=p*a;return'<svg width="'+r*2+'" height="'+r*2+'" viewBox="0 0 '+r*2+' '+r*2+'"><circle cx="'+r+'" cy="'+r+'" r="'+(r-w/2)+'" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="'+w+'"/><circle cx="'+r+'" cy="'+r+'" r="'+(r-w/2)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-dasharray="'+d+' '+a+'" stroke-linecap="round" transform="rotate(-90 '+r+' '+r+')"/></svg>'};
+function configureDashboardControls(){
+  window.showIntake=function(){location.href='/services.html?mode=update'};
+  var update=document.querySelector('.update-btn');
+  if(update){update.onclick=window.showIntake;update.setAttribute('aria-label','Update selected business services');}
+  document.querySelectorAll('a[href="/intake.html"],a[href="/intake"]').forEach(function(link){
+    var row=link.closest('div');
+    if(row&&/capability statement/i.test(row.textContent||''))row.remove();else link.remove();
+  });
+  window.analyzeCaFit=function(){
+    var bid=window._caBid;
+    if(!bid)return;
+    var detail=window._caDetail||{};
+    var selected=Object.assign({},bid,{
+      description:detail.description||bid.description||null,
+      documents:detail.documents||bid.documents||bid.document_urls||[],
+      contact_name:detail.contactName||bid.contact_name||null,
+      contact_email:detail.contactEmail||bid.contact_email||null
+    });
+    localStorage.setItem('ca_analyze_payload',JSON.stringify({bid:selected,profile:window.PROFILE||{}}));
+    if(typeof window.closeCaDrawer==='function')window.closeCaDrawer();
+    window.open('/analyze-fit.html','_blank','noopener');
+  };
+}
 function refresh(){var all=window.ALL||[],count=all.filter(function(b){return window.hits(b)>=35}).length,mc=document.getElementById('mCount'),sm=document.getElementById('sMatched'),pill=document.querySelector('.pill'),eye=document.querySelector('.board-eye'),labels=document.querySelectorAll('.stat .l');if(mc)mc.textContent='('+count+')';if(sm)sm.textContent=count;if(labels[1])labels[1].textContent='AOIE matched opportunities';if(eye)eye.textContent='AOIE semantic matching · live state and local solicitations';if(pill)pill.textContent=error?'AOIE unavailable · all bids visible':loaded?'AOIE live test · '+count+' matches':'AOIE evaluating live bids';var note=document.getElementById('aoie-live-status');if(!note){note=document.createElement('div');note.id='aoie-live-status';note.style.cssText='font-size:.66rem;color:rgba(255,255,255,.52);margin:.2rem 0 1rem;letter-spacing:.04em';var h=document.querySelector('.board-head');if(h&&h.parentNode)h.parentNode.insertBefore(note,h.nextSibling)}if(note){note.textContent=error?'AOIE evaluation failed. My Matches is withheld rather than using the legacy matcher.':loaded?'Source: '+((meta&&meta.data_source&&meta.data_source.relation)||'public.state_contract_opportunities')+' · Free same-origin evaluation · Legacy substring matching disabled.':'AOIE is evaluating the current visit’s business capability selections.';note.style.color=error?'var(--amber)':'rgba(255,255,255,.52)'}if(typeof window.setStats==='function')window.setStats();if(typeof window.render==='function')window.render()}
 function run(){var p=profile();if(!evidence(p)){loaded=true;matches={};refresh();return}loaded=false;error=null;refresh();fetch('/api/aoie-state-shadow',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile:p,states:p.service_states,minimum_score:35,limit:200})}).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||'AOIE request failed');return d})}).then(function(d){matches={};(d.results||[]).forEach(put);meta=d;loaded=true}).catch(function(e){matches={};meta=null;loaded=true;error=e&&e.message?e.message:String(e);console.error('[AOIE dashboard]',e)}).finally(refresh)}
 var save=window.saveKeywords;if(typeof save==='function')window.saveKeywords=function(){save();setTimeout(run,0)};
-window.addEventListener('load',function(){setTimeout(run,0)});
+window.addEventListener('load',function(){configureDashboardControls();setTimeout(run,0)});
 })();
