@@ -65,4 +65,4 @@ jobs:
           PDAS_SOURCE_JOB_ID: CA-CALEPROCURE
         run: node scripts/sync-supabase-grouped.js
 
-# Manual execution trigger — Agent 17 CDFA CA-T1-018: 2026-07-20T19:11:00-07:00
+# Manual execution trigger — Agent 17 CDFA CA-T1-018 rerun: 2026-07-20T19:17:04-07:00
