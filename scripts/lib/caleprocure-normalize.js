@@ -108,7 +108,13 @@ function extractSolicitationNumber(title, description) {
   ];
   for (const pattern of patterns) {
     const match = text.match(pattern);
-    if (match) return match[1].replace(/[.,;:)]+$/, '');
+    if (!match) continue;
+    const candidate = match[1].replace(/[.,;:)]+$/, '');
+    // California solicitation identifiers consistently contain at least one
+    // digit. This rejects narrative false positives such as "RFI specifically"
+    // or "RFP information" while preserving values like S25-33335 and 56A0887.
+    if (!/\d/.test(candidate)) continue;
+    return candidate;
   }
   return null;
 }
