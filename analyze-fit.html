@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Analyze Fit — California Government Contracts Center</title>
+<title>Analyze Fit — National Corporate Contract Exchange</title>
 <meta name="robots" content="noindex"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="brand"><div class="mark">CA</div><div><div class="brand-name">California Government Contracts Center</div><div class="brand-sub">Contract Fit Intelligence</div></div></div><div class="actions"><a class="btn btn-back" href="/dashboard.html">← Back to Bid Board</a><button class="btn btn-print" onclick="window.print()">Print Report</button></div></header>
+<header class="top"><div class="brand"><div class="mark">NC</div><div><div class="brand-name">National Corporate Contract Exchange</div><div class="brand-sub">Contract Fit Intelligence</div></div></div><div class="actions"><a class="btn btn-back" href="/dashboard.html">← Back to Bid Board</a><button class="btn btn-print" onclick="window.print()">Print Report</button></div></header>
 <main class="page"><div id="loading" class="loading"><div class="spinner"></div><h1>Analyzing opportunity fit…</h1><p>Reviewing capability alignment, eligibility, risks, requirements, and pursuit readiness.</p></div><div id="report" hidden></div></main>
 <script>
 'use strict';
@@ -26,18 +26,18 @@ const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 const list=(items,cls='')=>items&&items.length?'<ul class="'+cls+'">'+items.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>Not enough information is available. Verify the solicitation documents.</p>';
 const section=(n,title,html)=>'<section class="section"><div class="section-title"><span class="num">'+n+'</span>'+esc(title)+'</div><div class="body">'+html+'</div></section>';
 function fail(message){loading.hidden=true;report.hidden=false;report.innerHTML='<div class="error"><strong>Analysis could not be completed.</strong><br>'+esc(message)+'</div>';}
-function render(data){const bid=payload.bid||{},a=data.analysis||{};const rec=String(a.recommendation||'REVIEW').toUpperCase();const cls=rec==='GO'?'go':rec==='NO-GO'?'no-go':'review';let html='<section class="hero"><div class="score"><div><strong>'+esc(a.score)+'%</strong><span>Fit Score</span></div></div><div class="hero-copy"><div class="eyebrow">California Contract Fit Report</div><h1>'+esc(bid.title||'Opportunity Analysis')+'</h1><div class="agency">'+esc(bid.agency||'California Public Agency')+'</div><span class="badge '+cls+'">'+esc(rec)+'</span></div></section>';
+function render(data){const bid=payload.bid||{},a=data.analysis||{};const rec=String(a.recommendation||'REVIEW').toUpperCase();const cls=rec==='GO'?'go':rec==='NO-GO'?'no-go':'review';let html='<section class="hero"><div class="score"><div><strong>'+esc(a.score)+'%</strong><span>Fit Score</span></div></div><div class="hero-copy"><div class="eyebrow">National Contract Fit Report</div><h1>'+esc(bid.title||'Opportunity Analysis')+'</h1><div class="agency">'+esc(bid.agency||'Public Agency')+'</div><span class="badge '+cls+'">'+esc(rec)+'</span></div></section>';
 html+=section(1,'Opportunity Summary','<table class="meta"><tr><td>Agency</td><td>'+esc(bid.agency||'—')+'</td></tr><tr><td>Solicitation</td><td>'+esc(bid.solicitation_no||bid.id||'—')+'</td></tr><tr><td>Type</td><td>'+esc(bid.bid_type||'Solicitation')+'</td></tr><tr><td>Deadline</td><td>'+esc(bid.close_date||bid.deadline||'See solicitation')+'</td></tr></table><p style="margin-top:12px">'+esc(bid.description||'Open the official solicitation documents to confirm the complete scope of work.')+'</p>');
 html+=section(2,'Executive Fit Assessment','<p>'+esc(a.summary||'Additional review is required before making a bid decision.')+'</p>');
 html+=section(3,'Capability Strengths',list(a.strengths));
 html+=section(4,'Eligibility and Pursuit Risks',list(a.risks,'risk'));
 html+=section(5,'Key Solicitation Requirements',list(a.requirements,'req'));
-html+=section(6,'California Compliance Review','<p>Confirm all applicable SB/MB or DVBE conditions, licensing, prevailing-wage obligations, bonding, insurance, CARB or CalRecycle requirements, mandatory meetings, and geographic performance restrictions directly in the solicitation.</p>');
+html+=section(6,'Compliance Review','<p>Confirm all applicable set-aside or certification conditions, licensing, prevailing-wage obligations, bonding, insurance, environmental or state-specific regulatory requirements, mandatory meetings, and geographic performance restrictions directly in the solicitation.</p>');
 html+=section(7,'Bid / No-Bid Recommendation','<p><strong>'+esc(rec)+'</strong> — '+esc(a.summary||'Review required.')+'</p>');
 html+=section(8,'Recommended Next Step','<p class="next">'+esc(a.next_steps||'Review the full solicitation and verify every mandatory requirement before committing proposal resources.')+'</p>');
 html+='<div class="provider">Analysis provider: '+esc(data.provider||'configured AI service')+'</div><div class="disclaimer">Educational procurement intelligence only. Verify all requirements against the official solicitation and agency instructions.</div>';
 loading.hidden=true;report.hidden=false;report.innerHTML=html;}
-if(!payload||!payload.bid){fail('No California opportunity was supplied. Return to the bid board and select Analyze Fit again.');}else{fetch(API+'/analyze-fit-ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(async r=>{const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.error||'The analysis service returned '+r.status+'.'+(d.diagnostic?' '+d.diagnostic:''));return d;}).then(render).catch(e=>fail(e.message));}
+if(!payload||!payload.bid){fail('No opportunity was supplied. Return to the bid board and select Analyze Fit again.');}else{fetch(API+'/analyze-fit-ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(async r=>{const d=await r.json().catch(()=>({}));if(!r.ok||!d.ok)throw new Error(d.error||'The analysis service returned '+r.status+'.'+(d.diagnostic?' '+d.diagnostic:''));return d;}).then(render).catch(e=>fail(e.message));}
 </script>
 </body>
 </html>
