@@ -3,7 +3,7 @@
 /* Resolve Cal eProcure Business Units without guessing. The resolver uses:
    1. an explicit Business Unit already present on the record;
    2. an official event URL;
-   3. an approved exact department alias;
+   3. an approved exact department alias verified from official CSCR results;
    4. a snapshot-derived department mapping only when every verified event for
       that normalized department points to one and only one Business Unit. */
 
@@ -18,10 +18,27 @@ const {
 const SNAPSHOT_PATH = path.join(__dirname, '..', 'caleprocure.json');
 
 const DEPARTMENT_BUSINESS_UNITS = new Map([
+  ['bus consumer services secy', '0515'],
+  ['csu bakersfield', '6650'],
+  ['csu dominguez hills', '6690'],
+  ['csu monterey bay', '6756'],
+  ['department of cannabis control', '1115'],
   ['department of justice', '0820'],
   ['california department of justice', '0820'],
   ['department of justice office of the attorney general', '0820'],
   ['california department of justice office of the attorney general', '0820'],
+  ['dept of pesticide regulation', '3930'],
+  ['dept toxic substances control', '3960'],
+  ['gov s off of lnd use clmt in', '0650'],
+  ['high speed rail authority', '2665'],
+  ['ofc technology and solutions i', '0531'],
+  ['public employees retirement', '7900'],
+  ['public utilities commission', '8660'],
+  ['state board of equalization', '0860'],
+  ['state coastal conservancy', '3760'],
+  ['tax credit allocation commitee', '0968'],
+  ['teacher credentialing comm', '6360'],
+  ['ucla', '6530'],
 ]);
 
 function normalizeDepartmentName(value) {
@@ -76,7 +93,7 @@ function resolveSnapshot(payload) {
   const snapshotDepartmentMap = deriveUniqueDepartmentMap(opportunities);
   let resolved = 0;
   let unresolved = 0;
-  let dojResolved = 0;
+  let staticMapped = 0;
   let snapshotMapped = 0;
 
   opportunities.forEach(opportunity => {
@@ -89,17 +106,17 @@ function resolveSnapshot(payload) {
     resolveOpportunity(opportunity, snapshotDepartmentMap);
     if (opportunity.source_record_id) resolved += 1;
     else unresolved += 1;
-    if (!before && opportunity.business_unit === '0820' && staticBusinessUnit === '0820') dojResolved += 1;
+    if (!beforeBusinessUnit && staticBusinessUnit && opportunity.business_unit === staticBusinessUnit) staticMapped += 1;
     if (!beforeBusinessUnit && !staticBusinessUnit && opportunity.business_unit) snapshotMapped += 1;
   });
 
   payload.business_unit_resolved_count = resolved;
   payload.business_unit_unresolved_count = unresolved;
-  payload.department_mapping_resolved_count = dojResolved + snapshotMapped;
-  payload.static_department_mapping_resolved_count = dojResolved;
+  payload.department_mapping_resolved_count = staticMapped + snapshotMapped;
+  payload.static_department_mapping_resolved_count = staticMapped;
   payload.snapshot_department_mapping_resolved_count = snapshotMapped;
   payload.department_mapping_resolved_at = new Date().toISOString();
-  return { payload, resolved, unresolved, dojResolved, snapshotMapped, snapshotDepartmentMap };
+  return { payload, resolved, unresolved, staticMapped, dojResolved: staticMapped, snapshotMapped, snapshotDepartmentMap };
 }
 
 function main() {
@@ -108,7 +125,7 @@ function main() {
   fs.writeFileSync(SNAPSHOT_PATH, JSON.stringify(result.payload, null, 2));
   console.log('[resolve-caleprocure-business-units] resolved=' + result.resolved
     + ' unresolved=' + result.unresolved
-    + ' static_mapped=' + result.dojResolved
+    + ' static_mapped=' + result.staticMapped
     + ' snapshot_mapped=' + result.snapshotMapped);
 }
 
