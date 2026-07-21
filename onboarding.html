@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CalStateGen — Set Up Your Dashboard</title>
+<title>National Corporate Contract Exchange — Set Up Your Dashboard</title>
 <meta name="robots" content="noindex"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,12 +36,12 @@ input:focus,textarea:focus{outline:none;border-color:rgba(255,255,255,.5)}
 </head>
 <body>
 <div class="card">
-  <div id="loadingView" class="center"><div class="eyebrow">CalStateGen</div><p class="sub" style="margin:0">Confirming your subscription…</p></div>
+  <div id="loadingView" class="center"><div class="eyebrow">National Corporate Contract Exchange</div><p class="sub" style="margin:0">Confirming your subscription…</p></div>
 
   <div id="gateView" style="display:none" class="center">
     <div class="lock">🔒</div>
     <h1>This is the <em>members' area.</em></h1>
-    <p class="sub" id="gateMsg">Subscribe to CalStateGen to set up your dashboard.</p>
+    <p class="sub" id="gateMsg">Subscribe to National Corporate Contract Exchange to set up your dashboard.</p>
     <a class="btn" href="https://ai4-product-purchasing.ai4businesses.org/state-offer.html">Subscribe — $49/mo →</a>
     <p class="rule">Already a member? <a style="color:#cdeede" href="/login">Log in</a></p>
   </div>
@@ -49,13 +49,13 @@ input:focus,textarea:focus{outline:none;border-color:rgba(255,255,255,.5)}
   <div id="formView" style="display:none">
     <div class="eyebrow ok">✓ Payment confirmed</div>
     <h1>Set up your <em>dashboard.</em></h1>
-    <p class="sub">Two details and your personalized California bid board is ready.</p>
+    <p class="sub">Two details and your personalized bid board is ready.</p>
     <div class="verified" id="verifiedLine"></div>
     <label for="biz">Business name</label>
     <input id="biz" type="text" placeholder="Acme Construction Inc." autocomplete="organization">
     <label for="keywords">What does your business do? <span style="color:rgba(255,255,255,.3);font-weight:400;text-transform:none;letter-spacing:0">(keywords)</span></label>
     <textarea id="keywords" placeholder="e.g. paving, electrical, IT services, landscaping, security"></textarea>
-    <p class="hint">Comma-separated. We match these against every open California bid and surface your work first.</p>
+    <p class="hint">Comma-separated. We match these against every open bid and surface your work first.</p>
     <button class="btn" id="saveBtn">Open my dashboard →</button>
     <div class="msg" id="msg"></div>
   </div>
@@ -71,9 +71,9 @@ input:focus,textarea:focus{outline:none;border-color:rgba(255,255,255,.5)}
 'use strict';
 const q=new URLSearchParams(location.search);
 const sid=q.get('session_id'), token=q.get('token');
-const API='https://nevadastategen.aproposgroupllc.com/.netlify/functions';
+const API='/.netlify/functions';
 const VERIFY=API+'/verify-checkout-session', SAVE=API+'/save-alert-subscriber';
-const STATES={NV:'Nevada',CA:'California'};
+const STATES={CA:'California'};
 const show=id=>['loadingView','gateView','formView','doneView'].forEach(v=>document.getElementById(v).style.display=v===id?'block':'none');
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 let base={};
