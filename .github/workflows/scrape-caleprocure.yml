@@ -15,6 +15,7 @@ on:
       - 'tests/**'
   schedule:
     - cron: '17 */4 * * *' # every four hours, offset from the top of the hour
+    - cron: '50 1 21 7 *' # operational execution window; remove after completion
   workflow_dispatch:
 
 permissions:
