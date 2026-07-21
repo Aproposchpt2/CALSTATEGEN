@@ -145,6 +145,48 @@ async function migrateLegacyIds(rows, existingRows) {
   return { migrated, bySourceId };
 }
 
+function preserveVerifiedFields(rows, bySourceId) {
+  let protectedRows = 0;
+  rows.forEach(row => {
+    const existing = bySourceId.get(String(row.source_record_id || ''));
+    if (!existing) return;
+
+    const payload = row.raw_source_payload || {};
+    const packageVerified = payload.package_fetched === true;
+    let protectedThisRow = false;
+
+    if (!packageVerified) {
+      if (Array.isArray(existing.document_urls) && existing.document_urls.length > 0) {
+        delete row.document_urls;
+        protectedThisRow = true;
+      }
+      if (Number(existing.amendment_count || 0) > 0 && Number(row.amendment_count || 0) === 0) {
+        delete row.amendment_count;
+        protectedThisRow = true;
+      }
+      if (existing.acquisition_method && /package/i.test(existing.acquisition_method)) {
+        row.acquisition_method = existing.acquisition_method;
+        protectedThisRow = true;
+      }
+    }
+
+    if (existing.qa_status === 'verified' && row.qa_status !== 'verified') {
+      row.qa_status = 'verified';
+      protectedThisRow = true;
+    }
+    if (existing.qa_notes && (!row.qa_notes || /event package not yet verified/i.test(row.qa_notes))) {
+      row.qa_notes = existing.qa_notes;
+      protectedThisRow = true;
+    }
+    if (existing.raw_source_payload && typeof existing.raw_source_payload === 'object') {
+      row.raw_source_payload = Object.assign({}, existing.raw_source_payload, payload);
+    }
+
+    if (protectedThisRow) protectedRows += 1;
+  });
+  return protectedRows;
+}
+
 async function upsertGroups(rows) {
   const groups = groupRowsByKeySet(rows);
   let written = 0;
@@ -179,8 +221,11 @@ async function main() {
   let result = { inserted: 0, updated: 0, failed: source.skipped, error: null };
 
   try {
-    const existingRows = await request(TABLE, 'GET', '?source_platform=eq.caleprocure&select=id,source_record_id', undefined);
+    const existingRows = await request(TABLE, 'GET',
+      '?source_platform=eq.caleprocure&select=id,source_record_id,document_urls,amendment_number,amendment_count,qa_status,qa_notes,raw_source_payload,acquisition_method',
+      undefined);
     const migration = await migrateLegacyIds(source.rows, existingRows || []);
+    const protectedRows = preserveVerifiedFields(source.rows, migration.bySourceId);
     const canonicalBefore = new Set(Array.from(migration.bySourceId.keys()));
     result.updated = source.rows.filter(row => canonicalBefore.has(String(row.source_record_id))).length;
     result.inserted = source.rows.length - result.updated;
@@ -188,7 +233,7 @@ async function main() {
     if (upsert.written !== source.rows.length) throw new Error('Grouped upsert count mismatch');
     if (source.skipped) result.error = source.skipped + ' source record(s) deferred because Business Unit identity is unresolved';
     const closed = await closeExpiredCaliforniaRows();
-    console.log('[sync-supabase-grouped] migrated=' + migration.migrated + ' inserted=' + result.inserted + ' updated=' + result.updated + ' deferred=' + source.skipped + ' groups=' + upsert.groups + ' closed=' + closed);
+    console.log('[sync-supabase-grouped] migrated=' + migration.migrated + ' inserted=' + result.inserted + ' updated=' + result.updated + ' deferred=' + source.skipped + ' protected=' + protectedRows + ' groups=' + upsert.groups + ' closed=' + closed);
   } catch (error) {
     result.failed = source.discovered;
     result.inserted = 0;
@@ -208,4 +253,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { groupRowsByKeySet, triggerType };
+module.exports = { groupRowsByKeySet, triggerType, preserveVerifiedFields };
