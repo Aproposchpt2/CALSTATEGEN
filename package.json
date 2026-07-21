@@ -3,6 +3,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "scrape": "node scripts/scrape.js",
     "ingest-obas": "node scripts/ingest-obas.js",
     "scrape-caleprocure": "node scripts/scrape-caleprocure.js",

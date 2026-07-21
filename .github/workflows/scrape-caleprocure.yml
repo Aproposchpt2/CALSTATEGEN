@@ -1,33 +1,40 @@
-name: Scrape Cal eProcure
+name: Acquire Cal eProcure
 
 on:
   schedule:
-    - cron: '0 1,13 * * *'   # ~6am and ~6pm Pacific — 12hr cadence
-  workflow_dispatch:          # manual trigger
+    - cron: '17 */4 * * *' # every four hours, offset from the top of the hour
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: acquire-caleprocure
+  cancel-in-progress: false
+
 jobs:
-  scrape:
+  acquire:
     runs-on: ubuntu-latest
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
+          cache: npm
+      - run: npm ci
+      - run: npm test
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/scrape-caleprocure.js
-      - name: Commit refreshed caleprocure.json
+      - name: Acquire statewide Posted events and event packages
+        run: node scripts/scrape-caleprocure.js --detail-limit=80 --package-limit=25 --refresh-hours=24
+      - name: Commit refreshed Cal eProcure source snapshot
         run: |
-          git config user.name "calstategen-bot"
+          git config user.name "pdas-acquisition-bot"
           git config user.email "bot@aproposgroupllc.com"
           git add caleprocure.json
-          git commit -m "data: refresh Cal eProcure listings" || echo "no changes to commit"
+          git commit -m "data: refresh Cal eProcure acquisition snapshot" || echo "no changes to commit"
           git push
-      - name: Sync into Supabase and record PDAS acquisition health
-        continue-on-error: true
+      - name: Synchronize verified records into Supabase
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
