@@ -11,6 +11,7 @@ on:
       - 'scripts/sync-supabase-grouped.js'
       - 'scripts/lib/caleprocure-normalize.js'
       - 'scripts/prepare-caleprocure-snapshot.js'
+      - 'tests/**'
   schedule:
     - cron: '17 */4 * * *' # every four hours, offset from the top of the hour
   workflow_dispatch:
