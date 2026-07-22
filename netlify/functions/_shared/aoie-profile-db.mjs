@@ -1,0 +1,12 @@
+const SB=(process.env.SUPABASE_URL||'').replace(/\/$/,'');
+const KEY=process.env.SUPABASE_SERVICE_ROLE_KEY||process.env.SUPABASE_SERVICE_KEY||'';
+export function assertConfigured(){if(!SB||!KEY)throw new Error('Supabase AOIE environment is not configured');}
+function headers(extra={}){return{apikey:KEY,authorization:`Bearer ${KEY}`,'Content-Type':'application/json',accept:'application/json',...extra};}
+export async function query(path,params={}){assertConfigured();const q=new URLSearchParams(params);const r=await fetch(`${SB}/rest/v1/${path}?${q}`,{headers:headers(),signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(`${path} HTTP ${r.status}: ${(await r.text()).slice(0,300)}`);return r.json();}
+export async function insert(path,body,{returning=true}={}){assertConfigured();const r=await fetch(`${SB}/rest/v1/${path}`,{method:'POST',headers:headers({Prefer:returning?'return=representation':'return=minimal'}),body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(`${path} HTTP ${r.status}: ${(await r.text()).slice(0,300)}`);return returning?r.json():[];}
+export async function upsert(path,body,onConflict){assertConfigured();const suffix=onConflict?`?on_conflict=${encodeURIComponent(onConflict)}`:'';const r=await fetch(`${SB}/rest/v1/${path}${suffix}`,{method:'POST',headers:headers({Prefer:'resolution=merge-duplicates,return=representation'}),body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(`${path} HTTP ${r.status}: ${(await r.text()).slice(0,300)}`);return r.json();}
+export async function patch(path,params,body){assertConfigured();const q=new URLSearchParams(params);const r=await fetch(`${SB}/rest/v1/${path}?${q}`,{method:'PATCH',headers:headers({Prefer:'return=representation'}),body:JSON.stringify(body),signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error(`${path} HTTP ${r.status}: ${(await r.text()).slice(0,300)}`);return r.json();}
+export function json(statusCode,body){return{statusCode,headers:{'Content-Type':'application/json','Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'},body:JSON.stringify(body)};}
+export function parse(event){try{return JSON.parse(event.body||'{}')}catch{throw new Error('Invalid JSON body')}}
+export function normalizeTerm(v){return String(v||'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();}
+export function sessionId(){return `aoie-${crypto.randomUUID()}`;}
