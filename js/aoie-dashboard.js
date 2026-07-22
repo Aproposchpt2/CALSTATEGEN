@@ -1,7 +1,10 @@
 (function(){
 'use strict';
 var path=location.pathname.replace(/\/+$/,'')||'/';
+var canonicalProfile=null,profileLoad=null;
 
+function activeProfileId(){var q=new URLSearchParams(location.search).get('aoie_profile');return q||sessionStorage.getItem('aoie_profile_id')||''}
+function loadCanonicalProfile(){var id=activeProfileId();if(!id)return Promise.resolve(null);if(profileLoad)return profileLoad;profileLoad=fetch('/.netlify/functions/aoie-profile-summary?profile_id='+encodeURIComponent(id),{cache:'no-store'}).then(function(r){return r.json().then(function(d){if(!r.ok||!d.ok)throw new Error(d.error||'Capability Profile load failed');return d})}).then(function(d){canonicalProfile=d.aoie_adapter||null;if(canonicalProfile){window.AOIE_CAPABILITY_PROFILE=d;window.PROFILE=Object.assign({},window.PROFILE||{},canonicalProfile)}return canonicalProfile}).catch(function(e){console.error('[AOIE capability profile]',e);return null});return profileLoad}
 function configureServiceUpdatePage(){
   if(!/\/services(?:\.html)?$/.test(path))return;
   var params=new URLSearchParams(location.search);
@@ -15,49 +18,22 @@ function configureServiceUpdatePage(){
   if(title)title.innerHTML='Update the services<br><em style="font-family:var(--subdisp);color:rgba(255,255,255,.55)">your business provides.</em>';
   if(copy)copy.textContent='Add or remove service categories. Your revised selections will replace the current visit profile and AOIE will evaluate the updated capability evidence.';
 }
-
-if(!/\/dashboard(?:\.html)?$/.test(path)){
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',configureServiceUpdatePage);else configureServiceUpdatePage();
-  return;
-}
-
+if(!/\/dashboard(?:\.html)?$/.test(path)){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',configureServiceUpdatePage);else configureServiceUpdatePage();return}
 var matches={},loaded=false,error=null,meta=null;
 var arr=function(v){return Array.isArray(v)?v:(v==null||v===''?[]:String(v).split(/[,;\n]+/).map(function(x){return x.trim()}).filter(Boolean))};
 var norm=function(v){return String(v==null?'':v).toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim()};
 function keys(o){var out=[];[o&&o.id,o&&o.source_record_id,o&&o.pdas_record_id,o&&o.solicitation_number,o&&o.solicitation_no].forEach(function(v){v=norm(v);if(v)out.push('i:'+v)});var t=norm(o&&o.title),a=norm(o&&(o.agency||o.issuing_organization||o.issuing_department));if(t)out.push('t:'+t);if(t&&a)out.push('ta:'+t+'|'+a);return out}
 function put(r){keys(r).forEach(function(k){matches[k]=r})}
 function find(b){var k=keys(b);for(var i=0;i<k.length;i++)if(matches[k[i]])return matches[k[i]];return null}
-function profile(){var p=window.PROFILE||{},s=window.SESSION||{};return{business_name:p.business_name||p.company_name||p.legal_name||s.business_name||'NAT-CORP Visitor',keywords:arr(p.keywords||s.keywords),services:arr(p.services),core_competencies:arr(p.core_competencies||p.competencies),naics_codes:arr(p.naics_codes||p.naics),unspsc_codes:arr(p.unspsc_codes||p.unspsc),commodity_codes:arr(p.commodity_codes||p.commodity),licenses:arr(p.licenses),certifications:arr(p.certifications||p.socio_economic_status),service_states:arr(p.service_states||p.states||p.state||s.state||'CA').map(function(x){return String(x).toUpperCase()}),max_contract_value:p.max_contract_value||p.capacity||null}}
-function evidence(p){return p.keywords.length||p.services.length||p.core_competencies.length||p.naics_codes.length||p.unspsc_codes.length||p.commodity_codes.length}
+function profile(){if(canonicalProfile)return canonicalProfile;var p=window.PROFILE||{},s=window.SESSION||{};return{business_name:p.business_name||p.company_name||p.legal_name||s.business_name||'NAT-CORP Visitor',keywords:arr(p.keywords||s.keywords),services:arr(p.services),products:arr(p.products),capabilities:arr(p.capabilities),core_competencies:arr(p.core_competencies||p.competencies),naics_codes:arr(p.naics_codes||p.naics),unspsc_codes:arr(p.unspsc_codes||p.unspsc),commodity_codes:arr(p.commodity_codes||p.commodity),licenses:arr(p.licenses),certifications:arr(p.certifications||p.socio_economic_status),service_states:arr(p.service_states||p.states||p.state||s.state||'CA').map(function(x){return String(x).toUpperCase()}),max_contract_value:p.max_contract_value||p.capacity||null,business_roles:arr(p.business_roles),procurement_types:arr(p.procurement_types)}}
+function evidence(p){return p.keywords.length||p.services.length||p.products.length||p.capabilities.length||p.core_competencies.length||p.naics_codes.length||p.unspsc_codes.length||p.commodity_codes.length}
 window.hits=function(b){var r=find(b);b._aoie=r||null;return r&&r.aoie?Number(r.aoie.fit_score)||0:0};
 window.fitColor=function(s){return s>=80?'var(--green)':s>=50?'var(--amber)':s>=35?'var(--cyan)':'rgba(255,255,255,.3)'};
 window.fitLabel=function(s){return s>=80?'Strong Match · '+s:s>=65?'Good Match · '+s:s>=50?'Review · '+s:s>=35?'Monitor · '+s:'General'};
 window.gauge=function(s,r,w){var p=Math.max(0,Math.min(1,Number(s||0)/100)),c=s>=80?'#6EE7A8':s>=50?'#F5C36B':s>=35?'#5bd3ff':'rgba(255,255,255,.2)',a=2*Math.PI*(r-w/2),d=p*a;return'<svg width="'+r*2+'" height="'+r*2+'" viewBox="0 0 '+r*2+' '+r*2+'"><circle cx="'+r+'" cy="'+r+'" r="'+(r-w/2)+'" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="'+w+'"/><circle cx="'+r+'" cy="'+r+'" r="'+(r-w/2)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-dasharray="'+d+' '+a+'" stroke-linecap="round" transform="rotate(-90 '+r+' '+r+')"/></svg>'};
-function configureDashboardControls(){
-  window.showIntake=function(){location.href='/services.html?mode=update'};
-  var update=document.querySelector('.update-btn');
-  if(update){update.onclick=window.showIntake;update.setAttribute('aria-label','Update selected business services');}
-  document.querySelectorAll('a[href="/intake.html"],a[href="/intake"]').forEach(function(link){
-    var row=link.closest('div');
-    if(row&&/capability statement/i.test(row.textContent||''))row.remove();else link.remove();
-  });
-  window.analyzeCaFit=function(){
-    var bid=window._caBid;
-    if(!bid)return;
-    var detail=window._caDetail||{};
-    var selected=Object.assign({},bid,{
-      description:detail.description||bid.description||null,
-      documents:detail.documents||bid.documents||bid.document_urls||[],
-      contact_name:detail.contactName||bid.contact_name||null,
-      contact_email:detail.contactEmail||bid.contact_email||null
-    });
-    localStorage.setItem('ca_analyze_payload',JSON.stringify({bid:selected,profile:window.PROFILE||{}}));
-    if(typeof window.closeCaDrawer==='function')window.closeCaDrawer();
-    window.open('/analyze-fit.html','_blank','noopener');
-  };
-}
-function refresh(){var all=window.ALL||[],count=all.filter(function(b){return window.hits(b)>=35}).length,mc=document.getElementById('mCount'),sm=document.getElementById('sMatched'),pill=document.querySelector('.pill'),eye=document.querySelector('.board-eye'),labels=document.querySelectorAll('.stat .l');if(mc)mc.textContent='('+count+')';if(sm)sm.textContent=count;if(labels[1])labels[1].textContent='AOIE matched opportunities';if(eye)eye.textContent='AOIE semantic matching · live state and local solicitations';if(pill)pill.textContent=error?'AOIE unavailable · all bids visible':loaded?'AOIE live test · '+count+' matches':'AOIE evaluating live bids';var note=document.getElementById('aoie-live-status');if(!note){note=document.createElement('div');note.id='aoie-live-status';note.style.cssText='font-size:.66rem;color:rgba(255,255,255,.52);margin:.2rem 0 1rem;letter-spacing:.04em';var h=document.querySelector('.board-head');if(h&&h.parentNode)h.parentNode.insertBefore(note,h.nextSibling)}if(note){note.textContent=error?'AOIE evaluation failed. My Matches is withheld rather than using the legacy matcher.':loaded?'Source: '+((meta&&meta.data_source&&meta.data_source.relation)||'public.state_contract_opportunities')+' · Free same-origin evaluation · Legacy substring matching disabled.':'AOIE is evaluating the current visit’s business capability selections.';note.style.color=error?'var(--amber)':'rgba(255,255,255,.52)'}if(typeof window.setStats==='function')window.setStats();if(typeof window.render==='function')window.render()}
-function run(){var p=profile();if(!evidence(p)){loaded=true;matches={};refresh();return}loaded=false;error=null;refresh();fetch('/api/aoie-state-shadow',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile:p,states:p.service_states,minimum_score:35,limit:200})}).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||'AOIE request failed');return d})}).then(function(d){matches={};(d.results||[]).forEach(put);meta=d;loaded=true}).catch(function(e){matches={};meta=null;loaded=true;error=e&&e.message?e.message:String(e);console.error('[AOIE dashboard]',e)}).finally(refresh)}
+function configureDashboardControls(){window.showIntake=function(){location.href=activeProfileId()?'/capabilities.html':'/services.html?mode=update'};var update=document.querySelector('.update-btn');if(update){update.onclick=window.showIntake;update.setAttribute('aria-label','Update selected business capabilities')}document.querySelectorAll('a[href="/intake.html"],a[href="/intake"]').forEach(function(link){var row=link.closest('div');if(row&&/capability statement/i.test(row.textContent||''))row.remove();else link.remove()});window.analyzeCaFit=function(){var bid=window._caBid;if(!bid)return;var detail=window._caDetail||{};var selected=Object.assign({},bid,{description:detail.description||bid.description||null,documents:detail.documents||bid.documents||bid.document_urls||[],contact_name:detail.contactName||bid.contact_name||null,contact_email:detail.contactEmail||bid.contact_email||null});localStorage.setItem('ca_analyze_payload',JSON.stringify({bid:selected,profile:canonicalProfile||window.PROFILE||{},aoie_profile_id:activeProfileId()}));if(typeof window.closeCaDrawer==='function')window.closeCaDrawer();window.open('/analyze-fit.html','_blank','noopener')}}
+function refresh(){var all=window.ALL||[],count=all.filter(function(b){return window.hits(b)>=35}).length,mc=document.getElementById('mCount'),sm=document.getElementById('sMatched'),pill=document.querySelector('.pill'),eye=document.querySelector('.board-eye'),labels=document.querySelectorAll('.stat .l');if(mc)mc.textContent='('+count+')';if(sm)sm.textContent=count;if(labels[1])labels[1].textContent='AOIE matched opportunities';if(eye)eye.textContent=canonicalProfile?'AOIE Business Capability Profile · semantic matching':'AOIE semantic matching · live state and local solicitations';if(pill)pill.textContent=error?'AOIE unavailable · all bids visible':loaded?'AOIE live test · '+count+' matches':'AOIE evaluating live bids';var note=document.getElementById('aoie-live-status');if(!note){note=document.createElement('div');note.id='aoie-live-status';note.style.cssText='font-size:.66rem;color:rgba(255,255,255,.52);margin:.2rem 0 1rem;letter-spacing:.04em';var h=document.querySelector('.board-head');if(h&&h.parentNode)h.parentNode.insertBefore(note,h.nextSibling)}if(note){note.textContent=error?'AOIE evaluation failed. My Matches is withheld rather than using the legacy matcher.':loaded?'Source: '+((meta&&meta.data_source&&meta.data_source.relation)||'public.state_contract_opportunities')+' · '+(canonicalProfile?'Canonical Capability Profile v'+canonicalProfile.profile_version+' · ':'')+'Legacy substring matching disabled.':'AOIE is evaluating the current visit’s business capability selections.';note.style.color=error?'var(--amber)':'rgba(255,255,255,.52)'}if(typeof window.setStats==='function')window.setStats();if(typeof window.render==='function')window.render()}
+async function run(){await loadCanonicalProfile();var p=profile();if(!evidence(p)){loaded=true;matches={};refresh();return}loaded=false;error=null;refresh();fetch('/api/aoie-state-shadow',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({profile:p,states:p.service_states,minimum_score:35,limit:200,aoie_business_profile_id:p.aoie_business_profile_id||null,profile_version:p.profile_version||null,taxonomy_version:p.taxonomy_version||null})}).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||'AOIE request failed');return d})}).then(function(d){matches={};(d.results||[]).forEach(put);meta=d;loaded=true}).catch(function(e){matches={};meta=null;loaded=true;error=e&&e.message?e.message:String(e);console.error('[AOIE dashboard]',e)}).finally(refresh)}
 var save=window.saveKeywords;if(typeof save==='function')window.saveKeywords=function(){save();setTimeout(run,0)};
 window.addEventListener('load',function(){configureDashboardControls();setTimeout(run,0)});
 })();
