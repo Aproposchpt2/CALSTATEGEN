@@ -14,43 +14,50 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self'; upgrade-insecure-requests"
 
-# AOIS R&D production routes
+# Friendly production URLs are internal rewrites. The visible URL remains stable,
+# which preserves page identity, browser history, and runtime path detection.
 [[redirects]]
   from = "/services.html"
-  to = "/business-dna-builder-preview.html?v=2"
-  status = 302
-  force = true
+  to = "/business-dna-builder-preview.html"
+  status = 200
 
 [[redirects]]
   from = "/services"
-  to = "/business-dna-builder-preview.html?v=2"
-  status = 302
-  force = true
+  to = "/business-dna-builder-preview.html"
+  status = 200
 
 [[redirects]]
   from = "/intake.html"
-  to = "/business-dna-builder-preview.html?v=2"
-  status = 302
-  force = true
+  to = "/business-dna-builder-preview.html"
+  status = 200
+
+[[redirects]]
+  from = "/intake"
+  to = "/business-dna-builder-preview.html"
+  status = 200
 
 [[redirects]]
   from = "/dashboard.html"
-  to = "/aois-dashboard-preview.html?v=2"
-  status = 302
-  force = true
+  to = "/aois-dashboard-preview.html"
+  status = 200
 
 [[redirects]]
   from = "/dashboard"
-  to = "/aois-dashboard-preview.html?v=2"
-  status = 302
-  force = true
+  to = "/aois-dashboard-preview.html"
+  status = 200
 
 [[redirects]]
   from = "/analyze-fit.html"
-  to = "/analyze-fit-v2.html?v=2"
-  status = 302
-  force = true
+  to = "/analyze-fit-v2.html"
+  status = 200
+
+[[redirects]]
+  from = "/analyze-fit"
+  to = "/analyze-fit-v2.html"
+  status = 200
 
 [[redirects]]
   from = "/stage"
