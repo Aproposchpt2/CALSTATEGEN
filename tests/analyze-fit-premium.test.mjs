@@ -2,14 +2,19 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const files={
+  publicSite:fs.readFileSync('index.html','utf8'),
   intake:fs.readFileSync('welcome.html','utf8'),
   businessIntake:fs.readFileSync('business-dna-builder-preview.html','utf8'),
+  businessIntakeScripts:[1,2,3,4].map((part)=>fs.readFileSync(`assets/business-dna-builder-${part}.js`,'utf8')),
+  businessIntakeStyles:fs.readFileSync('assets/business-dna-builder.css','utf8'),
   dashboard:fs.readFileSync('aois-dashboard-preview.html','utf8'),
   analyzeFit:fs.readFileSync('analyze-fit-v2.html','utf8'),
   netlify:fs.readFileSync('netlify.toml','utf8'),
   aoieFunction:fs.readFileSync('netlify/functions/aoie-state-shadow.mjs','utf8'),
   analyzeFunction:fs.readFileSync('netlify/functions/analyze-fit-state.mjs','utf8'),
+  businessAgent:fs.readFileSync('netlify/functions/business-profile-agent.mjs','utf8'),
 };
+const businessIntakeBundle=[files.businessIntake,...files.businessIntakeScripts].join('\n');
 
 function compileInlineScripts(name,html){
   const scripts=[...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
@@ -23,6 +28,9 @@ compileInlineScripts('Intake',files.intake);
 compileInlineScripts('Business Intake',files.businessIntake);
 compileInlineScripts('Dashboard',files.dashboard);
 compileInlineScripts('Analyze Fit',files.analyzeFit);
+for(const [index,script] of files.businessIntakeScripts.entries()){
+  assert.doesNotThrow(()=>new Function(script),`Business Intake external script ${index+1} must compile.`);
+}
 
 const reportSections=[
   'Strategic Alignment',
@@ -40,22 +48,35 @@ const reportSections=[
 ];
 for(const title of reportSections)assert.ok(files.analyzeFit.includes(title),`Missing Analyze Fit section: ${title}`);
 
+assert.ok(files.publicSite.includes('Opportunity Builds Business. Business Builds Community.'),'Protected public Hero messaging must remain present.');
+assert.ok(files.publicSite.includes('A Shared Commitment to Economic Opportunity.'),'Protected second-section messaging must remain present.');
+
 assert.ok(files.intake.includes('/business-intake#profile='),'Intake must hand off to Business Intake.');
-assert.ok(files.businessIntake.includes('/dashboard#profile='),'Business Intake must hand off to Dashboard.');
+assert.ok(files.intake.includes('Hybrid advisor'),'Intake must support the approved hybrid advisor entry mode.');
+assert.ok(files.intake.includes('Legal business name'),'Intake must collect entity identity.');
+assert.ok(files.intake.includes('Business phone'),'Intake must collect entity contact information.');
+assert.ok(businessIntakeBundle.includes('/dashboard#profile='),'Business Intake must hand off to Dashboard.');
+assert.ok(businessIntakeBundle.includes('/api/business-profile-agent'),'Business Intake must use the document-analysis endpoint.');
+assert.ok(files.businessIntake.includes('Four-Level Capability Taxonomy'),'Business Intake must expose progressive capability discovery.');
+assert.ok(businessIntakeBundle.includes("service_states:['AZ','CA','NV']"),'Business Intake must hand all supported markets to the dashboard.');
+assert.ok(!/Where can you perform the work\?/i.test(businessIntakeBundle),'Business Intake must not ask the removed general work-location question.');
+assert.ok(businessIntakeBundle.includes("if(intake.intake_mode==='documents'){model.stage=2"),'Document-first mode must open the evidence stage without requiring guided snapshot validation first.');
+assert.ok(files.businessIntake.includes('/assets/business-dna-builder.css'),'Business Intake must load the maintained Premium Platinum stylesheet.');
+for(const part of [1,2,3,4])assert.ok(files.businessIntake.includes(`/assets/business-dna-builder-${part}.js`),`Business Intake must load script part ${part}.`);
 assert.ok(files.dashboard.includes('/api/aoie-state-shadow'),'Dashboard must use the live AOIE endpoint.');
 assert.ok(files.dashboard.includes('/analyze-fit#assessment='),'Dashboard must hand the selected opportunity to Analyze Fit.');
 assert.ok(files.analyzeFit.includes('/api/analyze-fit-state'),'Analyze Fit must use the live assessment endpoint.');
 assert.ok(files.analyzeFit.includes("location.replace('/intake')"),'Invalid Analyze Fit access must restart Intake.');
 assert.ok(files.analyzeFit.includes('No substitute or demonstration assessment is displayed.'),'Analyze Fit must fail closed without a demo report.');
 
-for(const [name,html] of Object.entries({
+for(const [name,content] of Object.entries({
   Intake:files.intake,
-  'Business Intake':files.businessIntake,
+  'Business Intake':businessIntakeBundle,
   Dashboard:files.dashboard,
   'Analyze Fit':files.analyzeFit,
 })){
-  assert.ok(!/\b(?:localStorage|sessionStorage)\b/.test(html),`${name} must not use browser storage.`);
-  assert.ok(!/document\.cookie/.test(html),`${name} must not create a cookie.`);
+  assert.ok(!/\b(?:localStorage|sessionStorage)\b/.test(content),`${name} must not use browser storage.`);
+  assert.ok(!/document\.cookie/.test(content),`${name} must not create a cookie.`);
 }
 
 for(const path of ['/intake.html','/dashboard.html','/analyze-fit.html','/stage','/stage.html','/proposal','/proposal.html','/pdas-dashboard']){
@@ -78,6 +99,9 @@ assert.ok(files.aoieFunction.includes('release_extraction_confidence_filter_appl
 assert.ok(files.aoieFunction.includes('release_qa_filter_applied: true'),'AOIE must report its QA release filter.');
 assert.ok(files.aoieFunction.includes('rateLimit'),'AOIE must have a platform rate limit.');
 assert.ok(files.analyzeFunction.includes('rateLimit'),'Analyze Fit must have a platform rate limit.');
+assert.ok(files.businessAgent.includes("path: '/api/business-profile-agent'"),'Business Profile Agent must use the approved API path.');
+assert.ok(files.businessAgent.includes('rateLimit'),'Business Profile Agent must have a platform rate limit.');
+assert.ok(files.businessAgent.includes('persisted: false'),'Business Profile Agent must explicitly report non-persistence.');
 
 const retiredFunctions=[
   'netlify/functions/analyze-fit-ca.js',
@@ -94,4 +118,4 @@ const retiredFunctions=[
 ];
 for(const path of retiredFunctions)assert.equal(fs.existsSync(path),false,`${path} must remain retired.`);
 
-console.log('Fresh-visit dashboard and Analyze Fit regression suite complete.');
+console.log('Fresh-visit Premium Platinum journey regression suite complete.');

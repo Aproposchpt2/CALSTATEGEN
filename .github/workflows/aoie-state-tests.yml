@@ -6,16 +6,24 @@ on:
       - agent/aoie-state-local-shadow
       - fix/dashboard-controls-premium-analyze-fit
       - agent/var-session-revocation
+      - agent/premium-platinum-business-dna
     paths:
       - 'netlify/functions/_shared/aoie-state-*.mjs'
       - 'netlify/functions/aoie-state-shadow.mjs'
       - 'netlify/functions/analyze-fit-state.mjs'
+      - 'netlify/functions/business-profile-agent.mjs'
       - 'tests/aoie-state-*.test.mjs'
       - 'tests/analyze-fit-premium.test.mjs'
+      - 'tests/business-profile-agent.test.mjs'
+      - 'assets/business-dna-builder.css'
+      - 'assets/business-dna-builder-*.js'
       - 'welcome.html'
       - 'business-dna-builder-preview.html'
       - 'aois-dashboard-preview.html'
       - 'analyze-fit-v2.html'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
       - 'netlify.toml'
       - '.github/workflows/aoie-state-tests.yml'
   pull_request:
@@ -23,12 +31,19 @@ on:
       - 'netlify/functions/_shared/aoie-state-*.mjs'
       - 'netlify/functions/aoie-state-shadow.mjs'
       - 'netlify/functions/analyze-fit-state.mjs'
+      - 'netlify/functions/business-profile-agent.mjs'
       - 'tests/aoie-state-*.test.mjs'
       - 'tests/analyze-fit-premium.test.mjs'
+      - 'tests/business-profile-agent.test.mjs'
+      - 'assets/business-dna-builder.css'
+      - 'assets/business-dna-builder-*.js'
       - 'welcome.html'
       - 'business-dna-builder-preview.html'
       - 'aois-dashboard-preview.html'
       - 'analyze-fit-v2.html'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
       - 'netlify.toml'
       - '.github/workflows/aoie-state-tests.yml'
   workflow_dispatch:
@@ -39,20 +54,33 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
+      - name: Install pinned dependencies
+        run: npm ci --ignore-scripts
       - name: Run state/local AOIE matcher fixtures
         run: node tests/aoie-state-local.test.mjs
       - name: Run state/local AOIE source-contract fixtures
         run: node tests/aoie-state-source.test.mjs
+      - name: Run Business Profile Agent fixtures
+        run: node tests/business-profile-agent.test.mjs
+      - name: Validate Business DNA browser scripts
+        run: |
+          node --check assets/business-dna-builder-1.js
+          node --check assets/business-dna-builder-2.js
+          node --check assets/business-dna-builder-3.js
+          node --check assets/business-dna-builder-4.js
       - name: Validate AOIE function syntax
         run: node --check netlify/functions/aoie-state-shadow.mjs
       - name: Validate Analyze Fit function syntax
         run: node --check netlify/functions/analyze-fit-state.mjs
+      - name: Validate Business Profile Agent syntax
+        run: node --check netlify/functions/business-profile-agent.mjs
       - name: Run fresh-visit dashboard and report regressions
         id: regressions
         continue-on-error: true
