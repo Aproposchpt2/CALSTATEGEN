@@ -5,6 +5,9 @@ import {
   enrichOpportunity,
   evaluateOpportunityRelease,
   filterReleaseReadyOpportunities,
+  hasIdentifiableIssuingEntity,
+  hasMeaningfulOpportunityEvidence,
+  hasSubstantiveRequirements,
   isMissingCanonicalRelation,
   publicOpportunity,
 } from '../netlify/functions/_shared/aoie-state-local.mjs';
@@ -12,6 +15,25 @@ import {
 function test(name, fn) {
   try { fn(); console.log('PASS', name); }
   catch (error) { console.error('FAIL', name); throw error; }
+}
+
+function readyOpportunity(overrides = {}) {
+  return {
+    id: 'READY',
+    title: 'Network infrastructure maintenance and repair',
+    description: 'Provide preventive maintenance, inspection, corrective repair, and emergency response for the agency network infrastructure.',
+    issuing_organization: 'City of Example',
+    issuing_department: 'Information Technology Department',
+    official_source_url: 'https://agency.example/opportunity/ready',
+    response_deadline: '2026-07-30T17:00:00Z',
+    requirements: {
+      scope: 'Preventive maintenance, inspection, corrective repair, and emergency response.',
+      response_method: 'Electronic submission through the agency procurement portal.',
+    },
+    extraction_confidence: 0.94,
+    qa_status: 'verified',
+    ...overrides,
+  };
 }
 
 test('candidate retrieval query applies all approved acquisition filters', () => {
@@ -50,27 +72,33 @@ test('opportunity URLs take precedence over registry fallback URLs', () => {
   assert.equal(enriched.source_evidence.official_source_url_origin, 'opportunity.official_source_url');
 });
 
-test('release gate accepts only actionable, future, QA-approved opportunities', () => {
+test('release gate accepts only evidence-complete future opportunities', () => {
   const now = Date.parse('2026-07-22T12:00:00Z');
-  const release = evaluateOpportunityRelease({
-    id: 'READY',
-    title: 'Network Services',
-    official_source_url: 'https://agency.example/opportunity/ready',
-    response_deadline: '2026-07-30T17:00:00Z',
-    qa_status: 'verified',
-  }, now);
+  const release = evaluateOpportunityRelease(readyOpportunity(), now);
   assert.equal(release.release_ready, true);
   assert.deepEqual(release.reasons, []);
+  assert.deepEqual(release.evidence, {
+    issuing_entity: true,
+    meaningful_opportunity_evidence: true,
+    substantive_requirements: true,
+    extraction_confidence: true,
+  });
 });
 
-test('release gate rejects missing source, missing deadline, expired deadline, and review-required records', () => {
+test('data quality score is accepted as direct-table confidence evidence', () => {
+  const now = Date.parse('2026-07-22T12:00:00Z');
+  const release = evaluateOpportunityRelease(readyOpportunity({ extraction_confidence: undefined, data_quality_score: 0.91 }), now);
+  assert.equal(release.release_ready, true);
+});
+
+test('release gate rejects missing source, deadline, expired, and review-required records', () => {
   const now = Date.parse('2026-07-22T12:00:00Z');
   const rows = [
-    { id: 'NO-SOURCE', title: 'A', response_deadline: '2026-08-01T00:00:00Z', qa_status: 'verified' },
-    { id: 'NO-DEADLINE', title: 'B', official_source_url: 'https://agency.example/b', qa_status: 'verified' },
-    { id: 'EXPIRED', title: 'C', official_source_url: 'https://agency.example/c', response_deadline: '2026-07-01T00:00:00Z', qa_status: 'verified' },
-    { id: 'REVIEW', title: 'D', official_source_url: 'https://agency.example/d', response_deadline: '2026-08-01T00:00:00Z', qa_status: 'review_required' },
-    { id: 'READY', title: 'E', official_source_url: 'https://agency.example/e', response_deadline: '2026-08-01T00:00:00Z', qa_status: 'auto_ingested' },
+    readyOpportunity({ id: 'NO-SOURCE', official_source_url: null }),
+    readyOpportunity({ id: 'NO-DEADLINE', response_deadline: null }),
+    readyOpportunity({ id: 'EXPIRED', response_deadline: '2026-07-01T00:00:00Z' }),
+    readyOpportunity({ id: 'REVIEW', qa_status: 'review_required' }),
+    readyOpportunity({ id: 'READY', qa_status: 'auto_ingested' }),
   ];
   const filtered = filterReleaseReadyOpportunities(rows, now);
   assert.deepEqual(filtered.accepted.map((row) => row.id), ['READY']);
@@ -78,6 +106,51 @@ test('release gate rejects missing source, missing deadline, expired deadline, a
   assert.equal(filtered.rejection_summary.missing_or_invalid_official_source_url, 1);
   assert.equal(filtered.rejection_summary.missing_or_expired_deadline, 2);
   assert.equal(filtered.rejection_summary.qa_not_release_ready, 1);
+});
+
+test('metadata-only and placeholder requirement records are withheld', () => {
+  const now = Date.parse('2026-07-22T12:00:00Z');
+  const release = evaluateOpportunityRelease(readyOpportunity({
+    description: null,
+    document_urls: [],
+    requirements: {
+      response_method: 'See official event package',
+      mandatory_prebid: true,
+      contractor_license: null,
+      prebid_location: 'Comments:',
+    },
+  }), now);
+  assert.equal(release.release_ready, false);
+  assert.ok(release.reasons.includes('missing_meaningful_description_scope_or_document'));
+  assert.ok(release.reasons.includes('missing_substantive_requirements'));
+});
+
+test('mandatory pre-bid evidence counts only when event details are usable', () => {
+  const withoutDetails = readyOpportunity({
+    description: 'Official event record for a mandatory conference requirement and related submission conditions.',
+    requirements: { mandatory_prebid: true, prebid_location: 'Comments:' },
+  });
+  const withDetails = readyOpportunity({
+    description: 'Official event record for a mandatory conference requirement and related submission conditions.',
+    requirements: { mandatory_prebid: true, prebid_location: 'City Hall, Procurement Conference Room 2' },
+  });
+  assert.equal(hasSubstantiveRequirements(withoutDetails), false);
+  assert.equal(hasSubstantiveRequirements(withDetails), true);
+});
+
+test('issued entity, requirement, and evidence helpers distinguish usable records', () => {
+  assert.equal(hasIdentifiableIssuingEntity({ issuing_organization: 'Public Agency' }), false);
+  assert.equal(hasIdentifiableIssuingEntity({ issuing_organization: 'City of Tucson' }), true);
+  assert.equal(hasMeaningfulOpportunityEvidence({ description: 'Short' }), false);
+  assert.equal(hasMeaningfulOpportunityEvidence({ document_urls: [{ url: 'https://agency.example/solicitation.pdf' }] }), true);
+  assert.equal(hasSubstantiveRequirements({ certifications_required: ['C-10'] }), true);
+  assert.equal(hasSubstantiveRequirements({ requirements: {} }), false);
+});
+
+test('missing procurement contact does not fabricate or block otherwise complete release', () => {
+  const now = Date.parse('2026-07-22T12:00:00Z');
+  const release = evaluateOpportunityRelease(readyOpportunity({ contact_name: null, contact_email: null, contact_phone: null }), now);
+  assert.equal(release.release_ready, true);
 });
 
 test('public results preserve registry and classification evidence', () => {
