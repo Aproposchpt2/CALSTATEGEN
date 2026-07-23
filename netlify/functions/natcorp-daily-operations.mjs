@@ -1,4 +1,4 @@
-import { commandAuthorized, db, json, nowIso, runSnapshot, sameOrigin } from './_shared/natcorp-runtime.mjs';
+import { commandAuthorized, db, env, json, nowIso, runSnapshot, sameOrigin } from './_shared/natcorp-runtime.mjs';
 
 export default async (req) => {
   try {
@@ -31,8 +31,9 @@ export default async (req) => {
       if (!runId) throw new Error('Daily run creation failed.');
     }
     const origin = url.origin;
+    const internalToken = env('NATCORP_INTERNAL_TOKEN_PRODUCTION') || env('NATCORP_INTERNAL_TOKEN');
     const response = await fetch(`${origin}/.netlify/functions/natcorp-daily-operations-background`, {
-      method:'POST', headers:{ 'content-type':'application/json', 'x-natcorp-internal-token': globalThis.Netlify?.env?.get('NATCORP_INTERNAL_TOKEN') || process.env.NATCORP_INTERNAL_TOKEN || '' },
+      method:'POST', headers:{ 'content-type':'application/json', 'x-natcorp-internal-token': internalToken },
       body:JSON.stringify({ run_id:runId, base_url:origin }), signal:AbortSignal.timeout(15000),
     });
     if (!response.ok && response.status !== 202) throw new Error(`Background orchestrator rejected the request (${response.status}).`);
