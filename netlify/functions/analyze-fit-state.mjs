@@ -149,4 +149,11 @@ export default async function handler(req){
   return json(openAIKey||anthropicKey?502:503,{ok:false,error:openAIKey||anthropicKey?'The assessment providers could not complete the report.':'AI assessment is not configured.',diagnostic:errors.join(' | ').slice(0,700)});
 }
 
-export const config={path:'/api/analyze-fit-state'};
+export const config={
+  path:'/api/analyze-fit-state',
+  rateLimit:{
+    windowLimit:5,
+    windowSize:60,
+    aggregateBy:['ip','domain'],
+  },
+};

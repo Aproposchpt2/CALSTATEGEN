@@ -5,16 +5,18 @@ on:
     branches:
       - agent/aoie-state-local-shadow
       - fix/dashboard-controls-premium-analyze-fit
+      - agent/var-session-revocation
     paths:
       - 'netlify/functions/_shared/aoie-state-*.mjs'
       - 'netlify/functions/aoie-state-shadow.mjs'
       - 'netlify/functions/analyze-fit-state.mjs'
       - 'tests/aoie-state-*.test.mjs'
       - 'tests/analyze-fit-premium.test.mjs'
-      - 'js/aoie-dashboard.js'
-      - 'analyze-fit.html'
-      - 'intake.html'
-      - 'netlify/edge-functions/natcorp-conversion.js'
+      - 'welcome.html'
+      - 'business-dna-builder-preview.html'
+      - 'aois-dashboard-preview.html'
+      - 'analyze-fit-v2.html'
+      - 'netlify.toml'
       - '.github/workflows/aoie-state-tests.yml'
   pull_request:
     paths:
@@ -23,10 +25,11 @@ on:
       - 'netlify/functions/analyze-fit-state.mjs'
       - 'tests/aoie-state-*.test.mjs'
       - 'tests/analyze-fit-premium.test.mjs'
-      - 'js/aoie-dashboard.js'
-      - 'analyze-fit.html'
-      - 'intake.html'
-      - 'netlify/edge-functions/natcorp-conversion.js'
+      - 'welcome.html'
+      - 'business-dna-builder-preview.html'
+      - 'aois-dashboard-preview.html'
+      - 'analyze-fit-v2.html'
+      - 'netlify.toml'
       - '.github/workflows/aoie-state-tests.yml'
   workflow_dispatch:
 
@@ -41,14 +44,29 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Run state/local AOIE matcher fixtures
         run: node tests/aoie-state-local.test.mjs
       - name: Run state/local AOIE source-contract fixtures
         run: node tests/aoie-state-source.test.mjs
-      - name: Validate AOIE dashboard adapter syntax
-        run: node --check js/aoie-dashboard.js
-      - name: Validate premium Analyze Fit function syntax
+      - name: Validate AOIE function syntax
+        run: node --check netlify/functions/aoie-state-shadow.mjs
+      - name: Validate Analyze Fit function syntax
         run: node --check netlify/functions/analyze-fit-state.mjs
-      - name: Run dashboard and premium report regressions
-        run: node tests/analyze-fit-premium.test.mjs
+      - name: Run fresh-visit dashboard and report regressions
+        id: regressions
+        continue-on-error: true
+        run: node tests/analyze-fit-premium.test.mjs > regression-output.txt 2>&1
+      - name: Upload regression diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresh-visit-regression-output
+          path: regression-output.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Enforce regression result
+        if: steps.regressions.outcome == 'failure'
+        run: |
+          cat regression-output.txt
+          exit 1

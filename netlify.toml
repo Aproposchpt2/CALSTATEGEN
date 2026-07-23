@@ -3,7 +3,7 @@
   functions = "netlify/functions"
 
   [build.environment]
-    NODE_VERSION = "18"
+    NODE_VERSION = "24"
 
 [functions]
   node_bundler = "esbuild"
@@ -23,7 +23,17 @@
     Cache-Control = "no-store"
 
 [[headers]]
+  for = "/welcome.html"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
   for = "/business-intake"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/business-dna-builder-preview.html"
   [headers.values]
     Cache-Control = "no-store"
 
@@ -33,7 +43,17 @@
     Cache-Control = "no-store"
 
 [[headers]]
+  for = "/aois-dashboard-preview.html"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
   for = "/analyze-fit"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/analyze-fit-v2.html"
   [headers.values]
     Cache-Control = "no-store"
 
@@ -54,21 +74,26 @@
   from = "/intake"
   to = "/welcome.html"
   status = 200
+  force = true
 
+# The legacy intake file skipped the visitor intake step.
 [[redirects]]
   from = "/intake.html"
-  to = "/welcome.html"
-  status = 200
+  to = "/intake"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/business-intake"
   to = "/business-dna-builder-preview.html"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/business-intake.html"
-  to = "/business-dna-builder-preview.html"
-  status = 200
+  to = "/intake"
+  status = 302
+  force = true
 
 # Legacy public routes restart at Intake and cannot bypass the journey.
 [[redirects]]
@@ -132,30 +157,96 @@
   force = true
 
 [[redirects]]
+  from = "/demo"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/demo.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/jeff-dashboard"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/jeff-dashboard.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/proposal"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/proposal.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/stage"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/stage.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pdas-dashboard"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pdas-dashboard.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
   from = "/index-livepreview.html"
   to = "/"
   status = 302
   force = true
 
+# The clean dashboard route preserves the one-time URL fragment. Direct .html access restarts Intake.
 [[redirects]]
   from = "/dashboard"
   to = "/aois-dashboard-preview.html"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/dashboard.html"
-  to = "/aois-dashboard-preview.html"
-  status = 200
+  to = "/intake"
+  status = 302
+  force = true
 
+# Analyze Fit is only entered from a live dashboard handoff.
 [[redirects]]
   from = "/analyze-fit"
   to = "/analyze-fit-v2.html"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/analyze-fit.html"
-  to = "/analyze-fit-v2.html"
-  status = 200
+  to = "/intake"
+  status = 302
+  force = true
 
 # Member login and OTP access are retired. Every visitor starts fresh.
 [[redirects]]
@@ -169,14 +260,3 @@
   to = "/intake"
   status = 302
   force = true
-
-# Internal operational surfaces remain separate from the public journey.
-[[redirects]]
-  from = "/stage"
-  to = "/stage.html"
-  status = 200
-
-[[redirects]]
-  from = "/pdas-dashboard"
-  to = "/pdas-dashboard.html"
-  status = 200
