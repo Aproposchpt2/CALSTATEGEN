@@ -71,6 +71,10 @@ assert.ok(!files.aoieFunction.includes('state_alert_subscribers'),'AOIE must not
 assert.ok(files.aoieFunction.includes('filterReleaseReadyOpportunities'),'AOIE must apply the actionable opportunity release gate.');
 assert.ok(files.aoieFunction.includes('release_official_source_filter_applied: true'),'AOIE must report its official-source release filter.');
 assert.ok(files.aoieFunction.includes('release_future_deadline_filter_applied: true'),'AOIE must report its future-deadline release filter.');
+assert.ok(files.aoieFunction.includes('release_issuing_entity_filter_applied: true'),'AOIE must report its issuing-entity release filter.');
+assert.ok(files.aoieFunction.includes('release_meaningful_evidence_filter_applied: true'),'AOIE must report its scope/document evidence release filter.');
+assert.ok(files.aoieFunction.includes('release_substantive_requirements_filter_applied: true'),'AOIE must report its substantive-requirements release filter.');
+assert.ok(files.aoieFunction.includes('release_extraction_confidence_filter_applied: true'),'AOIE must report its extraction-confidence release filter.');
 assert.ok(files.aoieFunction.includes('release_qa_filter_applied: true'),'AOIE must report its QA release filter.');
 assert.ok(files.aoieFunction.includes('rateLimit'),'AOIE must have a platform rate limit.');
 assert.ok(files.analyzeFunction.includes('rateLimit'),'Analyze Fit must have a platform rate limit.');
