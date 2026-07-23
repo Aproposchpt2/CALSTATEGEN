@@ -17,25 +17,69 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
     Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self'; upgrade-insecure-requests"
 
-# Friendly production URLs are internal rewrites. The visible URL remains stable.
+[[headers]]
+  for = "/intake"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/business-intake"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/dashboard"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/analyze-fit"
+  [headers.values]
+    Cache-Control = "no-store"
+
+# Required journey: Start -> Intake -> Business Intake -> Dashboard.
 [[redirects]]
-  from = "/services.html"
-  to = "/business-dna-builder-preview.html"
-  status = 200
+  from = "/start"
+  to = "/intake"
+  status = 302
+  force = true
 
 [[redirects]]
-  from = "/services"
-  to = "/business-dna-builder-preview.html"
+  from = "/intake"
+  to = "/welcome.html"
   status = 200
 
 [[redirects]]
   from = "/intake.html"
+  to = "/welcome.html"
+  status = 200
+
+[[redirects]]
+  from = "/business-intake"
   to = "/business-dna-builder-preview.html"
   status = 200
 
 [[redirects]]
-  from = "/intake"
+  from = "/business-intake.html"
   to = "/business-dna-builder-preview.html"
+  status = 200
+
+# Legacy service URLs restart at Intake and cannot bypass the journey.
+[[redirects]]
+  from = "/services"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/services.html"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/aois-dashboard-preview.html"
   status = 200
 
 [[redirects]]
@@ -44,8 +88,8 @@
   status = 200
 
 [[redirects]]
-  from = "/dashboard"
-  to = "/aois-dashboard-preview.html"
+  from = "/analyze-fit"
+  to = "/analyze-fit-v2.html"
   status = 200
 
 [[redirects]]
@@ -53,10 +97,18 @@
   to = "/analyze-fit-v2.html"
   status = 200
 
+# Member login and OTP access are retired. Every visitor starts fresh.
 [[redirects]]
-  from = "/analyze-fit"
-  to = "/analyze-fit-v2.html"
-  status = 200
+  from = "/login"
+  to = "/intake"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/login.html"
+  to = "/intake"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/stage"
@@ -67,43 +119,3 @@
   from = "/pdas-dashboard"
   to = "/pdas-dashboard.html"
   status = 200
-
-[[edge_functions]]
-  path = "/"
-  function = "calstategen-nav-login-cta"
-
-[[edge_functions]]
-  path = "/index.html"
-  function = "calstategen-nav-login-cta"
-
-[[edge_functions]]
-  path = "/dashboard"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/dashboard.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/business-dna-builder-preview.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/aois-dashboard-preview.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/analyze-fit-v2.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/login.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/welcome.html"
-  function = "natcorp-conversion"
-
-[[edge_functions]]
-  path = "/stage.html"
-  function = "natcorp-conversion"
