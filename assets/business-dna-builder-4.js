@@ -1,0 +1,20 @@
+$('roleGrid').addEventListener('change',(event)=>{const input=event.target.closest('input[type="checkbox"]');if(!input)return;model.roles=input.checked?unique([...model.roles,input.value]):model.roles.filter((role)=>role!==input.value);renderRoles();updateSnapshot()});
+$('deliveryGrid').addEventListener('change',(event)=>{const input=event.target.closest('input[type="checkbox"]');if(!input)return;model.deliveryMethods=input.checked?unique([...model.deliveryMethods,input.value]):model.deliveryMethods.filter((method)=>method!==input.value);renderDelivery();updateSnapshot()});
+$('taxonomy').addEventListener('change',(event)=>{const input=event.target.closest('input[type="checkbox"]');if(!input)return;model.capabilities=input.checked?unique([...model.capabilities,input.value]):model.capabilities.filter((capability)=>capability!==input.value);if(input.checked&&!model.capabilityEvidence[input.value])model.capabilityEvidence[input.value]=recommendedCapabilities().has(input.value)?'agent':'manual';if(!input.checked)delete model.capabilityEvidence[input.value];renderTaxonomy();updateSnapshot()});
+$('domainTabs').addEventListener('click',(event)=>{const button=event.target.closest('[data-domain]');if(!button)return;model.domain=button.dataset.domain;renderTaxonomy()});
+$('selectedCapabilities').addEventListener('click',(event)=>{const button=event.target.closest('[data-remove-cap]');if(!button)return;model.capabilities=model.capabilities.filter((capability)=>capability!==button.dataset.removeCap);delete model.capabilityEvidence[button.dataset.removeCap];renderTaxonomy();updateSnapshot()});
+$('capSearch').addEventListener('input',renderTaxonomy);
+$('evidenceFilter').addEventListener('change',renderTaxonomy);
+$('documents').addEventListener('change',(event)=>addFiles(event.target.files));
+$('fileList').addEventListener('click',(event)=>{const button=event.target.closest('[data-remove-file]');if(!button)return;model.files.splice(Number(button.dataset.removeFile),1);renderFiles();updateSnapshot()});
+$('analyzeDocuments').addEventListener('click',analyzeDocuments);
+$('buildDashboard').addEventListener('click',buildProfile);
+document.querySelectorAll('[data-next]').forEach((button)=>button.addEventListener('click',()=>go(Number(button.dataset.next))));
+document.querySelectorAll('[data-back]').forEach((button)=>button.addEventListener('click',()=>go(Number(button.dataset.back))));
+['description','years','employees','capacity','primePreference','evidenceNotes','products','licenses','certifications','insurance','bonding','pastPerformance','qualitySystems'].forEach((id)=>$(id).addEventListener('input',updateSnapshot));
+const dropZone=$('dropZone');
+['dragenter','dragover'].forEach((name)=>dropZone.addEventListener(name,(event)=>{event.preventDefault();dropZone.classList.add('drag')}));
+['dragleave','drop'].forEach((name)=>dropZone.addEventListener(name,(event)=>{event.preventDefault();dropZone.classList.remove('drag')}));
+dropZone.addEventListener('drop',(event)=>addFiles(event.dataTransfer.files));
+renderJourney();renderRoles();renderDelivery();renderTaxonomy();updateSnapshot();
+if(intake.intake_mode==='documents'){model.stage=2;document.querySelectorAll('[data-stage]').forEach((section)=>section.classList.toggle('hidden',Number(section.dataset.stage)!==2));renderJourney();updateSnapshot()}
