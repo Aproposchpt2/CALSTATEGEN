@@ -74,7 +74,7 @@ export function scoreSurvey(rows = []) {
   };
 }
 
-export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory = {}, acquisitionRuns = [] }) {
+export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory = {} }) {
   const outputs = Object.fromEntries(jobs.map((j) => [j.agent_type, j.output_payload || {}]));
   const acq = outputs.acquisition || {};
   const intel = outputs.intelligence_processing || {};
@@ -86,6 +86,8 @@ export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory =
   const runtimes = jobs.map((j) => Date.parse(j.completed_at || 0) - Date.parse(j.started_at || 0)).filter((n) => n >= 0);
   const avgRuntime = runtimes.length ? Math.round(runtimes.reduce((a, b) => a + b, 0) / runtimes.length) : 0;
   const connectorFailures = (acq.connectors || []).filter((c) => ['failed', 'partial'].includes(c.status));
+  const reportingInProgress = jobs.some((j) => j.agent_type === 'executive_reporting' && j.status === 'running');
+  const successfulJobs = jobs.filter((j) => j.status === 'completed').length + (reportingInProgress ? 1 : 0);
   const common = new Map();
   feedback.forEach((r) => { const text = String(r.improvement_comment || '').trim(); if (text) common.set(text, (common.get(text) || 0) + 1); });
   const mostRequested = [...common.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] || null;
@@ -108,11 +110,11 @@ export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory =
     },
     aoie_and_delivery: {
       opportunities_evaluated: match.opportunities_evaluated || 0,
-      dashboard_eligible: match.eligible || 0,
+      dashboard_eligible: delivery.released || 0,
       strong_matches: match.strong_matches || 0,
       partial_matches: match.partial_matches || 0,
       conditional_matches: match.conditional_matches || 0,
-      ineligible_records: (match.rejected || 0) + (match.enrichment_required || 0),
+      ineligible_records: (delivery.rejected || 0) + (delivery.enrichment_required || 0),
       dashboard_releases: delivery.released || 0,
     },
     customer_intelligence: {
@@ -125,7 +127,7 @@ export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory =
       opportunity_engagement: feedback.reduce((n, r) => n + Number(r.opportunities_viewed || 0), 0),
     },
     system_health: {
-      successful_agent_jobs: jobs.filter((j) => j.status === 'completed').length,
+      successful_agent_jobs: successfulJobs,
       failed_agent_jobs: failed.length,
       retry_count: retries,
       average_runtime_ms: avgRuntime,
@@ -138,7 +140,7 @@ export function buildExecutiveBrief({ run, jobs = [], feedback = [], inventory =
       dashboard_eligibility_rate: inventory.evaluated ? Math.round((inventory.eligible || 0) / inventory.evaluated * 1000) / 10 : 0,
       contract_intelligence_completion_rate: intel.opportunities_processed ? Math.round((intel.contract_dna_completed || 0) / intel.opportunities_processed * 1000) / 10 : 0,
       connector_success_rate: acq.connectors_executed ? Math.round(((acq.connectors_executed - connectorFailures.length) / acq.connectors_executed) * 1000) / 10 : 0,
-      aoie_release_rate: match.opportunities_evaluated ? Math.round((delivery.released || 0) / match.opportunities_evaluated * 1000) / 10 : 0,
+      aoie_release_rate: inventory.evaluated ? Math.round((delivery.released || 0) / inventory.evaluated * 1000) / 10 : 0,
       customer_relevance_score: survey.relevance_score,
       customer_experience_score: survey.experience_score,
     },
