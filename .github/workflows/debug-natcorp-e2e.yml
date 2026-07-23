@@ -1,0 +1,27 @@
+name: Capture NAT-CORP E2E response
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/debug-natcorp-e2e.yml'
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Capture response without retry masking
+        run: |
+          curl --show-error --silent \
+            --output e2e-debug-body.txt \
+            --write-out '%{http_code}\n' \
+            'https://deploy-preview-22--cal-gov-contract-center.netlify.app/api/natcorp-e2e-trigger?nonce=RfR_qsj8nflX85dmgxbWPJRHPgz8mWCW' \
+            | tee e2e-debug-status.txt
+          cat e2e-debug-body.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: natcorp-e2e-debug
+          path: |
+            e2e-debug-body.txt
+            e2e-debug-status.txt
+          retention-days: 1
