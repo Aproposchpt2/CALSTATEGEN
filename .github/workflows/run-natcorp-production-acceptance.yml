@@ -1,0 +1,88 @@
+name: Run NAT-CORP production acceptance
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/run-natcorp-production-acceptance.yml'
+permissions:
+  contents: read
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for production credential deployment
+        env:
+          COMMAND_KEY: 29a08981807278ee9e4bbe834df98ff90c6d
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 36); do
+            code=$(curl --silent --show-error --output auth.json --write-out '%{http_code}' \
+              -H "x-natcorp-command-key: ${COMMAND_KEY}" \
+              'https://natcorp.aproposgroupllc.com/api/natcorp-daily-operations')
+            if [ "$code" = "200" ]; then
+              cat auth.json
+              exit 0
+            fi
+            echo "Production not ready yet (HTTP $code), attempt $attempt/36"
+            sleep 10
+          done
+          cat auth.json
+          exit 1
+      - name: Submit clean-session survey response
+        run: |
+          curl --fail --show-error --silent \
+            -X POST \
+            -H 'content-type: application/json' \
+            -H 'origin: https://natcorp.aproposgroupllc.com' \
+            -H 'referer: https://natcorp.aproposgroupllc.com/dashboard' \
+            --data '{"session_id":"production-e2e-${{ github.run_id }}","relevance_rating":"very_relevant","experience_rating":"excellent","improvement_comment":"Production acceptance validation response","opportunities_viewed":3,"analyze_fit_count":1,"completed_stage":"dashboard"}' \
+            'https://natcorp.aproposgroupllc.com/api/natcorp-feedback' \
+            | tee feedback.json
+          grep -q '"ok":true' feedback.json
+      - name: Start and poll daily operations
+        env:
+          COMMAND_KEY: 29a08981807278ee9e4bbe834df98ff90c6d
+        run: |
+          set -euo pipefail
+          curl --fail --show-error --silent \
+            -X POST \
+            -H 'content-type: application/json' \
+            -H 'origin: https://natcorp.aproposgroupllc.com' \
+            -H 'referer: https://natcorp.aproposgroupllc.com/natcorp-command' \
+            -H "x-natcorp-command-key: ${COMMAND_KEY}" \
+            --data '{"action":"begin"}' \
+            'https://natcorp.aproposgroupllc.com/api/natcorp-daily-operations' \
+            | tee start.json
+          RUN_ID=$(python -c "import json; print(json.load(open('start.json'))['run_id'])")
+          echo "$RUN_ID" > run-id.txt
+          for attempt in $(seq 1 90); do
+            curl --fail --show-error --silent \
+              -H "x-natcorp-command-key: ${COMMAND_KEY}" \
+              "https://natcorp.aproposgroupllc.com/api/natcorp-daily-operations?run_id=${RUN_ID}" \
+              > final.json
+            STATUS=$(python -c "import json; print(json.load(open('final.json'))['run']['status'])")
+            echo "Run ${RUN_ID}: ${STATUS}"
+            if [ "$STATUS" = "completed" ] || [ "$STATUS" = "completed_with_failures" ] || [ "$STATUS" = "failed" ]; then
+              break
+            fi
+            sleep 5
+          done
+          python - <<'PY'
+          import json
+          data=json.load(open('final.json'))
+          run=data['run']
+          assert run['status'] in ('completed','completed_with_failures'), run
+          assert len(data['jobs']) == 5, len(data['jobs'])
+          assert data['brief'], 'brief missing'
+          print(json.dumps(data, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: natcorp-production-acceptance
+          path: |
+            auth.json
+            feedback.json
+            start.json
+            run-id.txt
+            final.json
+          retention-days: 1
