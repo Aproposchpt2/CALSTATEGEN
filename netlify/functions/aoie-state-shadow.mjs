@@ -195,4 +195,11 @@ export default async function handler(req) {
   }
 }
 
-export const config = { path: '/api/aoie-state-shadow' };
+export const config = {
+  path: '/api/aoie-state-shadow',
+  rateLimit: {
+    windowLimit: 30,
+    windowSize: 60,
+    aggregateBy: ['ip', 'domain'],
+  },
+};
