@@ -40,37 +40,17 @@ function isSameOriginRequest(req) {
   return origin === target.origin || Boolean(referer) || fetchSite === 'same-origin';
 }
 
-async function authenticate(req, url, key) {
+function authenticate(req) {
   const internal = env('AOIE_INTERNAL_TOKEN');
   const supplied = req.headers.get('x-aoie-token') || '';
-  if (internal && supplied === internal) return { mode: 'internal', subscriber: null };
-
-  const header = req.headers.get('authorization') || '';
-  const match = header.match(/^Bearer\s+(.+)$/i);
-  if (match) {
-    const query = new URLSearchParams({
-      select: 'email,state,business_name,keywords,commodity_codes,status,session_expires_at',
-      session_token: `eq.${match[1].trim()}`,
-      status: 'eq.active',
-      session_expires_at: `gt.${new Date().toISOString()}`,
-      limit: '1',
-    });
-    const response = await fetch(`${url}/rest/v1/state_alert_subscribers?${query}`, { headers: dbHeaders(key), signal: AbortSignal.timeout(15000) });
-    if (!response.ok) throw new Error(`Session verification failed: ${response.status}`);
-    const rows = await response.json();
-    if (Array.isArray(rows) && rows.length) return { mode: 'member-session', subscriber: rows[0] };
-  }
-
-  if (isSameOriginRequest(req)) return { mode: 'anonymous-same-origin', subscriber: null };
+  if (internal && supplied === internal) return { mode: 'internal' };
+  if (isSameOriginRequest(req)) return { mode: 'anonymous-same-origin' };
   return null;
 }
 
-function normalizeStates(value, fallback) {
+function normalizeStates(value) {
   const source = Array.isArray(value) ? value : String(value || '').split(/[,;\s]+/);
-  const states = [...new Set(source.map((item) => String(item || '').trim().toUpperCase()).filter((item) => ALLOWED_STATES.has(item)))];
-  if (!states.length && fallback && ALLOWED_STATES.has(String(fallback).toUpperCase())) states.push(String(fallback).toUpperCase());
-  if (!states.length) states.push('CA', 'NV');
-  return states;
+  return [...new Set(source.map((item) => String(item || '').trim().toUpperCase()).filter((item) => ALLOWED_STATES.has(item)))];
 }
 
 async function fetchRelationRows(url, key, relation, states, nowIso, canonical) {
@@ -145,19 +125,16 @@ export default async function handler(req) {
   const key = env('SUPABASE_SERVICE_ROLE_KEY') || env('SUPABASE_SERVICE_KEY');
   if (!url || !key) return json(500, { error: 'AOIE database configuration missing.' });
   try {
-    const auth = await authenticate(req, url, key);
-    if (!auth) return json(401, { error: 'Same-origin NAT-CORP access or an authorized internal session is required.' });
+    const auth = authenticate(req);
+    if (!auth) return json(401, { error: 'Same-origin NAT-CORP access or an authorized internal request is required.' });
     let payload;
     try { payload = await req.json(); } catch { return json(400, { error: 'Invalid JSON.' }); }
-    const input = { ...(payload.profile || {}) };
-    if (!input.business_name && !input.company_name && !input.legal_name && auth.subscriber?.business_name) input.business_name = auth.subscriber.business_name;
-    if ((!input.keywords || !input.keywords.length) && Array.isArray(auth.subscriber?.keywords)) input.keywords = auth.subscriber.keywords;
-    if ((!input.commodity_codes || !input.commodity_codes.length) && Array.isArray(auth.subscriber?.commodity_codes)) input.commodity_codes = auth.subscriber.commodity_codes;
-    const profile = expandBusinessProfile(input);
+    const profile = expandBusinessProfile({ ...(payload.profile || {}) });
     const evidence = profile.keywords.length || profile.naics_codes.length || profile.unspsc_codes.length || profile.commodity_codes.length || profile.concepts.length;
     if (!profile.legal_name) return json(400, { error: 'A business name is required.' });
     if (!evidence) return json(400, { error: 'Provide keywords, capabilities, NAICS, UNSPSC, or commodity codes.' });
-    const states = normalizeStates(payload.states || profile.service_states, auth.subscriber?.state);
+    const states = normalizeStates(payload.states || profile.service_states);
+    if (!states.length) return json(400, { error: 'Select at least one supported service state: Arizona, California, or Nevada.' });
     const minimumScore = Math.max(0, Math.min(100, Number(payload.minimum_score ?? 35) || 35));
     const resultLimit = Math.max(1, Math.min(200, Number(payload.limit ?? 100) || 100));
     const nowIso = new Date().toISOString();
