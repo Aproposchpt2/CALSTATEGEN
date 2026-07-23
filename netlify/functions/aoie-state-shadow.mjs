@@ -9,6 +9,7 @@ import {
   buildRegistryIndex,
   enrichOpportunity,
   expandBusinessProfile,
+  filterReleaseReadyOpportunities,
   isMissingCanonicalRelation,
   publicOpportunity,
   scoreStateLocalMatch,
@@ -144,7 +145,8 @@ export default async function handler(req) {
     ]);
     const registryIndex = buildRegistryIndex(registry);
     const enriched = candidateSource.rows.map((row) => enrichOpportunity(row, registryIndex, candidateSource.relation));
-    const scored = enriched.map((row) => ({ ...publicOpportunity(row), aoie: scoreStateLocalMatch(profile, row) }));
+    const release = filterReleaseReadyOpportunities(enriched, Date.parse(nowIso));
+    const scored = release.accepted.map((row) => ({ ...publicOpportunity(row), aoie: scoreStateLocalMatch(profile, row) }));
     const results = scored
       .filter((row) => row.aoie.fit_score >= minimumScore && row.aoie.match_status !== 'Not Recommended')
       .sort((a, b) => b.aoie.fit_score - a.aoie.fit_score || String(a.response_deadline || '').localeCompare(String(b.response_deadline || '')))
@@ -154,7 +156,7 @@ export default async function handler(req) {
       if (row.aoie.hard_disqualifier) acc.disqualified = (acc.disqualified || 0) + 1;
       return acc;
     }, {});
-    const registryEnriched = enriched.filter((row) => row.source_evidence?.registry_enriched).length;
+    const registryEnriched = release.accepted.filter((row) => row.source_evidence?.registry_enriched).length;
     return json(200, {
       ok: true,
       mode: 'shadow',
@@ -165,7 +167,10 @@ export default async function handler(req) {
       source_contract_version: SOURCE_CONTRACT_VERSION,
       states,
       profile,
-      candidate_count: enriched.length,
+      source_candidate_count: enriched.length,
+      candidate_count: release.accepted.length,
+      excluded_candidate_count: release.rejected.length,
+      release_rejection_summary: release.rejection_summary,
       result_count: results.length,
       minimum_score: minimumScore,
       summary,
@@ -179,6 +184,9 @@ export default async function handler(req) {
         latest_version_filter_applied: true,
         duplicate_filter_applied: true,
         normalized_status_filter_applied: true,
+        release_official_source_filter_applied: true,
+        release_future_deadline_filter_applied: true,
+        release_qa_filter_applied: true,
         retrieved_at: nowIso,
       },
       registry: {
