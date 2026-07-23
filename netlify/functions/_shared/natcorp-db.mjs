@@ -17,12 +17,12 @@ export function sameOrigin(req) {
 }
 
 export function internalAuthorized(req) {
-  const expected = env('NATCORP_INTERNAL_TOKEN');
+  const expected = env('NATCORP_INTERNAL_TOKEN_PRODUCTION') || env('NATCORP_INTERNAL_TOKEN');
   return Boolean(expected && req.headers.get('x-natcorp-internal-token') === expected);
 }
 
 export function commandAuthorized(req) {
-  const expected = env('NATCORP_COMMAND_KEY');
+  const expected = env('NATCORP_OPERATOR_ACCESS') || env('NATCORP_COMMAND_KEY');
   return Boolean(expected && req.headers.get('x-natcorp-command-key') === expected);
 }
 
