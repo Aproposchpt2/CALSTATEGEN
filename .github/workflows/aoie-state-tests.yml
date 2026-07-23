@@ -54,4 +54,19 @@ jobs:
       - name: Validate Analyze Fit function syntax
         run: node --check netlify/functions/analyze-fit-state.mjs
       - name: Run fresh-visit dashboard and report regressions
-        run: node tests/analyze-fit-premium.test.mjs
+        id: regressions
+        continue-on-error: true
+        run: node tests/analyze-fit-premium.test.mjs > regression-output.txt 2>&1
+      - name: Upload regression diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fresh-visit-regression-output
+          path: regression-output.txt
+          if-no-files-found: error
+          retention-days: 7
+      - name: Enforce regression result
+        if: steps.regressions.outcome == 'failure'
+        run: |
+          cat regression-output.txt
+          exit 1
