@@ -21,6 +21,11 @@ export function internalAuthorized(req) {
   return Boolean(expected && req.headers.get('x-natcorp-internal-token') === expected);
 }
 
+export function commandAuthorized(req) {
+  const expected = env('NATCORP_COMMAND_KEY');
+  return Boolean(expected && req.headers.get('x-natcorp-command-key') === expected);
+}
+
 function dbConfig() {
   const base = env('SUPABASE_URL').replace(/\/$/, '');
   const key = env('SUPABASE_SERVICE_ROLE_KEY') || env('SUPABASE_SERVICE_KEY');
